@@ -16,7 +16,8 @@ jobs:
         echo "***REF***"
         echo $GITHUB_REF
         echo "******"
-        PR=$(curl https://api.github.com/repos/cpanato/testing-ghactions/commits/"$GITHUB_SHA"/pulls --header 'Accept: application/vnd.github.groot-preview+json' | jq -r '.[] | .number')
+        PR=$(echo "$GITHUB_REF" | cut -d'/' -f 3)
+        #PR=$(curl https://api.github.com/repos/cpanato/testing-ghactions/commits/"$GITHUB_SHA"/pulls --header 'Accept: application/vnd.github.groot-preview+json' | jq -r '.[] | .number')
         echo "***PR***"
         echo $PR
         echo "******"
