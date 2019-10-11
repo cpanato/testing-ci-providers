@@ -14,3 +14,4 @@ jobs:
         echo $PR
         COMMITS=$(curl https://api.github.com/repos/mattermost/mattermost-operator/pulls/84/commits | jq -r '.[] | .sha')
         echo $COMMITS
+        echo done
