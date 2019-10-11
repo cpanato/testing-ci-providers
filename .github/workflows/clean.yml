@@ -1,0 +1,16 @@
+name: CleanDocker
+on:
+  pull_request:
+    # types: [closed]
+
+jobs:
+  clean-docker:
+    name: Clean Docker images for PR
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get Commits and delete
+      run: |
+        PR=$(curl https://api.github.com/repos/cpanato/testing-ghactions/commits/"$GITHUB_SHA"/pulls --header 'Accept: application/vnd.github.groot-preview+json' | jq -r '.[] | .number')
+        echo $PR
+        COMMITS=$(curl https://api.github.com/repos/mattermost/mattermost-operator/pulls/84/commits | jq -r '.[] | .sha')
+        echo $COMMITS
