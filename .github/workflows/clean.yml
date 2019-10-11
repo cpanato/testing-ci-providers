@@ -1,7 +1,7 @@
 name: CleanDocker
 on:
   pull_request:
-    types: [closed]
+    # types: [closed]
 
 jobs:
   clean-docker:
@@ -13,16 +13,17 @@ jobs:
         echo "***SHA***"
         echo $GITHUB_SHA
         echo "******"
-        PR=$(curl https://api.github.com/repos/cpanato/testing-ghactions/commits/"$GITHUB_SHA"/pulls --header 'Accept: application/vnd.github.groot-preview+json' | jq -r '.[] | .number')
-        echo "***PR***"
-        echo $PR
-        echo "******"
-        COMMITS=$(curl https://api.github.com/repos/cpanato/testing-ghactions/pulls/"$PR"/commits | jq -r '.[] | .sha')
-        echo "***Commits***"
-        echo $COMMITS
-        echo "******"
-        for commit in $COMMITS
-        do
-          echo "Deleting docker image ${commit:0:7}"
-        done
-        echo done
+        env
+        # PR=$(curl https://api.github.com/repos/cpanato/testing-ghactions/commits/"$GITHUB_SHA"/pulls --header 'Accept: application/vnd.github.groot-preview+json' | jq -r '.[] | .number')
+        # echo "***PR***"
+        # echo $PR
+        # echo "******"
+        # COMMITS=$(curl https://api.github.com/repos/cpanato/testing-ghactions/pulls/"$PR"/commits | jq -r '.[] | .sha')
+        # echo "***Commits***"
+        # echo $COMMITS
+        # echo "******"
+        # for commit in $COMMITS
+        # do
+        #   echo "Deleting docker image ${commit:0:7}"
+        # done
+        # echo done
