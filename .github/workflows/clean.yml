@@ -1,7 +1,7 @@
 name: CleanDocker
 on:
   pull_request:
-    # types: [closed]
+    types: [closed]
 
 jobs:
   clean-docker:
