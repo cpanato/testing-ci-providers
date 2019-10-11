@@ -11,7 +11,11 @@ jobs:
     - name: Get Commits and delete
       run: |
         PR=$(curl https://api.github.com/repos/cpanato/testing-ghactions/commits/"$GITHUB_SHA"/pulls --header 'Accept: application/vnd.github.groot-preview+json' | jq -r '.[] | .number')
+        echo "***PR***"
         echo $PR
+        echo "******"
         COMMITS=$(curl https://api.github.com/repos/cpanato/testing-ghactions/pulls/"$PR"/commits | jq -r '.[] | .sha')
+        echo "***Commits***"
         echo $COMMITS
+        echo "******"
         echo done
