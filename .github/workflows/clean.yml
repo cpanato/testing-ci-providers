@@ -20,7 +20,7 @@ jobs:
         echo "***PR***"
         echo $PR
         echo "******"
-        COMMITS_URL=$(echo $GITHUB_CONTEXT | jq -r '.event.pull_request._links.commits.href'))
+        COMMITS_URL=$(echo $GITHUB_CONTEXT | jq -r '.event.pull_request._links.commits.href')
         COMMITS=$(curl $COMMITS_URL)
         echo "***Commits***"
         echo $COMMITS
