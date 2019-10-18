@@ -1,7 +1,7 @@
 name: CleanDocker
 on:
   pull_request:
-    types: [closed]
+    types: [closed, opened]
 
 jobs:
   clean-docker:
@@ -9,11 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Get Commits and delete
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
       run: |
-        echo "***SHA***"
-        echo $GITHUB_SHA
+        echo "***Context***"
+        echo $GITHUB_CONTEXT
         echo "******"
-        env
+
         PR=$(curl https://api.github.com/repos/cpanato/testing-ghactions/commits/"$GITHUB_SHA"/pulls --header 'Accept: application/vnd.github.groot-preview+json' | jq -r '.[] | .number')
         echo "***PR***"
         echo $PR
