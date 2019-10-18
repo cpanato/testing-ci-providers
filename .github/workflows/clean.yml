@@ -20,7 +20,8 @@ jobs:
         echo "***PR***"
         echo $PR
         echo "******"
-        COMMITS=$(curl https://api.github.com/repos/cpanato/testing-ghactions/pulls/"$PR"/commits | jq -r '.[] | .sha')
+        COMMITS_URL=$(echo $GITHUB_CONTEXT | jq -r '.event.pull_request._links.commits.href'))
+        COMMITS=$(curl $COMMITS_URL)
         echo "***Commits***"
         echo $COMMITS
         echo "******"
