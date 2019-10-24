@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - run: |
-          echo $GITHUB_CONTEXT
+          git ls-files --others --exclude-standard
       - run: |
           echo "{\"text\":\"New Blog Post\"}" > mattermost.json
       - uses: mattermost/action-mattermost-notify@master
