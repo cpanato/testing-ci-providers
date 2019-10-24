@@ -22,7 +22,8 @@ jobs:
           else
             FILENAME=$(cat $FILEADDED | grep slug | cut -d':' -f 2 | sed 's/^ *//g')
             echo $FILENAME
-            echo "{\"username\":\"GitHub Action Notify\",\"icon_url\":\"https://www.mattermost.org/wp-content/uploads/2016/04/icon.png\",\"attachments\":[{\"author_name\":\"mattermost.dev\",\"author_link\":\"https://mattermost.dev\",\"fallback\":\"New Blog Post! Check out [here](https://developers.mattermost.com/blog/)\",\"color\":\"good\",\"title\":\"New Blog Post\",\"text\":\"New Blog Post! Check out [here](https://developers.mattermost.com/blog/$FILENAME)\"}]}" > mattermost.json
+            TITLE=$(cat $FILEADDED | grep title | cut -d':' -f 2 | sed 's/^ *//g')
+            echo "{\"username\":\"GitHub Action Notify\",\"icon_url\":\"https://www.mattermost.org/wp-content/uploads/2016/04/icon.png\",\"attachments\":[{\"author_name\":\"mattermost.dev\",\"author_link\":\"https://mattermost.dev\",\"fallback\":\"New Blog Post! Check out [here](https://developers.mattermost.com/blog/)\",\"color\":\"good\",\"title\":\""$TITLE"\",\"text\":\"New Blog Post! Check out [here](https://developers.mattermost.com/blog/$FILENAME)\"}]}" > mattermost.json
           fi
       - uses: mattermost/action-mattermost-notify@master
         env:
