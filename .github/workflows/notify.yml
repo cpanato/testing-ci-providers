@@ -10,7 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - run: |
-          git ls-files --others --exclude-standard
+          git diff --name-only --diff-filter=A HEAD~1 > te
+          cat te
           echo "{\"text\":\"New Blog Post\"}" > mattermost.json
       - uses: mattermost/action-mattermost-notify@master
         env:
