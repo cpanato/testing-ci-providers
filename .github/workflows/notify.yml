@@ -9,17 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - run: |
+      - shell: bash
+        run: |
+          set -x
           FILEADDED=$(git diff --name-only --diff-filter=A HEAD~1 -- 'site/content/blog/*.md' > file.log)
           echo $FILEADDED
           if [ -z "$FILEADDED" ]
           then
             echo "nothing added in the .md"
             exit 0
+          else
+            FILENAME=$(cat $FILEADDED | grep slug | cut -d':' -f 2 | sed 's/^ *//g')
+            echo $FILENAME
+            echo "{\"text\":\"New Blog Post! Check out [here](https://developers.mattermost.com/blog/$FILENAME)\"}" > mattermost.json
           fi
-          FILENAME=$(cat $FILEADDED | grep slug | cut -d':' -f 2 | sed 's/^ *//g')
-          echo $FILENAME
-          echo "{\"text\":\"New Blog Post! Check out [here](https://developers.mattermost.com/blog/"$FILENAME")\"}" > mattermost.json
       - uses: mattermost/action-mattermost-notify@master
         env:
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
