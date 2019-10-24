@@ -12,12 +12,13 @@ jobs:
       - shell: bash
         run: |
           set -x
-          FILEADDED=$(git diff --name-only --diff-filter=A HEAD~1 -- 'site/content/blog/*.md' > file.log)
+          git diff --name-only --diff-filter=A HEAD~1 -- 'site/content/blog/*.md' > file.log
+          FILEADDED=$(cat file.log)
           echo $FILEADDED
           if [ -z "$FILEADDED" ]
           then
             echo "nothing added in the .md"
-            exit 0
+            echo "{}" > mattermost.json
           else
             FILENAME=$(cat $FILEADDED | grep slug | cut -d':' -f 2 | sed 's/^ *//g')
             echo $FILENAME
