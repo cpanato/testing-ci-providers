@@ -18,7 +18,3 @@ jobs:
       - uses: mattermost/action-mattermost-notify@master
         env:
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
-
-
-
-wget https://raw.githubusercontent.com/cpanato/testing-ghactions/master/site/content/blog/testsss.md
