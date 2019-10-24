@@ -9,10 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - run: git diff --name-only --diff-filter=A --output=file.log --exit-code HEAD~1
+      - run: |
+          git diff --name-only --diff-filter=A HEAD~1 -- 'site/content/blog/*.md' > test.log
+          cat test.log
+          git diff --name-only --diff-filter=A --output=file.log --exit-code HEAD~1 -- 'site/content/blog/*.md'
       - run: |
           FILEADDED=$(git diff --name-only --diff-filter=A --output=file.log --exit-code HEAD~1 -- 'site/content/blog/*.md')
           echo $FILEADDED
+          if [ -z "$FILEADDED" ]
+          then
+            echo "nothing added in the .md"
+            exit 0
+          fi
           FILENAME=$(cat $FILEADDED | grep slug | cut -d':' -f 2 | sed 's/^ *//g')
           echo $FILENAME
           echo "{\"text\":\"New Blog Post! Check out [here](https://developers.mattermost.com/blog/"$FILENAME")\"}" > mattermost.json
