@@ -10,11 +10,12 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - run: |
+          git diff --name-only --diff-filter=A --output=file.log --exit-code HEAD~1 -- 'site/content/blog/*.md'
           FILEADDED=$(git diff --name-only --diff-filter=A --output=file.log --exit-code HEAD~1 -- 'site/content/blog/*.md')
-          FILENAME=$(cat $FILEADDED | grep slug | cut -d':' -f 2 | sed 's/^ *//g')
           echo $FILEADDED
+          FILENAME=$(cat $FILEADDED | grep slug | cut -d':' -f 2 | sed 's/^ *//g')
           echo $FILENAME
-          echo "{\"text\":\"New Blog Post! Check out [here](https://developers.mattermost.com/blog/$FILENAME)\"}" > mattermost.json
+          echo "{\"text\":\"New Blog Post! Check out [here](https://developers.mattermost.com/blog/"$FILENAME")\"}" > mattermost.json
       - uses: mattermost/action-mattermost-notify@master
         env:
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
