@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - run: git diff --name-only --diff-filter=A --output=file.log --exit-code HEAD~1 -- 'site/content/blog/*.md'
+      - run: git diff --name-only --diff-filter=A --output=file.log --exit-code HEAD~1
       - run: |
           FILEADDED=$(git diff --name-only --diff-filter=A --output=file.log --exit-code HEAD~1 -- 'site/content/blog/*.md')
           echo $FILEADDED
