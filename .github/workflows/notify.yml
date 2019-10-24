@@ -1,0 +1,22 @@
+name: notify-mm-blog
+on:
+  push:
+    paths:
+      - 'site/content/blog/**'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      GITHUB_CONTEXT: ${{ toJson(github) }}
+    steps:
+      - uses: actions/checkout@master
+      - run: |
+          echo $GITHUB_CONTEXT
+      - run: |
+          echo "{\"text\":\"New Blog Post\"}" > mattermost.json
+      - uses: mattermost/action-mattermost-notify@master
+        env:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
