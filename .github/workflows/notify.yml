@@ -10,9 +10,15 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - run: |
-          git diff --name-only --diff-filter=A HEAD~1 > te
-          cat te
-          echo "{\"text\":\"New Blog Post\"}" > mattermost.json
+          FILEADDED=$(git diff --name-only --diff-filter=A --output=file.log --exit-code HEAD~1 -- 'site/content/blog/*.md')
+          FILENAME=$(cat $FILEADDED | grep slug | cut -d':' -f 2 | sed 's/^ *//g')
+          echo $FILEADDED
+          echo $FILENAME
+          echo "{\"text\":\"New Blog Post! Check out [here](https://developers.mattermost.com/blog/$FILENAME)\"}" > mattermost.json
       - uses: mattermost/action-mattermost-notify@master
         env:
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+
+
+
+wget https://raw.githubusercontent.com/cpanato/testing-ghactions/master/site/content/blog/testsss.md
