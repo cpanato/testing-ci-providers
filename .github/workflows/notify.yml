@@ -10,11 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - run: |
-          git diff --name-only --diff-filter=A HEAD~1 -- 'site/content/blog/*.md' > test.log
-          cat test.log
-          git diff --name-only --diff-filter=A --output=file.log --exit-code HEAD~1 -- 'site/content/blog/*.md'
-      - run: |
-          FILEADDED=$(git diff --name-only --diff-filter=A --output=file.log --exit-code HEAD~1 -- 'site/content/blog/*.md')
+          FILEADDED=$(git diff --name-only --diff-filter=A HEAD~1 -- 'site/content/blog/*.md' > file.log)
           echo $FILEADDED
           if [ -z "$FILEADDED" ]
           then
