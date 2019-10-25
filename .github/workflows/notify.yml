@@ -13,7 +13,7 @@ jobs:
       - shell: bash
         run: |
           set -x
-          PR=$(cat $GITHUB_CONTEXT | jq -r '.event.pull_request._links.html.href')
+          PR=$(echo $GITHUB_CONTEXT | jq -r '.event.pull_request._links.html.href')
           echo "{\"username\":\"GitHub Action Notify\",\"icon_url\":\"https://www.mattermost.org/wp-content/uploads/2016/04/icon.png\",\"attachments\":[{\"author_name\":\"mattermost.dev\",\"author_link\":\"https://mattermost.dev\",\"color\":\"good\",\"title\":\"New Pull Request\",\"text\":\"New Pull Request - $PR\"}]}" > mattermost.json
       - uses: mattermost/action-mattermost-notify@master
         env:
