@@ -1,30 +1,20 @@
-name: notify-mm-blog
+name: notify-mm
 on:
-  push:
-    paths:
-      - 'site/content/blog/**'
+  [pull_request]
 
 jobs:
   notify:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_CONTEXT: ${{ toJson(github) }}
     steps:
       - uses: actions/checkout@master
+        
       - shell: bash
         run: |
           set -x
-          git diff --name-only --diff-filter=A HEAD~1 -- 'site/content/blog/*.md' > file.log
-          FILEADDED=$(cat file.log)
-          echo $FILEADDED
-          if [ -z "$FILEADDED" ]
-          then
-            echo "nothing added in the .md"
-            echo "{}" > mattermost.json
-          else
-            FILENAME=$(cat $FILEADDED | grep slug | cut -d':' -f 2 | sed 's/^ *//g')
-            echo $FILENAME
-            TITLE=$(cat $FILEADDED | grep title | cut -d':' -f 2 | sed 's/^ *//g')
-            echo "{\"username\":\"GitHub Action Notify\",\"icon_url\":\"https://www.mattermost.org/wp-content/uploads/2016/04/icon.png\",\"attachments\":[{\"author_name\":\"mattermost.dev\",\"author_link\":\"https://mattermost.dev\",\"fallback\":\"New Blog Post! Check out [here](https://developers.mattermost.com/blog/)\",\"color\":\"good\",\"title\":\""$TITLE"\",\"text\":\"New Blog Post! Check out [here](https://developers.mattermost.com/blog/$FILENAME)\"}]}" > mattermost.json
-          fi
+          PR=$(cat $GITHUB_CONTEXT | jq -r '.event.pull_request._links.html.href')
+          echo "{\"username\":\"GitHub Action Notify\",\"icon_url\":\"https://www.mattermost.org/wp-content/uploads/2016/04/icon.png\",\"attachments\":[{\"author_name\":\"mattermost.dev\",\"author_link\":\"https://mattermost.dev\",\"color\":\"good\",\"title\":\"New Pull Request\",\"text\":\"New Pull Request - $PR\"}]}" > mattermost.json
       - uses: mattermost/action-mattermost-notify@master
         env:
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
