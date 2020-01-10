@@ -8,12 +8,12 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - shell: bash
         run: |
           set -x
           ls -la
-          git diff --name-only --diff-filter=A HEAD -- 'site/content/blog/*.md' > file.log
+          git diff --name-only --diff-filter=A HEAD~1 -- 'site/content/blog/*.md' > file.log
           FILEADDED=$(cat file.log)
           echo $FILEADDED
           if [ -z "$FILEADDED" ]
