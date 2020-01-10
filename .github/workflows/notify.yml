@@ -12,6 +12,7 @@ jobs:
       - shell: bash
         run: |
           set -x
+          ls -la
           git diff --name-only --diff-filter=A HEAD~1 -- 'site/content/blog/*.md' > file.log
           FILEADDED=$(cat file.log)
           echo $FILEADDED
