@@ -13,9 +13,7 @@ jobs:
         run: |
           set -x
           ls -la
-          git checkout master
-          git pull origin master --rebase
-          git diff --name-only --diff-filter=A HEAD~1 -- 'site/content/blog/*.md' > file.log
+          git diff --name-only --diff-filter=A HEAD -- 'site/content/blog/*.md' > file.log
           FILEADDED=$(cat file.log)
           echo $FILEADDED
           if [ -z "$FILEADDED" ]
