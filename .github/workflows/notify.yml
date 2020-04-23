@@ -12,11 +12,11 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          TITLE=$(echo $GITHUB_CONTEXT | jq -r '.event.release.name')
-          BODY=$(echo $GITHUB_CONTEXT | jq -r '.event.release.body')
+          TITLE=$(echo $GITHUB_CONTEXT | jq -r '.event.release.name'| sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g')
+          BODY=$(echo $GITHUB_CONTEXT | jq -r '.event.release.body' | sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g')
           echo "{\"username\":\"Cloud Bot Notify\",\"icon_url\":\"https://www.mattermost.org/wp-content/uploads/2016/04/icon.png\",\"attachments\":[{\"fallback\":\"$BODY\",\"color\":\"good\",\"title\":\""$TITLE"\",\"text\":\"$BODY\"}]}" > mattermost.json
           cat mattermost.json
 
-      - uses: mattermost/action-mattermost-notify@master
+      - uses: mattermost/action-mattermost-notify@1.0.2
         env:
           MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
