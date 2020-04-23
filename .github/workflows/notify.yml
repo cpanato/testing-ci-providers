@@ -11,4 +11,8 @@ jobs:
       - shell: bash
         run: |
           set -x
+
+          echo $github
+
+          
           echo "{\"username\":\"GitHub Action Notify\",\"icon_url\":\"https://www.mattermost.org/wp-content/uploads/2016/04/icon.png\",\"attachments\":[{\"author_name\":\"test\",\"author_link\":\"cdcdcd",\"fallback\":\"test\",\"color\":\"good\",\"title\":\""xoxoxox"\",\"text\":\"blablabalbala"}]}"
