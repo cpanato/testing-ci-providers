@@ -16,6 +16,6 @@ jobs:
 
           echo "$GITHUB_CONTEXT"
 
-          TITLE=$(echo $GITHUB_CONTEXT | jq -r '.event.name')
-          BODY=$(echo $GITHUB_CONTEXT | jq -r '.event.body')
+          TITLE=$(echo $GITHUB_CONTEXT | jq -r '.event.release.name')
+          BODY=$(echo $GITHUB_CONTEXT | jq -r '.event.release.body')
           echo "{\"username\":\"Cloud Bot Notify\",\"icon_url\":\"https://www.mattermost.org/wp-content/uploads/2016/04/icon.png\",\"attachments\":[{\"fallback\":\"$BODY\",\"color\":\"good\",\"title\":\""$TITLE"\",\"text\":\"$BODY\"}]}"
