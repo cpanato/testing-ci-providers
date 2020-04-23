@@ -8,13 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - shell: bash
         run: |
           set -x
-
-          echo ${{ github }}
-
-          echo $github
 
 
           echo "{\"username\":\"GitHub Action Notify\",\"icon_url\":\"https://www.mattermost.org/wp-content/uploads/2016/04/icon.png\",\"attachments\":[{\"author_name\":\"test\",\"author_link\":\"cdcdcd",\"fallback\":\"test\",\"color\":\"good\",\"title\":\""xoxoxox"\",\"text\":\"blablabalbala"}]}"
