@@ -12,9 +12,12 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          TITLE=$(echo $GITHUB_CONTEXT | jq -r '.event.release.name'| sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g')
+          REPO=$(echo $GITHUB_CONTEXT | jq -r '.event.repository')
+          TAGVERSION=$(echo $GITHUB_CONTEXT | jq -r '.event.release.tag_name')
+          TAGURL=$(echo $GITHUB_CONTEXT | jq -r '.event.release.html_url')
           BODY=$(echo $GITHUB_CONTEXT | jq -r '.event.release.body' | sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g')
-          echo "{\"username\":\"Cloud Bot Notify\",\"icon_url\":\"https://www.mattermost.org/wp-content/uploads/2016/04/icon.png\",\"attachments\":[{\"fallback\":\"$BODY\",\"color\":\"good\",\"title\":\""$TITLE"\",\"text\":\"$BODY\"}]}" > mattermost.json
+
+          echo "{\"username\":\"Cloud Bot Notify\",\"icon_url\":\"https://www.mattermost.org/wp-content/uploads/2016/04/icon.png\",\"attachments\":[{\"author_name\":\"New Release for $REPO - TAG $TAGVERSION\",\"author_link\":\"$TAGURL\",\"fallback\":\"$BODY\",\"color\":\"good\",\"title\":\""New Release $REPO"\",\"text\":\"$BODY\"}]}" > mattermost.json
           cat mattermost.json
 
       - uses: mattermost/action-mattermost-notify@1.0.2
