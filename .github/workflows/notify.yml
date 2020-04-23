@@ -12,7 +12,7 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          REPO=$(echo $GITHUB_CONTEXT | jq -r '.event.repository')
+          REPO=$(echo $GITHUB_CONTEXT | jq -r '.repository')
           TAGVERSION=$(echo $GITHUB_CONTEXT | jq -r '.event.release.tag_name')
           TAGURL=$(echo $GITHUB_CONTEXT | jq -r '.event.release.html_url')
           BODY=$(echo $GITHUB_CONTEXT | jq -r '.event.release.body' | sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g')
