@@ -8,8 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
       - name: build
         run: |
           echo Sleeping...
-          sleep $[ (5 + $RANDOM % 10 )  + 1 ]s
+          sleep $[ (30 + $RANDOM % 10 )  + 1 ]s
           echo DONE
