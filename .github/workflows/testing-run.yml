@@ -1,0 +1,15 @@
+name: Test Run
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: build
+        run: |
+          echo Sleeping...
+          sleep $[ (5 + $RANDOM % 10 )  + 1 ]s
+          echo DONE
