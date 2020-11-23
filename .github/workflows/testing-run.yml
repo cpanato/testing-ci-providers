@@ -13,5 +13,5 @@ jobs:
       - name: build
         run: |
           echo Sleeping...
-          sleep $[ (50 + $RANDOM % 10 )  + 1 ]s
+          sleep $[ (50 + $RANDOM % 10 )  + 10 ]s
           echo DONE
