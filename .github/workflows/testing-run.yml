@@ -25,3 +25,13 @@ jobs:
           echo Sleeping...
           Start-Sleep -Seconds 300
           echo DONE
+  testmac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: build
+        run: |
+          echo Sleeping...
+          sleep $[ (50 + $RANDOM % 10 )  + 10 ]s
+          echo DONE
