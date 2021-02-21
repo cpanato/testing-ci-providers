@@ -15,3 +15,13 @@ jobs:
           echo Sleeping...
           sleep $[ (50 + $RANDOM % 10 )  + 10 ]s
           echo DONE
+  test123:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: build
+        run: |
+          echo Sleeping...
+          sleep $[ (50 + $RANDOM % 10 )  + 10 ]s
+          echo DONE
