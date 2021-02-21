@@ -23,5 +23,5 @@ jobs:
       - name: build
         run: |
           echo Sleeping...
-          sleep $[ (50 + $RANDOM % 10 )  + 10 ]s
+          timeout 300
           echo DONE
