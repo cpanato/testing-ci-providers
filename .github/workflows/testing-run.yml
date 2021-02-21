@@ -23,5 +23,5 @@ jobs:
       - name: build
         run: |
           echo Sleeping...
-          timeout 300
+          Start-Sleep -Seconds 300
           echo DONE
