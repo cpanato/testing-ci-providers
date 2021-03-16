@@ -6,6 +6,9 @@ on:
         description: "Build and Test"
         required: true
         default: "testing-run.yml"
+  push:
+    tags:
+      - '*'
 
 jobs:
   Publish:
