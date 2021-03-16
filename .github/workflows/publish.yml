@@ -4,7 +4,7 @@ on:
     inputs:
       ci:
         description: "Build and Test"
-        required: true
+        required: false
         default: "testing-run.yml"
   push:
     tags:
