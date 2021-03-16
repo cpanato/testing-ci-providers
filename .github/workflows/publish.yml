@@ -1,35 +1,72 @@
-name: Publish
+name: publish
+
 on:
-  workflow_dispatch:
-    inputs:
-      ci:
-        description: "Build and Test"
-        required: false
-        default: "testing-run.yml"
   push:
     tags:
       - '*'
 
 jobs:
-  Publish:
-    runs-on: ubuntu-latest
+
+  build-test:
+    name: Build-Test
+    strategy:
+      matrix:
+        go-version: [1.15.x]
+        platform: [ubuntu-latest]
+
+    runs-on: ${{ matrix.platform }}
+
     steps:
+      - name: Set up Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+        id: go
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name: build
+        run: echo test
+      - name: Test
+        run: echo test2
 
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v2.x
-
-      - name: Check CI status
-        run: |
-          output=$(curl -sSL -X GET -G -H "Accept: application/vnd.github.v3+json" -d "branch=${{ env.GITHUB_REF_SLUG }}" -d "event=push" https://api.github.com/repos/${{ github.repository }}/actions/workflows/${{ github.event.inputs.ci }}/runs | jq -r '.workflow_runs[0] | "\(.conclusion)"')
-          echo "::set-output name=status::$output"
-        id: check
-
-      - name: Abort if CI not successful
-        if: steps.check.outputs.status != 'success'
-        run: |
-          echo ${{ steps.check.outputs.status }}
-          exit 1
-
-      - name: output
-        run: echo "success"
+  publish-derek:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [1.15.x]
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Get TAG
+        id: get_tag
+        run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to Quay.io
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+          registry: quay.io
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ctadeu/testing-actions:latest
+            ctadeu/testing-actions:${{ steps.get_tag.outputs.TAG }}
+            ctadeu/testing-actions:${{ github.sha }}
+            quay.io/cpanato/testing-actions:latest
+            quay.io/cpanato/testing-actions:${{ steps.get_tag.outputs.TAG }}
+            quay.io/cpanato/testing-actions:${{ github.sha }}
