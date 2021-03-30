@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  cosign: cpanato/cosign-orb@0.1.0
+  cosign: cpanato/cosign-orb@0.2.0
 
 jobs:
   cosign-test:
@@ -12,9 +12,9 @@ jobs:
       - run:
           name: "verify-blob"
           command: |
-            export COSIGN_VERSION=v0.2.0
-            curl -L https://storage.googleapis.com/cosign-releases/"${COSIGN_VERSION}"/cosign-linux-amd64 -o cosign_"${COSIGN_VERSION}"
-            curl -L https://storage.googleapis.com/cosign-releases/"${COSIGN_VERSION}"/cosign-linux-amd64.sig -o cosign.sig
+            export COSIGN_VERSION=v0.1.0
+            curl -L https://storage.googleapis.com/cosign-releases/"${COSIGN_VERSION}"/cosign -o cosign_"${COSIGN_VERSION}"
+            curl -L https://storage.googleapis.com/cosign-releases/"${COSIGN_VERSION}"/cosign.sig -o cosign.sig
             curl -LO https://raw.githubusercontent.com/sigstore/cosign/"${COSIGN_VERSION}"/.github/workflows/cosign.pub
             cosign verify-blob --key cosign.pub --signature cosign.sig cosign_"${COSIGN_VERSION}"
 
