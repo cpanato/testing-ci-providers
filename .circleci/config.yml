@@ -1,0 +1,18 @@
+version: 2.1
+
+orbs:
+  cosign: cpanato/cosign-orb@0.1.0
+
+workflows:
+  consig-test:
+    jobs:
+      - cosign/install:
+          version: v0.2.0
+      - run:
+          name: "verify-blob"
+          command: |
+            export COSIGN_VERSION=v0.1.0
+            curl -L https://storage.googleapis.com/cosign-releases/"${COSIGN_VERSION}"/cosign -o cosign_"${COSIGN_VERSION}"
+            curl -LO https://storage.googleapis.com/cosign-releases/"${COSIGN_VERSION}"/cosign.sig
+            curl -LO https://raw.githubusercontent.com/sigstore/cosign/"${COSIGN_VERSION}"/.github/workflows/cosign.pub
+            cosign verify-blob --key cosign.pub --signature cosign.sig cosign_"${COSIGN_VERSION}"
