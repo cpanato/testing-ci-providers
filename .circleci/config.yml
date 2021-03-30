@@ -8,8 +8,7 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
-      - cosign/install:
-          version: v0.2.0
+      - cosign/install
       - run:
           name: "verify-blob"
           command: |
