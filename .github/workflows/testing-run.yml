@@ -8,11 +8,20 @@ jobs:
   pr_commented:
     # This job only runs for pull request comments
     name: PR comment
-    if: ${{ github.event.issue.pull_request }}
+    if: >
+      ${{ github.event.issue.pull_request }} && contains(github.event.issue.comment.body, '/ok-to-test')
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "Comment on PR #${{ github.event.issue.number }}"
+      - uses: actions/github-script@v3
+        with:
+          # github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['ok-to-test']
+            })
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
