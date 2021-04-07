@@ -13,4 +13,7 @@ jobs:
     steps:
       - run: |
           echo "Comment on PR #${{ github.event.issue.number }}"
-          echo ${{ github.event }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
