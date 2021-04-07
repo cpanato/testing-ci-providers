@@ -8,7 +8,7 @@ jobs:
   pr_commented:
     # This job only runs for pull request comments
     name: PR comment
-    if: contains(github.event.comment.body, '/ok-to-test') && ${{ github.event.issue.pull_request }}
+    if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v3
@@ -21,7 +21,9 @@ jobs:
               repo: context.repo.repo,
               labels: ['ok-to-test']
             })
+        if: contains(github.event.comment.body, '/ok-to-test')
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: echo "$GITHUB_CONTEXT"
+        if: contains(github.event.comment.body, '/ok-to-test')
