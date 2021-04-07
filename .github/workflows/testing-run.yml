@@ -13,7 +13,8 @@ jobs:
     steps:
       - uses: actions/github-script@v3
         with:
-          github-token: ${{secrets.BOT_GITHUB_TOKEN}}
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          # github-token: ${{secrets.BOT_GITHUB_TOKEN}}
           script: |
             github.issues.addLabels({
               issue_number: context.issue.number,
@@ -21,9 +22,4 @@ jobs:
               repo: context.repo.repo,
               labels: ['ok-to-test']
             })
-        if: contains(github.event.comment.body, '/ok-to-test')
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
         if: contains(github.event.comment.body, '/ok-to-test')
