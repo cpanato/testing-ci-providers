@@ -1,19 +1,15 @@
 name: Test Run
 
 on:
-  push:
-    branches:
-      - '*'
-  pull_request:
+  issue_comment:
+    types: [created]
 
 jobs:
-  build:
+  pr_commented:
+    # This job only runs for pull request comments
+    name: PR comment
+    if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: build
-        run: |
-          echo Sleeping...
-          sleep $[ (10 + $RANDOM % 10 )  + 10 ]s
-          echo DONE
+      - run: |
+          echo "Comment on PR #${{ github.event.issue.number }}"
