@@ -1,24 +1,49 @@
 version: 2.1
 
-orbs:
-  cosign: cpanato/cosign-orb@0.2.0
-
 jobs:
-  cosign-test:
+  test-webapp:
     docker:
-      - image: cimg/base:stable
+      - image: circleci/golang:1.16.2-node-browsers
+        environment:
+          CYPRESS_DEV_VERIFY_EMAIL_TOKEN_PREFIX: dev_token_
+          REACT_APP_BUILD_CLOUD: "true"
+      - image: postgres:11.8
+        environment:
+          POSTGRES_USER: mmcws
+          POSTGRES_PASSWORD: mmcwstest
+          POSTGRES_DB: cws_test
+      - image: inbucket/inbucket:stable
+        environment:
+          INBUCKET_WEB_ADDR: "0.0.0.0:10080"
+          INBUCKET_POP3_ADDR: "0.0.0.0:10110"
+          INBUCKET_SMTP_ADDR: "0.0.0.0:10025"
     steps:
-      - cosign/install
+      - checkout
       - run:
-          name: "verify-blob"
+          name: Waiting for Postgres to be ready
           command: |
-            export COSIGN_VERSION=v0.1.0
-            curl -L https://storage.googleapis.com/cosign-releases/"${COSIGN_VERSION}"/cosign -o cosign_"${COSIGN_VERSION}"
-            curl -L https://storage.googleapis.com/cosign-releases/"${COSIGN_VERSION}"/cosign.sig -o cosign.sig
-            curl -LO https://raw.githubusercontent.com/sigstore/cosign/"${COSIGN_VERSION}"/.github/workflows/cosign.pub
-            cosign verify-blob --key cosign.pub --signature cosign.sig cosign_"${COSIGN_VERSION}"
+            for i in `seq 1 10`;
+            do
+              nc -z localhost 5432 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for Postgress && exit 1
+      - run:
+          name: Waiting for Inbucket to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z localhost 10080 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for Inbucket && exit 1
+      - run: |
+          curl -i -H "Accept: application/json" http://localhost:10080/api/v1/mailbox/swaks
 
 workflows:
-  sample:
+  version: 2
+  ci-build:
     jobs:
-      - cosign-test
+    - test-webapp
