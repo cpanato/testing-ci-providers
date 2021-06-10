@@ -1,5 +1,5 @@
 base-branch:
-  - "(master)"
+  - "(main)"
   - "releases\\/(v\\d+)"
 
 head-branch:
