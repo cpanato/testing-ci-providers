@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Create k8s kind Cluster
-        uses: cpanato/kind-action@update
+        uses: helm/kind-action@v1.1.0
         with:
           wait: 300s
           cluster_name: kind
