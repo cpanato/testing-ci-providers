@@ -11,6 +11,7 @@ jobs:
         with:
           wait: 300s
           cluster_name: kind
+          version: v0.11.1
       - name: deploy
         run: |
           kubectl get po -A
