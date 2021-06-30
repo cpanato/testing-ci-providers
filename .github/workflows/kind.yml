@@ -15,8 +15,8 @@ jobs:
         run: |
           kubectl get po -A
           kubectl create ns dev
-          kubectl run test --image nginx
-          kubectl wait --for=condition=Available --timeout=5m -n dev pod/test
+          kubectl create deployment --image nginx test -n dev
+          kubectl wait --for=condition=Available --timeout=5m -n dev deployment/test
 
           kubectl get po -A
       - name: Collect logs
