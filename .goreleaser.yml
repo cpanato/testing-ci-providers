@@ -21,7 +21,7 @@ signs:
   - signature: "${artifact}.sig"
     cmd: /usr/local/bin/cosign
     args: ["sign-blob", "-output", "${artifact}.sig", "-key", "cosign.key", "${artifact}"]
-    artifacts: all
+    artifacts: archive
     stdin: "{{ .Env.COSIGN_PASSWORD }}"
 
 archives:
