@@ -15,12 +15,11 @@ builds:
       - amd64
 
 signs:
-  - id: cosign
-    signature: "${artifact}.sig"
-    cmd: cosign
-    args: ["sign-blob", "-output", "${artifact}.sig", "-key", "cosign.key", "${artifact}"]
-    artifacts: binary
-    stdin: "{{ .Env.COSIGN_PASSWORD }}"
+  signature: "${artifact}.sig"
+  cmd: cosign
+  args: ["sign-blob", "-output", "${artifact}.sig", "-key", "cosign.key", "${artifact}"]
+  artifacts: binary
+  stdin: "{{ .Env.COSIGN_PASSWORD }}"
 
 archives:
   - format_overrides:
