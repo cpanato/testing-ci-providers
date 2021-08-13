@@ -21,13 +21,11 @@ signs:
   - signature: "${artifact}.sig"
     cmd: cosign
     args: ["sign-blob", "-output", "${artifact}.sig", "-key", "cosign.key", "${artifact}"]
-    artifacts: archive
+    artifacts: binary
     stdin: "{{ .Env.COSIGN_PASSWORD }}"
 
 archives:
-  - format_overrides:
-      - goos: windows
-        format: zip
+  - format: binary
 # release:
 #   extra_files:
 #     - glob: dist/*.sig
