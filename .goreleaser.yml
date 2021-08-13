@@ -19,9 +19,9 @@ builds:
 
 signs:
   - signature: "${artifact}.sig"
-    cmd: cosign
+    cmd: /usr/local/bin/cosign
     args: ["sign-blob", "-output", "${artifact}.sig", "-key", "cosign.key", "${artifact}"]
-    artifacts: binary
+    artifacts: package
     stdin: "{{ .Env.COSIGN_PASSWORD }}"
 
 archives:
