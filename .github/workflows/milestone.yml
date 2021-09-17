@@ -2,7 +2,7 @@ name: Pull Request Milestone
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
   apply-label:
@@ -12,7 +12,7 @@ jobs:
         with:
           script: |
             github.issues.update({
-              issue_number: context.pull_request.number,
+              issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               milestone: "v1.2.0"
