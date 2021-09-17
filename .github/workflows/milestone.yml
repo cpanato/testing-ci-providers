@@ -15,5 +15,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              milestone: "v1.2.0"
+              milestone: v1.2.0
             })
