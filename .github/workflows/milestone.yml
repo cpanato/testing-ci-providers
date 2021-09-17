@@ -2,7 +2,7 @@ name: Milestone
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [closed]
 
 jobs:
   apply-label:
