@@ -5,15 +5,15 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  milestone:
+  apply-label:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v3
+      - uses: actions/github-script@v4
         with:
           script: |
             github.issues.update({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              milestone: v1.2.0
+              milestone: 1
             })
