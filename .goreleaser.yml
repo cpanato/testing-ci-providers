@@ -27,6 +27,7 @@ signs:
 announce:
   mattermost:
     enabled: true
+    icon_url: https://goreleaser.com/static/logo.png
 
 archives:
   - format: binary
