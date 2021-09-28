@@ -24,6 +24,10 @@ signs:
     artifacts: binary
     stdin: "{{ .Env.COSIGN_PASSWORD }}"
 
+announce:
+  mattermost:
+    enabled: true
+
 archives:
   - format: binary
 # release:
