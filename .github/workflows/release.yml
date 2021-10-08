@@ -28,3 +28,13 @@ jobs:
           echo ${{ steps.get_repo_owner.outputs.repo_owner }}
           echo ${{ steps.get_tag.outputs.release_tag }}
           echo ">>>>>>>>>>done"
+
+    - name: Build and Publish the Docker image to GitHub Packages
+      uses: elgohr/Publish-Docker-Github-Action@3.04
+      with:
+        name: ${{ steps.get_repo_owner.outputs.repo_owner }}/test
+        username: ${{ steps.get_repo_owner.outputs.repo_owner }}
+        password: fake
+        registry: ghcr.io
+        tags: ${{ steps.get_tag.outputs.release_tag }}
+        no_push: true
