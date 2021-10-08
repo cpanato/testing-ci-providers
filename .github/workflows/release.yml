@@ -1,0 +1,30 @@
+name: release golang-cross
+
+on:
+  release:
+    types:
+      - created
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: sigstore/cosign-installer@v1.2.0
+
+    - name: Get Repo Owner
+      id: get_repo_owner
+      run: echo ::set-output name=repo_owner::$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')
+
+    - name: Get tag
+      id: get_tag
+      run: echo ::set-output name=release_tag::${GITHUB_REF/refs\/tags\//}
+
+    - name: echo
+      run: |
+          echo ">>>>>>>>>>test"
+          echo ${{ steps.get_repo_owner.outputs.repo_owner }}
+          echo ${{ steps.get_tag.outputs.release_tag }}
+          echo ">>>>>>>>>>done"
