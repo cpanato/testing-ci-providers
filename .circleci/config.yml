@@ -3,44 +3,18 @@ version: 2.1
 jobs:
   test-webapp:
     docker:
-      - image: circleci/golang:1.16.2-node-browsers
-        environment:
-          CYPRESS_DEV_VERIFY_EMAIL_TOKEN_PREFIX: dev_token_
-          REACT_APP_BUILD_CLOUD: "true"
-      - image: postgres:11.8
-        environment:
-          POSTGRES_USER: mmcws
-          POSTGRES_PASSWORD: mmcwstest
-          POSTGRES_DB: cws_test
-      - image: inbucket/inbucket:stable
-        environment:
-          INBUCKET_WEB_ADDR: "0.0.0.0:10080"
-          INBUCKET_POP3_ADDR: "0.0.0.0:10110"
-          INBUCKET_SMTP_ADDR: "0.0.0.0:10025"
+      - image: cimg/go:1.16.0
     steps:
-      - checkout
+      - setup_remote_docker
       - run:
-          name: Waiting for Postgres to be ready
-          command: |
-            for i in `seq 1 10`;
-            do
-              nc -z localhost 5432 && echo Success && exit 0
-              echo -n .
-              sleep 1
-            done
-            echo Failed waiting for Postgress && exit 1
+          name: checkout
+          command: git clone https://github.com/cpanato/falcosidekick.git
       - run:
-          name: Waiting for Inbucket to be ready
-          command: |
-            for i in `seq 1 10`;
-            do
-              nc -z localhost 10080 && echo Success && exit 0
-              echo -n .
-              sleep 1
-            done
-            echo Failed waiting for Inbucket && exit 1
-      - run: |
-          curl -i -H "Accept: application/json" http://localhost:10080/api/v1/mailbox/swaks
+          name: prepare qemu
+          command: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+      - run:
+          name: Release
+          command: curl -sL https://git.io/goreleaser | bash
 
 workflows:
   version: 2
