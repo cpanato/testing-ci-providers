@@ -23,7 +23,7 @@ jobs:
       - name: Build and sign a container image
         run: |
           set -e
-          go install github.com/sigstore/cosign/cmd/cosign@main
+          go install github.com/sigstore/cosign/cmd/cosign@latest
           cosign sign-blob --output-certificate key.pem --output-signature README.md.sig README.md
 
           if [ -s key.pem ]
