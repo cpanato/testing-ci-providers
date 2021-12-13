@@ -19,6 +19,8 @@ jobs:
         run: |
           if [[ $(git diff --stat) != '' ]]; then
             echo ::set-output name=create_pr::true
+          else
+            echo ::set-output name=create_pr::true
           fi
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3.11.0
