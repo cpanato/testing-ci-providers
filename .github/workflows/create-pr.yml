@@ -21,6 +21,8 @@ jobs:
             echo ::set-output name=create_pr::true
           else
             echo ::set-output name=create_pr::true
+            echo "tests" > test.log
+            git add test.log
           fi
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3.11.0
