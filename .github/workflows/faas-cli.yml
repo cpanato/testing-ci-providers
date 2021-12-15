@@ -8,6 +8,6 @@ jobs:
   upload:
     runs-on: ubuntu-latest
     steps:
-      - uses: cpanato/faas-cli-installer@main
+      - uses: cpanato/faas-cli-installer@v1.0.0
       - name: check version
         run:  faas-cli version
