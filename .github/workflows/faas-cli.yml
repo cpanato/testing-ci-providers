@@ -1,0 +1,13 @@
+name: faas-cli
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cpanato/faas-cli-installer@main
+      - name: check version
+        run:  faas-cli version
