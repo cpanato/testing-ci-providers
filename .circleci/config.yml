@@ -1,50 +1,33 @@
 version: 2.1
+executors:
+  default:
+    docker:
+    - image: cimg/go:1.17.4
+  release:
+    docker:
+    - image: cimg/go:1.17.4
+    - image: gcr.io/projectsigstore/cosign:v1.4.1@sha256:502d5130431e45f28c51d2c24a05ef5ccd3fd916bcc91db0c8bee3a81e09a0bb
+    - image: docker.io/anchore/syft:v0.34.0@sha256:ae6c51aae1de6e990e994b43943a7ce83823949dfe9e755cccd373e7deab3f8e
 
 jobs:
-  test-webapp:
-    machine:
-      image: ubuntu-2004:202111-01
+  test-release:
+    executor:
+      name: release
     environment:
       DOCKER_BUILDKIT: 1
       BUILDX_PLATFORMS: linux/amd64,linux/arm64,linux/arm/v7
+      DOCKER_CLI_EXPERIMENTAL: "enabled"
     steps:
-      - run:
-          name: Update Go
-          command: |
-            GOLANG_URL="https://go.dev/dl/go1.16.11.linux-amd64.tar.gz"
-
-            curl --output go1.16.11.linux-amd64.tar.gz \
-              --silent --show-error --location --fail --retry 3 \
-              "$GOLANG_URL"
-
-            sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.16.11.linux-amd64.tar.gz
-            go version
-      - run:
-          name: Install buildx
-          command: |
-            BUILDX_BINARY_URL="https://github.com/docker/buildx/releases/download/v0.7.0/buildx-v0.7.0.linux-amd64"
-
-            curl --output docker-buildx \
-              --silent --show-error --location --fail --retry 3 \
-              "$BUILDX_BINARY_URL"
-
-            mkdir -p ~/.docker/cli-plugins
-
-            mv docker-buildx ~/.docker/cli-plugins/
-            chmod a+x ~/.docker/cli-plugins/docker-buildx
-
-            docker buildx install
-            # Run binfmt
-            docker run --rm --privileged tonistiigi/binfmt:latest --install "$BUILDX_PLATFORMS"
-      - run:
-          name: checkout
-          command: git clone https://github.com/cpanato/falcosidekick.git
-      - run:
-          name: Release
-          command: curl -sL https://git.io/goreleaser | bash
+    - checkout
+    - setup_remote_docker
+    - run:
+        name: Release
+        no_output_timeout: 30m
+        command: |
+          cosign version
+          syft version
 
 workflows:
-  version: 2
   ci-build:
     jobs:
-    - test-webapp
+    - test-release
