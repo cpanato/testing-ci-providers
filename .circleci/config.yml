@@ -27,6 +27,7 @@ install_cosign: &install_cosign
       --silent --show-error --location --fail --retry 3 \
       "$COSIGN_URL"
 
+    ls -la
     sudo mkdir -p /usr/local/cosign
     sudo mv cosign /usr/local/cosign/
     export PATH=$PATH:/usr/local/cosign
