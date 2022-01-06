@@ -13,9 +13,9 @@ install_goreleaser: &install_goreleaser
       --silent --show-error --location --fail --retry 3 \
       "$GORELEASER_URL"
 
-    sudo mkdir -p /usr/local/goreleaser
-    sudo tar -C /usr/local/goreleaser -xzf goreleaser_Linux_x86_64.tar.gz
-    export PATH=$PATH:/usr/local/goreleaser
+    sudo mkdir -p /tmp/goreleaser
+    sudo tar -C /tmp/goreleaser -xzf goreleaser_Linux_x86_64.tar.gz
+    sudo mv /tmp/goreleaser/goreleaser /usr/local/bin/
     goreleaser --version
 
 install_cosign: &install_cosign
