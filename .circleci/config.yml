@@ -65,8 +65,10 @@ jobs:
           goreleaser -v
           cosign version
           syft version
+          cosign sign -key ./cosign.key ctadeu/test:latest
 
 workflows:
   ci-build:
     jobs:
-    - test-release
+    - test-release:
+        context: test-cosign
