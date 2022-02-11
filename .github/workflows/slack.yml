@@ -1,0 +1,52 @@
+name: Sigstore Probers
+
+on:
+  workflow_dispatch:
+
+  # schedule:
+  #   # run every minute
+  #   - cron:  '0/5 * * * *'
+jobs:
+  rekor-probe:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.17.7
+
+    - name: Install rekor-cli
+      run: go install github.com/sigstore/rekor/...@latest
+
+    # Make sure rekor is up and we can get root info
+    - name: Run prober
+      run: rekor-cli loginfo
+    - name: fail
+      run: exit 1
+
+  # fulcio-probe:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   # Make sure fulcio server is up
+  #   - name: Run prober
+  #     run: curl https://fulcio.sigstore.dev/
+  # #|| needs.fulcio-probe.result == 'failure')
+
+  slack-notification:
+    name: Slack Notification On Failure
+    runs-on: ubuntu-latest
+    needs: [rekor-probe]
+    if: (needs.rekor-probe.result == 'failure')
+    steps:
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_ICON: https://next.redhat.com/wp-content/uploads/2021/10/Symbol_200x200.png
+        SLACK_MESSAGE: "Rekor: ${{ needs.rekor-probe.result }}\nFulcio: ${{ needs.fulcio-probe.result }}"
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
