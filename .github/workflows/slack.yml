@@ -46,8 +46,8 @@ jobs:
       run: |
         echo "fulcio_state=good" >> $GITHUB_ENV
         echo "rekor_state=good" >> $GITHUB_ENV
-        if [needs.rekor-probe.result == 'failure']; then echo "rekor_state=failure" >> $GITHUB_ENV; fi
-        if [needs.fulcio-probe.result == 'failure']; then echo "fulcio_state=failure" >> $GITHUB_ENV; fi
+        if [ ${{ needs.rekor-probe.result }} == 'failure' ]; then echo "rekor_state=failure" >> $GITHUB_ENV; fi
+        if [ ${{ needs.fulcio-probe.result }} == 'failure' ]; then echo "fulcio_state=failure" >> $GITHUB_ENV; fi
 
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
