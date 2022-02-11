@@ -23,7 +23,7 @@ jobs:
     # - name: Run prober
     #   run: rekor-cli loginfo
     - name: fail
-      run: exit 1
+      run: exit 0
 
   fulcio-probe:
     runs-on: ubuntu-latest
@@ -54,5 +54,6 @@ jobs:
       env:
         SLACK_USERNAME: Sigstore probe
         SLACK_ICON: https://next.redhat.com/wp-content/uploads/2021/10/Symbol_200x200.png
+        SLACK_COLOR: '#d40404' # red
         SLACK_MESSAGE: "Rekor: ${{ env.rekor_state }}\nFulcio: ${{ env.fulcio_state }}"
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
