@@ -39,7 +39,7 @@ jobs:
   slack-notification:
     name: Slack Notification On Failure
     runs-on: ubuntu-latest
-    needs: [rekor-probe]
+    needs: [rekor-probe, fulcio-probe]
     if: always() && (needs.rekor-probe.result == 'failure')
     steps:
     - name: Set message
