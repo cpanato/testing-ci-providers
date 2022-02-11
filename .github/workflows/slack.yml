@@ -41,7 +41,7 @@ jobs:
     name: Slack Notification On Failure
     runs-on: ubuntu-latest
     needs: [rekor-probe]
-    if: (needs.rekor-probe.result == 'failure')
+    if: always() && (needs.rekor-probe.result == 'failure')
     steps:
     - uses: actions/checkout@v2
     - name: Slack Notification
