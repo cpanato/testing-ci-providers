@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
@@ -26,15 +25,15 @@ jobs:
     - name: fail
       run: exit 1
 
-  # fulcio-probe:
-  #   runs-on: ubuntu-latest
+  fulcio-probe:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #   - uses: actions/checkout@v2
-
-  #   # Make sure fulcio server is up
-  #   - name: Run prober
-  #     run: curl https://fulcio.sigstore.dev/
+    steps:
+    # Make sure fulcio server is up
+    # - name: Run prober
+    #   run: curl https://fulcio.sigstore.dev/
+    - name: fail
+      run: exit 1
   # #|| needs.fulcio-probe.result == 'failure')
 
   slack-notification:
@@ -43,11 +42,17 @@ jobs:
     needs: [rekor-probe]
     if: always() && (needs.rekor-probe.result == 'failure')
     steps:
-    - uses: actions/checkout@v2
+    - name: Set message
+      run: |
+        echo "fulcio_state=good" >> $GITHUB_ENV
+        echo "rekor_state=good" >> $GITHUB_ENV
+        if [needs.rekor-probe.result == 'failure']; then echo "rekor_state=failure" >> $GITHUB_ENV; fi
+        if [needs.fulcio-probe.result == 'failure']; then echo "fulcio_state=failure" >> $GITHUB_ENV; fi
+
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_USERNAME: Sigstore probe
         SLACK_ICON: https://next.redhat.com/wp-content/uploads/2021/10/Symbol_200x200.png
-        SLACK_MESSAGE: "Rekor: ${{ needs.rekor-probe.result  || \"good\" }}\nFulcio: ${{ needs.fulcio-probe.result || \"good\" }}"
+        SLACK_MESSAGE: "Rekor: ${{ env.rekor_state }}\nFulcio: ${{ env.fulcio_state }}"
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
