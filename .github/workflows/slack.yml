@@ -17,12 +17,12 @@ jobs:
       with:
         go-version: 1.17.7
 
-    - name: Install rekor-cli
-      run: go install github.com/sigstore/rekor/...@latest
+    # - name: Install rekor-cli
+    #   run: go install github.com/sigstore/rekor/...@latest
 
-    # Make sure rekor is up and we can get root info
-    - name: Run prober
-      run: rekor-cli loginfo
+    # # Make sure rekor is up and we can get root info
+    # - name: Run prober
+    #   run: rekor-cli loginfo
     - name: fail
       run: exit 1
 
@@ -47,6 +47,7 @@ jobs:
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       env:
+        SLACK_USERNAME: Sigstore probe
         SLACK_ICON: https://next.redhat.com/wp-content/uploads/2021/10/Symbol_200x200.png
-        SLACK_MESSAGE: "Rekor: ${{ needs.rekor-probe.result }}\nFulcio: ${{ needs.fulcio-probe.result }}"
+        SLACK_MESSAGE: "Rekor: ${{ needs.rekor-probe.result  || \"good\" }}\nFulcio: ${{ needs.fulcio-probe.result || \"good\" }}"
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
