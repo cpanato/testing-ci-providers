@@ -33,7 +33,7 @@ jobs:
     # - name: Run prober
     #   run: curl https://fulcio.sigstore.dev/
     - name: fail
-      run: exit 1
+      run: exit 0
   # #|| needs.fulcio-probe.result == 'failure')
 
   slack-notification:
