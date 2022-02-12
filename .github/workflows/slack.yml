@@ -33,14 +33,14 @@ jobs:
     # - name: Run prober
     #   run: curl https://fulcio.sigstore.dev/
     - name: fail
-      run: exit 0
+      run: exit 1
   # #|| needs.fulcio-probe.result == 'failure')
 
   slack-notification:
     name: Slack Notification On Failure
     runs-on: ubuntu-latest
     needs: [rekor-probe, fulcio-probe]
-    if: always() && (needs.rekor-probe.result == 'failure')
+    if: failure()
     steps:
     - name: Set message
       run: |
