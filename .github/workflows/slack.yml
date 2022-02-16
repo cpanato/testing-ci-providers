@@ -39,8 +39,8 @@ jobs:
     # Make sure fulcio server is up
     # - name: Run prober
     #   run: curl https://fulcio.sigstore.dev/
-    - name: fail
-      run: exit 0
+      - name: fail
+        run: exit 0
   # #|| needs.fulcio-probe.result == 'failure')
 
   slack-notification:
