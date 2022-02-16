@@ -2,6 +2,15 @@ name: Sigstore Probers
 
 on:
   workflow_dispatch:
+    inputs:
+      triggerSlackTest:
+        description: 'Trigger Slack test message'
+        required: true
+        default: "false"
+        type: choice
+        options:
+        - "true"
+        - "false"
 
   # schedule:
   #   # run every minute
@@ -40,7 +49,7 @@ jobs:
     name: Slack Notification On Failure
     runs-on: ubuntu-latest
     needs: [rekor-probe, fulcio-probe]
-    if: failure()
+    if: failure() || ( ${{ github.event.inputs.environment }} == "true")
     steps:
     - name: Set message
       run: |
