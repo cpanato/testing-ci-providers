@@ -28,7 +28,7 @@ jobs:
     # - name: Run prober
     #   run: rekor-cli loginfo
     - name: fail
-      run: exit 0
+      run: exit 1
 
   fulcio-probe:
     runs-on: ubuntu-latest
