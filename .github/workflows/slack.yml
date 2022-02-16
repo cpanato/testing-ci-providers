@@ -49,7 +49,7 @@ jobs:
     name: Slack Notification On Failure
     runs-on: ubuntu-latest
     needs: [rekor-probe, fulcio-probe]
-    if: failure() || ( ${{ github.event.inputs.environment }} == "true")
+    if: failure() || ( ${{ github.event.inputs.triggerSlackTest }} == "true")
     steps:
     - name: Set message
       run: |
