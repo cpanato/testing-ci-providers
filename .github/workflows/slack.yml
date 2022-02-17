@@ -70,11 +70,14 @@ jobs:
     if: github.event.inputs.triggerSlackTest=='true' || failure()
     steps:
     - name: Set message
+      id: msg
       run: |
-        echo "fulcio_state=good" >> $GITHUB_ENV
-        echo "rekor_state=good" >> $GITHUB_ENV
-        if [ ${{ needs.rekor-probe.result }} == 'failure' ]; then echo "rekor_state=failure" >> $GITHUB_ENV; fi
-        if [ ${{ needs.fulcio-probe.result }} == 'failure' ]; then echo "fulcio_state=failure" >> $GITHUB_ENV; fi
+        echo "::set-output name=fulcio_state::good"
+        echo "::set-output name=rekor_state::good"
+        echo "::set-output name=root_state::good"
+        if [ ${{ needs.rekor-probe.result }} == 'failure' ]; then echo "::set-output name=rekor_state::failure"; fi
+        if [ ${{ needs.fulcio-probe.result }} == 'failure' ]; then echo "::set-output name=fulcio_state::failure"; fi
+        if [ ${{ needs.root-probe.result }} == 'failure' ]; then echo "::set-output name=root_state::failure"; fi
 
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
@@ -82,5 +85,5 @@ jobs:
         SLACK_USERNAME: Sigstore probe
         SLACK_ICON: https://next.redhat.com/wp-content/uploads/2021/10/Symbol_200x200.png
         SLACK_COLOR: '#d40404' # red
-        SLACK_MESSAGE: "Rekor: ${{ env.rekor_state }}\nFulcio: ${{ env.fulcio_state }}"
+        SLACK_MESSAGE: "Rekor: ${{ steps.msg.outputs.rekor_state }}\nFulcio: ${{ steps.msg.outputs.fulcio_state }}\nGCS Root: GCS Root: ${{ steps.msg.outputs.root_state }}"
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
