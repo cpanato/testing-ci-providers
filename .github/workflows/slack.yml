@@ -43,10 +43,33 @@ jobs:
         run: exit 0
   # #|| needs.fulcio-probe.result == 'failure')
 
+  root-probe:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout tools repo
+        uses: actions/checkout@v2
+        with:
+          repository: sigstore/root-signing
+          ref: main
+
+      - uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492 # v2.2.0
+        with:
+          go-version: 1.17.7
+
+      - name: Install verify
+        run: go install github.com/sigstore/root-signing/cmd/verify/...@latest
+
+      # Check expiration in less than 3 days
+      - name: Check expiration
+        run: |
+          export EXPIRY=$(date -d '+3 days' '+%Y/%m/%d')
+          go run github.com/sigstore/root-signing/cmd/verify/... repository --gcs --repository sigstore-tuf-root --root ceremony/2021-06-18/repository/root.json --valid-until ${EXPIRY}
+
+
   slack-notification:
     name: Slack Notification On Failure
     runs-on: ubuntu-latest
-    needs: [rekor-probe, fulcio-probe]
+    needs: [rekor-probe, fulcio-probe, root-probe]
     if: github.event.inputs.triggerSlackTest=='true' || failure()
     steps:
     - name: Set message
