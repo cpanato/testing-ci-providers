@@ -56,9 +56,6 @@ jobs:
         with:
           go-version: 1.17.7
 
-      - name: Install verify
-        run: go install github.com/sigstore/root-signing/cmd/verify/...@latest
-
       # Check expiration in less than 3 days
       - name: Check expiration
         run: |
