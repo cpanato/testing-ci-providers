@@ -19,14 +19,13 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # v2.4.0
 
-      - name: 'Terraform Output'
-        id: terraform
-        uses: hashicorp/terraform-github-actions@b2ca17c0c25198c67c668c37edcbc45ca086a91e # v0.8.0
+      - uses: hashicorp/setup-terraform@3d8debd658c92063839bc97da5c2427100420dec #v1.3.2
         with:
-          # TODO: extract terraform from the tf file when we have pinned
-          tf_actions_version: 1.1.6
-          tf_actions_subcommand: 'fmt'
-          tf_actions_working_dir: './terraform/'
+          terraform_version: 1.1.6
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check ./terraform/
 
   terraform-tfsec:
     name: 'Terraform tfsec'
