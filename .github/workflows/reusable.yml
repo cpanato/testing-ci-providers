@@ -1,0 +1,13 @@
+name: Reusable test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-test-go:
+    uses: cpanato/.github/workflows/build-test-go.yml@main
+    with:
+      build_command: go build -o sample ./...
+      test_command: go test ./...
+      go_version: "1.17.7"
