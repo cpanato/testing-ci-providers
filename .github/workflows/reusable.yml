@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-test-go:
-    uses: cpanato/.github/workflows/build-test-go.yml@main
+    uses: cpanato/actions-reusable-test/.github/workflows/build-test-go.yml@main
     with:
       build_command: go build -o sample ./...
       test_command: go test ./...
