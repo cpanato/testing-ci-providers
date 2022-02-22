@@ -22,3 +22,20 @@ jobs:
               repo: context.repo.repo,
               body: 'Everything is OK. Thank you for the PR!'
             });
+
+  test_cosign_action:
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: none
+
+    name: Install Cosign and test presence in path
+    steps:
+      - name: Install Cosign
+        uses: sigstore/sigstore-installer@initial
+        with:
+          cosign-version: 'v1.5.2'
+      - name: Check install!
+        run: cosign version
+      - name: Check install!
+        run: rekor-cli version
