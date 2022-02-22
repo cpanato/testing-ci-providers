@@ -4,3 +4,15 @@ updates:
   directory: "/actions"
   schedule:
     interval: "daily"
+- package-ecosystem: "github-actions"
+  directory: "../actions"
+  schedule:
+    interval: "daily"
+- package-ecosystem: "github-actions"
+  directory: "/../actions"
+  schedule:
+    interval: "daily"
+- package-ecosystem: "github-actions"
+  directory: "/../../actions"
+  schedule:
+    interval: "daily"
