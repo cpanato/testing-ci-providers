@@ -3,6 +3,7 @@ name: Test github reusable action
 on:
   pull_request:
     branches: [ main ]
+  push:
 
 defaults:
   run:
