@@ -33,5 +33,5 @@ jobs:
       uses: cpanato/actions/setup-monitoring@add-setup-monitoring
 
     - name: test
-      runs: |
+      run: |
         kubectl get po -A
