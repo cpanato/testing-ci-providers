@@ -1,0 +1,37 @@
+name: Monitoring
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+
+
+jobs:
+  monitoring-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # Keep running if one leg fails.
+      matrix:
+        k8s-version:
+        - v1.21.x
+
+    env:
+      GOPATH: ${{ github.workspace }}
+      GO111MODULE: on
+      GOFLAGS: -ldflags=-s -ldflags=-w
+      KO_DOCKER_REPO: registry.local:5000/chainguard
+      KOCACHE: ~/ko
+
+    steps:
+    - name: Setup Cluster
+      uses: chainguard-dev/actions/setup-kind@main
+      with:
+        k8s-version: ${{ matrix.k8s-version }}
+        registry-authority: registry.local:5000
+
+    - name: Setup Cluster
+      uses: cpanato/actions/setup-monitoring@add-setup-monitoring
+
+    - name: test
+      runs: |
+        kubectl get po -A
