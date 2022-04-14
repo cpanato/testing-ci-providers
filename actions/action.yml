@@ -7,6 +7,7 @@ branding:
 runs:
   using: "composite"
   steps:
+  - uses: imjasonh/setup-crane@v0.1
   - shell: bash
     run: |
       files=$(find . -type f -name "*.yaml" -follow -print)
