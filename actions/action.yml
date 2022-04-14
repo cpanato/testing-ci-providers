@@ -10,7 +10,7 @@ runs:
   - uses: imjasonh/setup-crane@v0.1
   - shell: bash
     run: |
-      files=$(find "$(pwd)" -type f -name "*.yaml" -o -name "*.yml" -o -name "Dockerfile*" -follow -print)
+      files=$(find "$(pwd)" -type f -name "*.yaml" -follow -print)
       for file in $files
       do
           images=$(grep -E '[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*@sha256:[a-z0-9]+' "$file" | cut -d @ -f1 | rev | cut -d ' ' -f1 | cut -d '"' -f1 | rev | sed -e "s/^docker:\/\///" | tr '\n' ',')
