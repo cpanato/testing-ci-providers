@@ -13,8 +13,8 @@ runs:
       while IFS= read -r -d '' file; do
           # single filename is in $file
           echo "$file"
-          images=$(grep -E '[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*@sha256:[a-z0-9]+' "$file" | cut -d @ -f1 | rev | cut -d ' ' -f1 | cut -d '"' -f1 | rev | sed -e "s/^docker:\/\///" | tr '\n' ',')
-          digests=$(grep -E '[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*@sha256:[a-z0-9]+' "$file" | cut -d @ -f2 | cut -d ' ' -f1 | cut -d '"' -f1 | tr '\n' ',')
+          images=$(grep -i -E '[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*@sha256:[a-z0-9]+' "$file" | cut -d @ -f1 | rev | cut -d ' ' -f1 | cut -d '"' -f1 | rev | sed -e "s/^docker:\/\///" | tr '\n' ',')
+          digests=$(grep -i -E '[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*@sha256:[a-z0-9]+' "$file" | cut -d @ -f2 | cut -d ' ' -f1 | cut -d '"' -f1 | tr '\n' ',')
           IFS=',' read -r -a images2 <<< "$images"
           IFS=',' read -r -a digests2 <<< "$digests"
 
@@ -32,4 +32,4 @@ runs:
               echo "done3"
           fi
           echo "done4"
-      done < <(find "$(pwd)" -type f \( -name "*.yaml" -o -name "Dockerfile*" \) -print0)
+      done < <(find "$(pwd)" -type f \( -name "*.yaml" -o -name "*.yml" -o -name "Dockerfile*" \) -print0)
