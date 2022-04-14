@@ -23,4 +23,4 @@ jobs:
     - name: Test running the action
       uses: ./actions/
     - name: check
-      run: git status
+      run: git --no-pager diff

@@ -30,6 +30,3 @@ runs:
               done
           fi
       done
-  - shell: bash
-    run: |
-      git status
