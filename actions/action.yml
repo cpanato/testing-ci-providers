@@ -9,11 +9,11 @@ runs:
   steps:
   - shell: bash
     run: |
-      files=$(find . -type f -follow -print)
+      files=$(find . -type f -name "*.yaml" -follow -print)
       for file in $files
       do
-          images=$(grep -E '(?:.+\/)?([^:]+)(?::.+)@' "$file" | cut -d @ -f1 | cut -d ' ' -f2 | tr '\n' ',')
-          digests=$(grep -E '(?:.+\/)?([^:]+)(?::.+)@' "$file" | cut -d @ -f2 | cut -d ' ' -f1 | tr '\n' ',')
+          images=$(grep -E '[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*@sha256:[a-z0-9]+' "$file" | cut -d @ -f1 | rev | cut -d ' ' -f1 | cut -d '"' -f1 | rev | sed -e "s/^docker:\/\///" | tr '\n' ',')
+          digests=$(grep -E '[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*@sha256:[a-z0-9]+' "$file" | cut -d @ -f2 | cut -d ' ' -f1 | cut -d '"' -f1 | tr '\n' ',')
           IFS=',' read -r -a images2 <<< "$images"
           IFS=',' read -r -a digests2 <<< "$digests"
 
