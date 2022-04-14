@@ -4,6 +4,11 @@ branding:
   icon: box
   color: green
 
+inputs:
+  token:
+    description: 'GITHUB_TOKEN or a `repo` scoped Personal Access Token (PAT)'
+    default: ${{ github.token }}
+
 runs:
   using: "composite"
   steps:
@@ -38,7 +43,7 @@ runs:
     uses: peter-evans/create-pull-request@v3.11.0
     if: ${{ steps.create_pr.outputs.create_pr == 'true' }}
     with:
-      token: ${{ secrets.GITHUB_TOKEN }}
+      token: ${{ inputs.token }}
       commit-message: update index
       title: 'Update images digests'
       body: >
