@@ -32,4 +32,4 @@ runs:
               echo "done3"
           fi
           echo "done4"
-      done < <(find "$(pwd)" -type f \(-name "*.yaml" -o -name "Dockerfile*" \) -print0)
+      done < <(find "$(pwd)" -type f \( -name "*.yaml" -o -name "Dockerfile*" \) -print0)
