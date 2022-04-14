@@ -13,8 +13,8 @@ runs:
       while IFS= read -r -d '' file; do
           # single filename is in $file
           echo "$file"
-          images=$(grep -i -E '[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*@sha256:[a-z0-9]+' "$file" | cut -d @ -f1 | rev | cut -d ' ' -f1 | cut -d '"' -f1 | rev | sed -e "s/^docker:\/\///" | tr '\n' ',')
-          digests=$(grep -i -E '[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*@sha256:[a-z0-9]+' "$file" | cut -d @ -f2 | cut -d ' ' -f1 | cut -d '"' -f1 | tr '\n' ',')
+          images=$(grep -i -E '[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*@sha256:[a-z0-9]+' "$file" | cut -d @ -f1 | rev | cut -d ' ' -f1 | cut -d '"' -f1 | rev | sed -e "s/^docker:\/\///" | tr '\n' ',' || true)
+          digests=$(grep -i -E '[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*@sha256:[a-z0-9]+' "$file" | cut -d @ -f2 | cut -d ' ' -f1 | cut -d '"' -f1 | tr '\n' ',' || true)
           IFS=',' read -r -a images2 <<< "$images"
           IFS=',' read -r -a digests2 <<< "$digests"
 
