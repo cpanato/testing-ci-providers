@@ -27,3 +27,23 @@ runs:
             done
         fi
       done < <(find "$(pwd)" -type f \( -name "*.yaml" -o -name "*.yml" -o -name "Dockerfile*" \) -print0)
+  - name: Check workspace
+    id: create_pr
+    shell: bash
+    run: |
+      if [[ $(git diff --stat) != '' ]]; then
+        echo ::set-output name=create_pr::true
+      fi
+  - name: Create Pull Request
+    uses: peter-evans/create-pull-request@v3.11.0
+    if: ${{ steps.create_pr.outputs.create_pr == 'true' }}
+    with:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      commit-message: update index
+      title: 'Update images digests'
+      body: >
+        Update images digests
+      labels: feature, automated pr
+      branch-suffix: timestamp
+      branch: update-digests
+      delete-branch: true
