@@ -52,7 +52,7 @@ jobs:
         script: |
           var fs = require('fs');
           var festivals = process.env.MYVARS.split(",");
-          var planData;
+          var planData = `\n`;
           for (const planFiles of festivals) {
             if(planFiles == ""){
               continue;
@@ -61,7 +61,7 @@ jobs:
             var tempOut = `\n<details><summary>Show Plan for ` + planFiles + `</summary>
             \`\`\`\n`
             + data +
-            `\`\`\`\n\n
+            `\`\`\`
             </details>\n
             `;
 
