@@ -52,7 +52,6 @@ jobs:
         github-token: ${{ secrets.GH_TOKEN }}
         script: |
           var fs = require('fs');
-          console.log(${process.env.TE});
           const data = fs.readFileSync('./test.yaml', 'utf8');
           console.log(data);
           const output = `#### Terraform Plan \`${{ steps.plan.outcome }}\`
@@ -66,7 +65,7 @@ jobs:
 
           \nstdErr\n
           \`\`\`\n
-          testing
+          ${process.env.TE}
           \`\`\`
 
           </details>`;
