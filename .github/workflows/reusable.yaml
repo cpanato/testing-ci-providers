@@ -65,7 +65,7 @@ jobs:
 
           \nstdErr\n
           \`\`\`\n
-          ${process.env.TE}
+          testing
           \`\`\`
 
           </details>`;
