@@ -15,7 +15,7 @@ jobs:
       terraform: ${{ steps.filter.outputs.terraform }}
     steps:
     - uses: dorny/paths-filter@v2
-      id: changes
+      id: filter
       with:
         filters: |
           terraform:
