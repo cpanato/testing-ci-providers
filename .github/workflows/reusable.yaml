@@ -41,11 +41,6 @@ jobs:
         go-version: 1.17
         check-latest: true
 
-    - id: test123
-      run: |
-        export TE=(./test.yaml ./read)
-        echo ::set-output name=files::$(echo ${TE})
-
     - uses: actions/github-script@v6
       if: ${{ env.TF_VERB == 'plan' }} && github.event_name == 'pull_request'
       with:
