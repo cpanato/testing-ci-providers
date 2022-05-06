@@ -58,19 +58,21 @@ jobs:
               continue;
             }
             const data = fs.readFileSync(planFiles, 'utf8');
-            var tempOut = `\n<details><summary>Show Plan for ` + planFiles + `</summary>
-            \`\`\`\n\n` +
+            var tempOut = `\n<details><summary>Show Plan for **` + planFiles + `**</summary>
+            \`\`\`\n\n
+            ` +
             data
             +
             `\`\`\`\n\n
-            </details>\n`;
+            </details>\n
+            `;
 
             console.log(tempOut);
             planData += tempOut;
             console.log(planData);
           };
 
-          const output = `#### Terraform Plan ` + planData;
+          const output = '### Terraform Plan \n' + planData;
 
           github.rest.issues.createComment({
             issue_number: context.issue.number,
