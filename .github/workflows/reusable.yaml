@@ -14,7 +14,7 @@ on:
         required: false
         description: 'Secret to post comments in a PR.'
 
-concurrency: ${{ inputs.project_id }}
+concurrency: test1
 
 jobs:
   terraform:
