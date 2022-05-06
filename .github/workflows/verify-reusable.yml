@@ -1,0 +1,19 @@
+name: Verify reusable
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ 'main' ]
+
+jobs:
+  terraform-plan-staging:
+    uses: testing-ci-providers/.github/workflows/reusable.yaml@maim
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    with:
+      terraform_mode: 'plan'
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,85 @@
+name: Reusable
+
+on:
+  workflow_call:
+    inputs:
+      terraform_mode:
+        required: false
+        type: string
+        default: 'plan'
+        description: 'Mode to run terraform in.'
+
+    secrets:
+      GH_TOKEN:
+        required: false
+        description: 'Secret to post comments in a PR.'
+
+concurrency: ${{ inputs.project_id }}
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ['ubuntu-latest']
+    permissions:
+      contents: read
+      pull-requests: write
+
+    env:
+      TF_VERB: ${{ inputs.terraform_mode }}
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ env.SHA }}
+
+    - uses: hashicorp/setup-terraform@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.17
+        check-latest: true
+
+    - uses: actions/github-script@v6
+      if: ${{ env.TF_VERB == 'plan' }} && github.event_name == 'pull_request'
+      with:
+        github-token: ${{ secrets.GH_TOKEN }}
+        script: |
+          var fs = require('fs');
+          var test1;
+          fs.readFile('./test.yaml', 'utf8', (err, data) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          test1 = data;
+          console.log(data);
+          });
+          const output = `#### Terraform Plan \`${{ steps.plan.outcome }}\`
+
+          <details><summary>Show Plan</summary>
+
+          \`\`\`\n` +
+          test1
+          +
+          `\`\`\`
+
+          \nstdErr\n
+          \`\`\`\n
+          ${process.env.ERR}
+          \`\`\`
+
+          </details>`;
+
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
+
+    - name: test terraform
+      if: ${{ env.TF_VERB == 'plan' }} && github.event_name == 'pull_request'
+      run: |
+        echo test
