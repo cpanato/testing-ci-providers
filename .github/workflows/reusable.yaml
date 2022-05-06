@@ -49,18 +49,19 @@ jobs:
           var fs = require('fs');
           var test1;
           const data = fs.readFileSync('./test.yaml', 'utf8');
+          console.log(data);
           const output = `#### Terraform Plan \`${{ steps.plan.outcome }}\`
 
           <details><summary>Show Plan</summary>
 
           \`\`\`\n` +
-          test1
+          data
           +
           `\`\`\`
 
           \nstdErr\n
           \`\`\`\n
-          ${process.env.ERR}
+          testing
           \`\`\`
 
           </details>`;
