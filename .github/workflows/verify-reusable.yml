@@ -8,9 +8,23 @@ on:
       - terraform/**
 
 jobs:
+  check-changes:
+    name: check-changes
+    runs-on: ubuntu-latest
+    outputs:
+      terraform: ${{ steps.filter.outputs.terraform }}
+    steps:
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          terraform:
+            - 'terraform/**'
+
   terraform-plan-staging:
     uses: cpanato/testing-ci-providers/.github/workflows/reusable.yaml@main
-
+    needs: check-changes
+    if: ${{ needs.changes.outputs.terraform == 'true' }}
     permissions:
       contents: read
       pull-requests: write
