@@ -41,13 +41,18 @@ jobs:
         go-version: 1.17
         check-latest: true
 
+    - id: test123
+      run: |
+        export TE=(./test.yaml ./read)
+        echo ::set-output name=files::$(echo ${TE})
+
     - uses: actions/github-script@v6
       if: ${{ env.TF_VERB == 'plan' }} && github.event_name == 'pull_request'
       with:
         github-token: ${{ secrets.GH_TOKEN }}
         script: |
           var fs = require('fs');
-          var test1;
+          console.log(${process.env.TE});
           const data = fs.readFileSync('./test.yaml', 'utf8');
           console.log(data);
           const output = `#### Terraform Plan \`${{ steps.plan.outcome }}\`
