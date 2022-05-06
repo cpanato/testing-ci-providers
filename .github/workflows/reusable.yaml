@@ -52,8 +52,9 @@ jobs:
         script: |
           var fs = require('fs');
           var festivals = process.env.MYVARS.split(",");
-          console.log(festivals);
-          for (planFiles out of festivals) {
+          console.log(festivals[0]);
+          var planData;
+          for (const planFiles of festivals) {
             var data = fs.readFileSync(planFiles, 'utf8');
             console.log(data);
             var tempOut = `<details><summary>Show Plan for` + planFiles + `</summary>
@@ -62,9 +63,10 @@ jobs:
             +
             `\`\`\`
             </details>\n`;
+            planData = planData + tempOut;
           };
 
-          const output = `#### Terraform Plan`;
+          const output = `#### Terraform Plan` + planData;
 
           github.rest.issues.createComment({
             issue_number: context.issue.number,
