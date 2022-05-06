@@ -47,8 +47,10 @@ jobs:
 
     - uses: actions/github-script@v6
       if: ${{ env.TF_VERB == 'plan' }} && github.event_name == 'pull_request'
+      id: set-result
       with:
         github-token: ${{ secrets.GH_TOKEN }}
+        result-encoding: string
         script: |
           var fs = require('fs');
           var festivals = process.env.MYVARS.split(",");
@@ -69,15 +71,16 @@ jobs:
             planData += tempOut;
             console.log(planData);
           };
-
           const output = `### Terraform Plan \n` + planData;
 
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: output
-          })
+          return output;
+
+    - name: maintain-comment
+      uses: actions-cool/maintain-one-comment@v2
+      with:
+        token: ${{ secrets.GH_TOKEN }}
+        body: "${{steps.set-result.outputs.result}}"
+        body-include: '### Terraform Plan'
 
     - name: test terraform
       if: ${{ env.TF_VERB != 'plan' }} && github.event_name == 'pull_request'
