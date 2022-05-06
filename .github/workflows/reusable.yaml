@@ -54,18 +54,18 @@ jobs:
           var festivals = process.env.MYVARS.split(",");
           console.log(festivals[0]);
           var planData;
-          for (const out of festivals) {
-            var data = fs.readFileSync(const, 'utf8');
-            var tempOut = `<details><summary>Show Plan for` + const + `</summary>
+          for (planFiles out of festivals) {
+            var data = fs.readFileSync(planFiles, 'utf8');
+            console.log(data);
+            var tempOut = `<details><summary>Show Plan for` + planFiles + `</summary>
             \`\`\`\n` +
             data
             +
             `\`\`\`
             </details>\n`;
-            planData = planData + tempOut
-          }
+            planData = planData + tempOut;
+          };
 
-          console.log(data);
           const output = `#### Terraform Plan \`${{ steps.plan.outcome }}\`` + planData;
 
           github.rest.issues.createComment({
