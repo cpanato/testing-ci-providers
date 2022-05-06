@@ -59,10 +59,10 @@ jobs:
             }
             const data = fs.readFileSync(planFiles, 'utf8');
             var tempOut = `\n<details><summary>Show Plan for ` + planFiles + `</summary>
-            \`\`\`\n` +
+            \`\`\`\n\n` +
             data
             +
-            `\`\`\`
+            `\`\`\`\n\n
             </details>\n`;
 
             console.log(tempOut);
