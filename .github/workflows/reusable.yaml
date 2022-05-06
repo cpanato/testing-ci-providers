@@ -43,7 +43,7 @@ jobs:
 
     - id: test123
       run: |
-        echo MYVARS=("./test.yaml" "./read") >> $GITHUB_ENV
+        echo "MYVARS=("./test.yaml" "./read")" >> $GITHUB_ENV
 
     - uses: actions/github-script@v6
       if: ${{ env.TF_VERB == 'plan' }} && github.event_name == 'pull_request'
