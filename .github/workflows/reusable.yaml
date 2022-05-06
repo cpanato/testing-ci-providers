@@ -43,7 +43,7 @@ jobs:
 
     - id: test123
       run: |
-        echo "MYVARS=("./test.yaml" "./read")" >> $GITHUB_ENV
+        echo "MYVARS=test.yaml,read.yaml" >> $GITHUB_ENV
 
     - uses: actions/github-script@v6
       if: ${{ env.TF_VERB == 'plan' }} && github.event_name == 'pull_request'
@@ -51,7 +51,8 @@ jobs:
         github-token: ${{ secrets.GH_TOKEN }}
         script: |
           var fs = require('fs');
-          var festivals = process.env.MYVARS.split(", ");
+          var festivals = process.env.MYVARS;
+          console.log(festivals);
           const data = fs.readFileSync('./test.yaml', 'utf8');
           console.log(data);
           const output = `#### Terraform Plan \`${{ steps.plan.outcome }}\`
