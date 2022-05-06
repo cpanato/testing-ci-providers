@@ -24,7 +24,7 @@ jobs:
   terraform-plan-staging:
     uses: cpanato/testing-ci-providers/.github/workflows/reusable.yaml@main
     needs: check-changes
-    if: ${{ needs.changes.outputs.terraform == 'true' }}
+    if: ${{ needs.check-changes.outputs.terraform == 'true' }}
     permissions:
       contents: read
       pull-requests: write
