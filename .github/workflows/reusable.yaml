@@ -55,6 +55,9 @@ jobs:
           console.log(festivals[0]);
           var planData;
           for (const planFiles of festivals) {
+            if(planFiles == ""){
+              continue;
+            }
             var data = fs.readFileSync(planFiles, 'utf8');
             console.log(data);
             var tempOut = `<details><summary>Show Plan for` + planFiles + `</summary>
