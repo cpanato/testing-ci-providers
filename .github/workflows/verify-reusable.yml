@@ -7,7 +7,7 @@ on:
 
 jobs:
   terraform-plan-staging:
-    uses: testing-ci-providers/.github/workflows/reusable.yaml@maim
+    uses: cpanato/testing-ci-providers/.github/workflows/reusable.yaml@maim
 
     permissions:
       contents: read
