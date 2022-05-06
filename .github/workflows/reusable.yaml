@@ -48,14 +48,7 @@ jobs:
         script: |
           var fs = require('fs');
           var test1;
-          fs.readFile('./test.yaml', 'utf8', (err, data) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
-          test1 = data;
-          console.log(data);
-          });
+          const data = fs.readFileSync('./test.yaml', 'utf8');
           const output = `#### Terraform Plan \`${{ steps.plan.outcome }}\`
 
           <details><summary>Show Plan</summary>
