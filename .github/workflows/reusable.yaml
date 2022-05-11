@@ -47,7 +47,7 @@ jobs:
         echo ${{github.event_name}} 
 
     - uses: actions/github-script@v6
-      if: ${{ env.TF_VERB == 'plan' && github.event_name == 'pull_request' }}
+      if: ${{ (env.TF_VERB == 'plan') && (github.event_name == 'pull_request') }}
       id: set-result
       with:
         github-token: ${{ secrets.GH_TOKEN }}
@@ -78,7 +78,7 @@ jobs:
 
     - name: maintain-comment
       uses: actions-cool/maintain-one-comment@v2
-      if: ${{ env.TF_VERB == 'plan' && github.event_name == 'pull_request' }}
+      if: ${{ (env.TF_VERB == 'plan') && (github.event_name == 'pull_request') }}
       with:
         token: ${{ secrets.GH_TOKEN }}
         body: "${{steps.set-result.outputs.result}}"
