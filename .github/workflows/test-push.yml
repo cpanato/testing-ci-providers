@@ -1,0 +1,23 @@
+# Copyright 2021 Chainguard, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Provision Staging Infrastructure
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+  schedule:
+    # Deploy at noon (PST) on weekdays.
+    - cron:  '0 20 * * 1-5'
+
+jobs:
+  terraform:
+    uses: cpanato/testing-ci-providers/.github/workflows/reusable.yaml@main
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    with:
+      terraform_mode: 'apply -auto-approve'
