@@ -44,9 +44,10 @@ jobs:
     - id: test123
       run: |
         echo "MYVARS=test.yaml,read.yaml,.ko2.yaml," >> $GITHUB_ENV
+        echo ${{github.event_name}} 
 
     - uses: actions/github-script@v6
-      if: ${{ env.TF_VERB == 'plan' }} && github.event_name == 'pull_request'
+      if: ${{ env.TF_VERB == 'plan' && github.event_name == 'pull_request' }}
       id: set-result
       with:
         github-token: ${{ secrets.GH_TOKEN }}
