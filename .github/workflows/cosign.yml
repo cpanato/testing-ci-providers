@@ -39,4 +39,4 @@ jobs:
         env:
           COSIGN_EXPERIMENTAL: true
         run: |
-          cosign copy ghcr.io/cpanato/testing-ci-providers/test:latest quay.io/cpanato/testing-copy:latest
+          cosign copy -f ghcr.io/cpanato/testing-ci-providers/test:latest quay.io/cpanato/testing-copy:latest
