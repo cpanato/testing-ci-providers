@@ -34,7 +34,6 @@ jobs:
           cosign sign ghcr.io/cpanato/testing-ci-providers/test:latest
       - name: Login to registry
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | podman login -u parca-dev --password-stdin ghcr.io
           echo "${{ secrets.QUAY_PASSWORD }}" | podman login -u "${{ secrets.QUAY_USERNAME }}" --password-stdin quay.io
       - name: push to quay
         env:
