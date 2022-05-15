@@ -15,21 +15,29 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
         with:
           go-version: '1.17.x'
 
-      - name: Build and sign a container image
-        run: |
-          set -e
-          go install github.com/sigstore/cosign/cmd/cosign@latest
-          cosign sign-blob --output-certificate key.pem --output-signature README.md.sig README.md
+      - name: Install cosign
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: sigstore/cosign-installer@v2.3.0
 
-          if [ -s key.pem ]
-          then
-            exit 0
-          else
-            echo "file does not exist, or is empty"
-            exit 1
-          fi
+      - name: Install crane
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: imjasonh/setup-crane@v0.1
+
+      - name: Build and sign a container image
+        env:
+          COSIGN_EXPERIMENTAL: true
+        run: |
+          cosign sign ghcr.io/cpanato/testing-ci-providers/test:latest
+      - name: Login to registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | podman login -u parca-dev --password-stdin ghcr.io
+          echo "${{ secrets.QUAY_PASSWORD }}" | podman login -u "${{ secrets.QUAY_USERNAME }}" --password-stdin quay.io
+      - name: push to quay
+        env:
+          COSIGN_EXPERIMENTAL: true
+        run: |
+          cosign copy ghcr.io/cpanato/testing-ci-providers/test:latest quay.io/cpanato/testing-copy:latest
