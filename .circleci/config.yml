@@ -18,7 +18,7 @@ jobs:
     steps:
     - checkout
     - setup_remote_docker
-    - cosign/install
+    - cosign-orb/install
     - run:
         name: Release
         no_output_timeout: 30m
