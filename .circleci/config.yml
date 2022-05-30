@@ -4,47 +4,8 @@ executors:
     docker:
     - image: cimg/go:1.17.4
 
-install_goreleaser: &install_goreleaser
-  name: Install goreleaser
-  command: |
-    GORELEASER_URL="https://github.com/goreleaser/goreleaser/releases/download/v1.4.1/goreleaser_Linux_x86_64.tar.gz"
-
-    curl --output goreleaser_Linux_x86_64.tar.gz \
-      --silent --show-error --location --fail --retry 3 \
-      "$GORELEASER_URL"
-
-    sudo mkdir -p /tmp/goreleaser
-    sudo tar -C /tmp/goreleaser -xzf goreleaser_Linux_x86_64.tar.gz
-    sudo mv /tmp/goreleaser/goreleaser /usr/local/bin/
-    rm -f goreleaser_Linux_x86_64.tar.gz
-    goreleaser --version
-
-install_cosign: &install_cosign
-  name: Install cosign
-  command: |
-    COSIGN_URL="https://github.com/sigstore/cosign/releases/download/v1.5.0/cosign-linux-amd64"
-
-    curl --output cosign \
-      --silent --show-error --location --fail --retry 3 \
-      "$COSIGN_URL"
-
-    sudo chmod +x cosign
-    sudo mv cosign /usr/local/bin/
-    cosign version
-
-install_syft: &install_syft
-  name: Install syft
-  command: |
-    SYFT_URL="https://github.com/anchore/syft/releases/download/v0.36.0/syft_0.36.0_linux_amd64.tar.gz"
-
-    curl --output syft_0.36.0_linux_amd64.tar.gz \
-      --silent --show-error --location --fail --retry 3 \
-      "$SYFT_URL"
-
-    sudo tar -C /tmp -xzf syft_0.36.0_linux_amd64.tar.gz
-    sudo mv /tmp/syft /usr/local/bin/
-    rm -f syft_0.36.0_linux_amd64.tar.gz
-    syft version
+orbs:
+  cosign-orb: cpanato/cosign-orb@1.2.0
 
 jobs:
   test-release:
@@ -57,17 +18,12 @@ jobs:
     steps:
     - checkout
     - setup_remote_docker
-    - run: *install_goreleaser
-    - run: *install_cosign
-    - run: *install_syft
+    - cosign/install
     - run:
         name: Release
         no_output_timeout: 30m
         command: |
-          goreleaser -v
           cosign version
-          syft version
-          cosign sign -key ./cosign.key ctadeu/test:latest
 
 workflows:
   ci-build:
