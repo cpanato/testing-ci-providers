@@ -42,8 +42,6 @@ jobs:
 
     - uses: chainguard-dev/actions/setup-monitoring@main
 
-    - run: kubectl scale -n monitoring-system  --replicas=0 deployment/prometheus-grafana
-
     - run: |
         go test -race $(go list ./...)
 
