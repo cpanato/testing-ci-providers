@@ -49,3 +49,5 @@ jobs:
       with:
         start-time: ${{ steps.kind.outputs.kind-start-time }}
         grafana-dashboards: "gulfstream/gulfstream,knativereconciler/knative-reconciler"
+        grafana-namespace: kube-system
+        grafana-svc: svc/kube-dns
