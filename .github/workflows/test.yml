@@ -33,5 +33,19 @@ jobs:
         go-version: 1.17
         check-latest: true
 
+    - name: Setup Cluster
+      uses: chainguard-dev/actions/setup-kind@main
+      id: kind
+      with:
+        k8s-version: v1.22.x
+        registry-authority: registry.local:5000
+
     - run: |
         go test -race $(go list ./...)
+
+    - name: Collect diagnostics and upload
+      if: ${{ always() }}
+      uses: chainguard-dev/cpanato/kind-diag@fix-grafana
+      with:
+        start-time: ${{ steps.kind.outputs.kind-start-time }}
+        grafana-dashboards: "gulfstream/gulfstream,knativereconciler/knative-reconciler"
