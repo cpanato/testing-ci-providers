@@ -45,7 +45,7 @@ jobs:
 
     - name: Collect diagnostics and upload
       if: ${{ always() }}
-      uses: chainguard-dev/cpanato/kind-diag@fix-grafana
+      uses: cpanato/actions/kind-diag@fix-grafana
       with:
         start-time: ${{ steps.kind.outputs.kind-start-time }}
         grafana-dashboards: "gulfstream/gulfstream,knativereconciler/knative-reconciler"
