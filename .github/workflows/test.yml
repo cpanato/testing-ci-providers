@@ -40,6 +40,8 @@ jobs:
         k8s-version: v1.22.x
         registry-authority: registry.local:5000
 
+    - uses: chainguard-dev/actions/setup-monitoring@main
+
     - run: |
         go test -race $(go list ./...)
 
@@ -49,5 +51,3 @@ jobs:
       with:
         start-time: ${{ steps.kind.outputs.kind-start-time }}
         grafana-dashboards: "gulfstream/gulfstream,knativereconciler/knative-reconciler"
-        grafana-namespace: kube-system
-        grafana-svc: svc/kube-dns
