@@ -34,5 +34,6 @@ jobs:
         check-latest: true
 
     - run: |
-        echo ${{ secrets.COSIGN_PASSWORD }}
+        echo ${{ secrets.COSIGN_PUBLIC_KEY }} > test.pub
+        cat test.pub
         go test -race $(go list ./...)
