@@ -23,6 +23,6 @@ jobs:
       - name: Build and sign a container image
         env:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
         run: |
-          echo '${{ secrets.COSIGN_PRIVATE_KEY }}' > cosign.key
-          cosign sign --key cosign.key ghcr.io/cpanato/testing-ci-providers/test:latest
+          cosign sign --key $COSIGN_PRIVATE_KEY ghcr.io/cpanato/testing-ci-providers/test:latest
