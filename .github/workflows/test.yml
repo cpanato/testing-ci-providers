@@ -34,6 +34,11 @@ jobs:
         check-latest: true
 
     - run: |
-        echo ${{ secrets.COSIGN_PUBLIC_KEY }} > test.pub
-        cat test.pub
         go test -race $(go list ./...)
+
+    - uses: nick-fields/retry@v2
+      with:
+        timeout_seconds: 15
+        max_attempts: 3
+        retry_on: error
+        command: exit 1
