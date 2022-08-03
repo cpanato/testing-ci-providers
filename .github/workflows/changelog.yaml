@@ -49,4 +49,5 @@ jobs:
           body: update changelog
           labels: docs, automated pr
           branch: update-changelog
+          base: main
           delete-branch: true
