@@ -1,0 +1,25 @@
+name: Changelog CI
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository
+      - uses: actions/checkout@v3
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Run Changelog CI
+        uses: saadmk11/changelog-ci@v1.0.0
+        with:
+          changelog_filename: CHANGELOG.md
+          config_file: .changelog-config.yaml
+          release_version: ${{ env.RELEASE_VERSION }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
