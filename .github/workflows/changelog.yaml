@@ -27,7 +27,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.RELEASE_VERSION }}
 
-      - run: ls -la
+      - run: cat CHANGELOG.md
 
       - name: Check workspace
         id: create_pr
@@ -46,8 +46,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'doc: update changelog'
           title: 'doc: update changelog'
-          body: >
-            doc: update changelog
+          body: update changelog
           labels: docs, automated pr
           branch: update-changelog
           delete-branch: true
