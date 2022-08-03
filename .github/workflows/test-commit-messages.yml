@@ -1,4 +1,4 @@
-name: "Commit message validation on pull request"
+name: Changelog CI
 
 on:
   pull_request:
@@ -9,9 +9,11 @@ on:
       - synchronize
 
 jobs:
-  check-commit-message-style:
-    name: Check commit message style
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check
-        uses: mristin/opinionated-commit-message@v3.0.0
+      - uses: actions/checkout@v2
+
+      - name: Run Changelog CI
+        uses: saadmk11/changelog-ci@v1.0.0
