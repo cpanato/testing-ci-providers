@@ -5,26 +5,45 @@ on:
     tags:
       - 'v*'
 
-
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
       pull-requests: write
 
+
     steps:
-      # Checks-out your repository
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-
-      - name: Run Changelog CI
-        uses: saadmk11/changelog-ci@v1.0.0
+      - name: Update CHANGELOG
+        id: changelog
+        uses: Requarks/changelog-action@v1
         with:
-          changelog_filename: CHANGELOG.md
-          config_file: .changelog-config.yaml
-          release_version: ${{ env.RELEASE_VERSION }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.RELEASE_VERSION }}
+
+      - name: Check workspace
+        id: create_pr
+        shell: bash
+        run: |
+          if [[ $(git diff --stat) != '' ]]; then
+            echo ::set-output name=create_pr::true
+          fi
+      # # Configure signed commits
+      # - uses: chainguard-dev/actions/setup-gitsign@main
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@923ad837f191474af6b1721408744feb989a4c27 # v4
+        if: ${{ steps.create_pr.outputs.create_pr == 'true' }}
+        with:
+          token: ${{ inputs.token }}
+          commit-message: 'doc: update changelog'
+          title: 'doc: update changelog'
+          body: >
+            'doc: update changelog'
+          labels: docs, automated pr
+          branch: update-changelog
+          delete-branch: true
