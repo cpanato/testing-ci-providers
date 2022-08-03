@@ -1,0 +1,16 @@
+name: "Commit message validation on pull request"
+
+on: pull_request
+
+jobs:
+  commit-message-validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Commit message validation
+        uses: lumapps/commit-message-validator@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
