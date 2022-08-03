@@ -45,8 +45,8 @@ jobs:
         if: ${{ steps.create_pr.outputs.create_pr == 'true' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'doc: update changelog'
-          title: 'doc: update changelog'
+          commit-message: 'docs: update changelog'
+          title: 'docs: update changelog'
           body: update changelog
           labels: docs, automated pr
           branch: update-changelog
