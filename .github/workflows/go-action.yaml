@@ -1,0 +1,17 @@
+name: go action
+
+on:
+  pull_request_target:
+
+jobs:
+  preview:
+    name: Preview Pulimi changes
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: cpanato/testing-go-actions/github-sync-pr@main
+      with:
+        work_dir: ./github-sync
+        stack_name: bla
+        pulumi_access_token: blanbla

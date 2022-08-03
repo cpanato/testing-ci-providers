@@ -8,16 +8,12 @@ on:
       - reopened
       - synchronize
 
-# permissions:
-#   pull-requests: write
-
 jobs:
   conventional:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      # check for the most recent release: https://github.com/CondeNast/conventional-pull-request-action/releases
-      # replace vX.X.X below with the most recently released version
-      - uses: CondeNast/conventional-pull-request-action@v0.1.2
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b #v3
+
+      - uses: CondeNast/conventional-pull-request-action@bac03af8c225e370adf242414692f989b8f9ead7 # v0.1.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,25 @@
+repositories:
+  - name: .github
+    owner: cpanato
+    description: ""
+    homepageUrl: ""
+    allowAutoMerge: false
+    allowMergeCommit: true
+    allowRebaseMerge: true
+    allowSquashMerge: true
+    archived: false
+    autoInit: false
+    deleteBranchOnMerge: false
+    hasDownloads: true
+    hasIssues: true
+    hasProjects: true
+    hasWiki: true
+    vulnerabilityAlerts: false
+    visibility: public
+    licenseTemplate: ""
+    topics: []
+    collaborators: []
+    branchesProtection:
+      - pattern: main
+        dismissStaleReviews: true
+        requiredApprovingReviewCount: 1

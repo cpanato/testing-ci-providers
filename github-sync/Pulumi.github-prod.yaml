@@ -1,0 +1,5 @@
+config:
+  github:owner: cpanato
+  github:token:
+    secure: Avdsvsddsvsdv
+  sigstore-github-sync:github-data-directory: "github-data/"
