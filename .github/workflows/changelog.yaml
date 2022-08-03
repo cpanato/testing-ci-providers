@@ -28,6 +28,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.RELEASE_VERSION }}
 
+      - run: ls -la
+
       - name: Check workspace
         id: create_pr
         shell: bash
