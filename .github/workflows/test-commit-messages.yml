@@ -3,14 +3,10 @@ name: "Commit message validation on pull request"
 on: pull_request
 
 jobs:
-  commit-message-validation:
+  build:
+    name: Conventional Commits
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Commit message validation
-        uses: lumapps/commit-message-validator@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: webiny/action-conventional-commits@v1.0.3
