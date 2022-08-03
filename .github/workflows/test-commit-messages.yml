@@ -1,4 +1,4 @@
-name: Changelog CI
+name: "Commit message validation on pull request"
 
 on:
   pull_request:
@@ -8,12 +8,16 @@ on:
       - reopened
       - synchronize
 
+permissions:
+  pull-requests: write
+
 jobs:
-  build:
+  conventional:
+    name: Conventional PR
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Run Changelog CI
-        uses: saadmk11/changelog-ci@v1.0.0
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - uses: beemojs/conventional-pr-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
