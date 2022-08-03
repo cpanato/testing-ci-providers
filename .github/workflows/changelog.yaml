@@ -13,7 +13,6 @@ jobs:
       contents: write
       pull-requests: write
 
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -44,11 +43,11 @@ jobs:
         uses: peter-evans/create-pull-request@923ad837f191474af6b1721408744feb989a4c27 # v4
         if: ${{ steps.create_pr.outputs.create_pr == 'true' }}
         with:
-          token: ${{ inputs.token }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'doc: update changelog'
           title: 'doc: update changelog'
           body: >
-            'doc: update changelog'
+            doc: update changelog
           labels: docs, automated pr
           branch: update-changelog
           delete-branch: true
