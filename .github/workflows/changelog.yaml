@@ -26,6 +26,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.RELEASE_VERSION }}
+          excludeTypes: build,other,style
 
       - run: cat CHANGELOG.md
 
