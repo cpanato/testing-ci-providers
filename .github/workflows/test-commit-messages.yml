@@ -1,12 +1,13 @@
 name: "Commit message validation on pull request"
 
-on: pull_request
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize, edited, ready_for_review]
 
 jobs:
-  build:
-    name: Conventional Commits
+  conventional-commits:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - uses: webiny/action-conventional-commits@v1.0.3
+      - name: Conventional Commits
+        uses: crqra/conventional-commits-action@1.0.0
