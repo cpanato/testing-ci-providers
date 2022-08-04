@@ -3,7 +3,7 @@ repositories:
     owner: cpanato
     description: ""
     homepageUrl: ""
-    allowAutoMerge: false
+    allowAutoMerge: true
     allowMergeCommit: true
     allowRebaseMerge: true
     allowSquashMerge: true
