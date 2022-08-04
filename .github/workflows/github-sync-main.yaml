@@ -1,0 +1,26 @@
+name: go action
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'github-sync/github-data/*.yaml'
+      - 'github-sync/Pulumi*.yaml'
+
+jobs:
+  Update:
+    name: Update
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+    - uses: cpanato/testing-go-actions@main
+      with:
+        work_dir: ./github-sync
+        config_directory: ./github-sync/github-data
+        stack_name: cpanato/dev
+        pulumi_access_token: ${{ secrets.PULUMI_TOKEN }}
+        pulumi_command: up
