@@ -19,7 +19,4 @@ repositories:
     licenseTemplate: ""
     topics: []
     collaborators: []
-    branchesProtection:
-      - pattern: main
-        dismissStaleReviews: true
-        requiredApprovingReviewCount: 1
+    branchesProtection: []
