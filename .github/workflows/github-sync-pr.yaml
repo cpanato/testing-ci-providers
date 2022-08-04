@@ -1,4 +1,4 @@
-name: go action
+name: GitHub Sync Preview
 
 on:
   pull_request_target:
