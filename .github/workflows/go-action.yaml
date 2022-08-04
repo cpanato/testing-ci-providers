@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: cpanato/testing-go-actions/github-sync-pr@main
+    - uses: cpanato/testing-go-actions@main
       with:
         work_dir: github-sync
         stack_name: bla
