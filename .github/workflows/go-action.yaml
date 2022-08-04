@@ -14,6 +14,7 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
     - uses: cpanato/testing-go-actions@main
       with:
-        work_dir: github-sync
+        work_dir: ./github-sync
+        config_directory: ./github-sync/github-data
         stack_name: cpanato/dev
         pulumi_access_token: ${{ secrets.PULUMI_TOKEN }}
