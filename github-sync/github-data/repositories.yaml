@@ -1,5 +1,5 @@
 repositories:
-  - name: .github
+  - name: test-repo
     owner: cpanato
     description: ""
     homepageUrl: ""
