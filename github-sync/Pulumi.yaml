@@ -1,3 +1,3 @@
-name: cpanato-github-sync
+name: test
 runtime: go
 description: Sync GitHub users, collaborators and repositories for an organization
