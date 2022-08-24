@@ -24,10 +24,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: chainguard-dev/actions/release-notes@main
+      - uses: chainguard-dev/actions/release-notes@update-release-notes
         with:
           branch_name: 'main'
           start_rev: ${{ github.event.inputs.start_rev }}
           end_rev: ${{ github.event.inputs.end_rev }}
-          output_filename:  'CHANGELOG.md'
+          changelog_filename:  'CHANGELOG.md'
           token: ${{ secrets.GITHUB_TOKEN }}
