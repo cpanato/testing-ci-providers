@@ -1,3 +1,14 @@
+## v0.80.0
+\n
+## Changes by Kind
+
+### Bug or Regression
+
+- This is an example (#95, @cpanato)
+
+### Other (Cleanup or Flake)
+
+- This is another example (#97, @cpanatoBOT)\n\n
 
 ## [v0.8.3] - 2022-08-03
 ### :sparkles: New Features
