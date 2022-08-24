@@ -1,0 +1,32 @@
+name: release-notes
+on:
+  workflow_dispatch:
+    inputs:
+      start_rev:
+        required: true
+      end_rev:
+        required: true
+
+
+jobs:
+  release-notes:
+
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: chainguard-dev/actions/release-notes@main
+        with:
+          branch_name: 'main'
+          start_rev: ${{ github.event.inputs.start_rev }}
+          end_rev: ${{ github.event.inputs.end_rev }}
+          output_filename:  'CHANGELOG.md'
+          token: ${{ secrets.GITHUB_TOKEN }}
