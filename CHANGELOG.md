@@ -1,4 +1,12 @@
+## v0.80.0## Changes by Kind
 
+### Bug or Regression
+
+- This is an example (#95, @cpanato)
+
+### Other (Cleanup or Flake)
+
+- This is another example (#97, @cpanatoBOT)
 ## [v0.8.3] - 2022-08-03
 ### :sparkles: New Features
 - [`3e9a813`](https://github.com/cpanato/testing-ci-providers/commit/3e9a81376bff0a7513c72d66d5266484b48d3db9) - add new string *(PR [#87](https://github.com/cpanato/testing-ci-providers/pull/87) by [@cpanato](https://github.com/cpanato))*
