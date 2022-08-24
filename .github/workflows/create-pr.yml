@@ -31,7 +31,10 @@ jobs:
           commit-message: update index
           title: 'Update index'
           body: >
-            Update index
+            Update images digests
+            ```release-note
+            NONE
+            ```
           labels: feature, automated pr
           branch-suffix: timestamp
           branch: update-index
