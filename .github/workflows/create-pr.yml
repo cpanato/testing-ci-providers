@@ -30,11 +30,12 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: update index
           title: 'Update index'
-          body: >
-            Update images digests\n
-            ```release-note\n
-            NONE\n
-            ```\n
+          body: |
+            Update images digests
+
+            ```release-note
+            NONE
+            ```
           labels: feature, automated pr
           branch-suffix: timestamp
           branch: update-index
