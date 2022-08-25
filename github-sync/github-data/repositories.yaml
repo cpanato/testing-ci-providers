@@ -11,9 +11,9 @@ repositories:
     autoInit: false
     deleteBranchOnMerge: false
     hasDownloads: true
-    hasIssues: true
-    hasProjects: true
-    hasWiki: true
+    hasIssues: false
+    hasProjects: false
+    hasWiki: false
     vulnerabilityAlerts: false
     visibility: public
     licenseTemplate: ""
