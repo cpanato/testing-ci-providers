@@ -13,7 +13,7 @@ repositories:
     hasDownloads: true
     hasIssues: true
     hasProjects: true
-    hasWiki: false
+    hasWiki: true
     vulnerabilityAlerts: false
     visibility: public
     licenseTemplate: ""
