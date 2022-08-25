@@ -13,6 +13,9 @@ jobs:
     name: Preview Pulimi changes
     runs-on: ubuntu-latest
 
+    permissions:
+      pull-requests: write
+
     steps:
     - uses: actions/checkout@v3
       with:
@@ -24,3 +27,5 @@ jobs:
         stack_name: cpanato/dev
         pulumi_access_token: ${{ secrets.PULUMI_TOKEN }}
         pulumi_command: preview
+        comment-on-pr: true
+        gh-token: ${{ secrets.GITHUB_TOKEN }}
