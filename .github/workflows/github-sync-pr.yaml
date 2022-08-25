@@ -27,5 +27,5 @@ jobs:
         stack_name: cpanato/dev
         pulumi_access_token: ${{ secrets.PULUMI_TOKEN }}
         pulumi_command: preview
-        comment-on-pr: true
-        gh-token: ${{ secrets.GITHUB_TOKEN }}
+        comment_on_pr: true
+        gh_token: ${{ secrets.GITHUB_TOKEN }}
