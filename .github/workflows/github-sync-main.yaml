@@ -22,3 +22,4 @@ jobs:
         stack_name: cpanato/dev
         pulumi_access_token: ${{ secrets.PULUMI_TOKEN }}
         pulumi_command: up
+        gh_token: ${{ secrets.GITHUB_TOKEN }}
