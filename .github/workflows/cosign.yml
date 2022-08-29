@@ -34,5 +34,5 @@ jobs:
           COSIGN_EXPERIMENTAL: true
           KO_DOCKER_REPO: ghcr.io/cpanato/testing-ci-providers
         run: |
-          ko build --base-import-paths --platform=all --image-refs cosignImagerefs github.com/cpanato/testing-ci-providers
+          ko build --bare --platform=all --image-refs cosignImagerefs github.com/cpanato/testing-ci-providers
           cosign sign $(cat cosignImagerefs)
