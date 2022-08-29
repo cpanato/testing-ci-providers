@@ -9,6 +9,7 @@ jobs:
     permissions:
       id-token: write
       packages: write
+      contents: read
 
     env:
       COSIGN_EXPERIMENTAL: "true"
