@@ -23,9 +23,10 @@ jobs:
         with:
           go-version: '1.18'
 
-      - name: Install cosign
-        if: ${{ github.event_name != 'pull_request' }}
-        uses: sigstore/cosign-installer@v2.5.1
+      # - name: Install cosign
+      #   if: ${{ github.event_name != 'pull_request' }}
+      #   uses: sigstore/cosign-installer@v2.5.1
+      - run: go install github.com/sigstore/cosign/cmd/cosign@main
 
       - name: Install crane
         if: ${{ github.event_name != 'pull_request' }}
@@ -39,4 +40,5 @@ jobs:
           KO_DOCKER_REPO: ghcr.io/cpanato/testing-ci-providers
         run: |
           ko build --base-import-paths --platform=all --tags=latest --image-refs cosignImagerefs github.com/cpanato/testing-ci-providers
+          cat cosignImagerefs
           cosign sign $(cat cosignImagerefs)
