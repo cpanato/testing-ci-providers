@@ -9,34 +9,30 @@ jobs:
     permissions:
       id-token: write
       packages: write
-      contents: read
+
     env:
       COSIGN_EXPERIMENTAL: "true"
 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v3
         with:
-          go-version: '1.17.x'
+          go-version: '1.18'
 
       - name: Install cosign
         if: ${{ github.event_name != 'pull_request' }}
-        uses: sigstore/cosign-installer@v2.4.0
+        uses: sigstore/cosign-installer@v2.5.1
 
       - name: Install crane
         if: ${{ github.event_name != 'pull_request' }}
         uses: imjasonh/setup-crane@v0.1
 
+      - uses: imjasonh/setup-ko@78eea08f10db87a7a23a666a4a6fe2734f2eeb8d
+
       - name: Build and sign a container image
         env:
           COSIGN_EXPERIMENTAL: true
+          KO_DOCKER_REPO: ghcr.io/cpanato/testing-ci-providers
         run: |
-          cosign sign ghcr.io/cpanato/testing-ci-providers/test:latest
-      - name: Login to registry
-        run: |
-          echo "${{ secrets.QUAY_PASSWORD }}" | cosign login -u "${{ secrets.QUAY_USERNAME }}" --password-stdin quay.io
-      - name: push to quay
-        env:
-          COSIGN_EXPERIMENTAL: true
-        run: |
-          cosign copy -f ghcr.io/cpanato/testing-ci-providers/test:latest quay.io/cpanato/testing-copy:latest
+          ko build --base-import-paths --platform=all --image-refs cosignImagerefs github.com/cpanato/testing-ci-providers
+          cosign sign $(cat cosignImagerefs)
