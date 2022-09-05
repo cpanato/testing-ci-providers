@@ -2,8 +2,10 @@ name: Changelog CI
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - 'main'
+  workflow_dispatch:
+
 
 jobs:
   deploy:
