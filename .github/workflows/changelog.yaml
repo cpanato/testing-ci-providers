@@ -12,43 +12,49 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      actions: write
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b #v3
+      - run: |
+          curl \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/user
+      # - name: Checkout Code
+      #   uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b #v3
 
-      - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      # - name: Set env
+      #   run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-      - name: Update CHANGELOG
-        id: changelog
-        uses: Requarks/changelog-action@0ea1d18db7a6d4b7fe160e29db7230668f0e7768 # v1.3.2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.RELEASE_VERSION }}
-          excludeTypes: build,other,style
+      # - name: Update CHANGELOG
+      #   id: changelog
+      #   uses: Requarks/changelog-action@0ea1d18db7a6d4b7fe160e29db7230668f0e7768 # v1.3.2
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     tag: ${{ env.RELEASE_VERSION }}
+      #     excludeTypes: build,other,style
 
-      - run: cat CHANGELOG.md
+      # - run: cat CHANGELOG.md
 
-      - name: Check workspace
-        id: create_pr
-        shell: bash
-        run: |
-          if [[ $(git diff --stat) != '' ]]; then
-            echo ::set-output name=create_pr::true
-          fi
-      # # Configure signed commits
-      # - uses: chainguard-dev/actions/setup-gitsign@main
+      # - name: Check workspace
+      #   id: create_pr
+      #   shell: bash
+      #   run: |
+      #     if [[ $(git diff --stat) != '' ]]; then
+      #       echo ::set-output name=create_pr::true
+      #     fi
+      # # # Configure signed commits
+      # # - uses: chainguard-dev/actions/setup-gitsign@main
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@923ad837f191474af6b1721408744feb989a4c27 # v4
-        if: ${{ steps.create_pr.outputs.create_pr == 'true' }}
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'docs: update changelog'
-          title: 'docs: update changelog'
-          body: update changelog
-          labels: docs, automated pr
-          branch: update-changelog
-          base: main
-          delete-branch: true
+      # - name: Create Pull Request
+      #   uses: peter-evans/create-pull-request@923ad837f191474af6b1721408744feb989a4c27 # v4
+      #   if: ${{ steps.create_pr.outputs.create_pr == 'true' }}
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     commit-message: 'docs: update changelog'
+      #     title: 'docs: update changelog'
+      #     body: update changelog
+      #     labels: docs, automated pr
+      #     branch: update-changelog
+      #     base: main
+      #     delete-branch: true
