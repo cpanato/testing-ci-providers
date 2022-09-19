@@ -21,5 +21,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("exec: %v\n", out.String())
+	fmt.Printf("cmd exec: %v\n", out.String())
 }
