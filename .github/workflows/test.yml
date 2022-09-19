@@ -4,6 +4,14 @@ on:
   pull_request:
     branches: [ 'main', 'release-*' ]
   push:
+    paths:
+     - '**'
+     - '!**.md'
+     - '!doc/**'
+     - '!**.txt'
+     - '!images/**'
+     - '!LICENSE'
+     - 'test/**'
     branches: [ 'main', 'release-*' ]
 
 jobs:
