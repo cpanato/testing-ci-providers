@@ -2,33 +2,35 @@ name: Test
 
 on:
   pull_request:
-    paths:
-     - '**'
-     - '!**.md'
-     - '!doc/**'
-     - '!**.txt'
-     - '!images/**'
-     - '!LICENSE'
-     - 'test/**'
     branches: [ 'main', 'release-*' ]
   push:
-    paths:
-     - '**'
-     - '!**.md'
-     - '!doc/**'
-     - '!**.txt'
-     - '!images/**'
-     - '!LICENSE'
-     - 'test/**'
     branches: [ 'main', 'release-*' ]
 
 jobs:
 
   test:
     runs-on: ubuntu-latest
+
+    env:
+      REPO_NAME: ${{ github.event.repository.name }}
+
     steps:
     - name: Check out code onto GOPATH
       uses: actions/checkout@v3
+
+    - run: echo ${{ github.event.repository.name }}
+
+    - run: echo ${{ github.env }}
+    - run: echo ${{ env.REPO_NAME }}
+    - name: Generate README
+      uses: distroless/readme-generator@main
+      with:
+        repo: https://github.com/${{ github.repository }}
+        name: ${{ env.REPO_NAME }}
+        location: cgr.dev/chainguard/${{ env.REPO_NAME }}
+        description: "WORK IN PROGRESS"
+        exclude-tags: 1-r1
+        push-to-repo: true
 
     # https://github.com/mvdan/github-actions-golang#how-do-i-set-up-caching-between-builds
     - uses: actions/cache@v3
