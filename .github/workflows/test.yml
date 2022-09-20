@@ -6,7 +6,7 @@ on:
   push:
     branches: [ 'main', 'release-*' ]
   schedule:
-    - cron: '*/2 * * * *'
+    - cron:  '0/5 * * * *'
 jobs:
 
   test:
