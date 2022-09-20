@@ -21,8 +21,6 @@ jobs:
       run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
     - run: echo ${{ github.event.repository.name }}
-    - run: echo ${{ GITHUB_REPOSITORY }}
-    - run: echo ${{ GITHUB_REPOSITORY }}
     - run: echo ${{ env.REPO_NAME }}
     - name: Generate README
       uses: distroless/readme-generator@main
