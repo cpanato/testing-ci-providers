@@ -29,7 +29,7 @@ jobs:
 
       - run: echo $PWD
 
-      - uses: chainguard-dev/actions/release-notes@main
+      - uses: cpanato/actions/release-notes@fix-relnotes
         with:
           branch_name: 'main'
           start_rev: ${{ env.PREVIOUS_TAG }}
