@@ -1,16 +1,12 @@
 name: release-notes
-on:
-  workflow_dispatch:
-    inputs:
-      start_rev:
-        required: true
-      end_rev:
-        required: true
 
+on:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   release-notes:
-
 
     permissions:
       contents: write
@@ -24,10 +20,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: chainguard-dev/actions/release-notes@update-release-notes
+      - name: Get previous tag
+        run: echo "PREVIOUS_TAG=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_ENV
+
+      - name: Get current tag
+        run: echo "CURRENT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Checkout main branch
+        run: git checkout main
+
+      - uses: chainguard-dev/actions/release-notes@main
         with:
           branch_name: 'main'
-          start_rev: ${{ github.event.inputs.start_rev }}
-          end_rev: ${{ github.event.inputs.end_rev }}
+          start_rev: ${{ env.PREVIOUS_TAG }}
+          end_rev: ${{ env.CURRENT_TAG }}
           changelog_filename:  'CHANGELOG.md'
           token: ${{ secrets.GITHUB_TOKEN }}
