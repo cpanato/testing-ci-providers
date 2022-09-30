@@ -27,8 +27,7 @@ jobs:
       - name: Get current tag
         run: echo "CURRENT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-      - name: Checkout main branch
-        run: git checkout main && git pull origin main
+      - run: echo $PWD
 
       - uses: chainguard-dev/actions/release-notes@main
         with:
