@@ -18,7 +18,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          ref: main
 
       - name: Get previous tag
         run: echo "PREVIOUS_TAG=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_ENV
@@ -26,8 +26,8 @@ jobs:
       - name: Get current tag
         run: echo "CURRENT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-      - name: Checkout main branch
-        run: git checkout main && git pull origin main
+      # - name: Checkout main branch
+      #   run: git checkout main && git pull origin main
 
       - uses: chainguard-dev/actions/release-notes@main
         with:
