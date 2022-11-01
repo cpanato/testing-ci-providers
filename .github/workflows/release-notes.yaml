@@ -31,6 +31,8 @@ jobs:
 
       - run: echo $GIT_COMMIT
 
+      - run: mkdir -p ./drop
+
       - name: "Download artifact"
         working-directory: "./drop/"
         run: |
