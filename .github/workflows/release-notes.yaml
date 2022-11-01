@@ -31,6 +31,17 @@ jobs:
 
       - run: echo $GIT_COMMIT
 
+      - name: "Download artifact"
+        working-directory: "./drop/"
+        run: |
+          REPO="test/mono"
+          WF_NAME="Provision Prod Infrastructure (enforce.dev)"
+          ARTIFACT_NAME="drop-${{ env.DOMAIN }}-${{ env.GIT_COMMIT }}"
+          RUN_ID=`gh run --repo ${REPO} list --workflow ${WF_NAME} --json databaseId --jq '.[0].databaseId'`
+          gh run --repo ${REPO} download ${RUN_ID} -n ${ARTIFACT_NAME}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       # - uses: cpanato/actions/release-notes@fix-relnotes
       #   with:
       #     branch_name: 'main'
