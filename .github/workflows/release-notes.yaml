@@ -26,12 +26,15 @@ jobs:
       - name: Get current tag
         run: echo "CURRENT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-      - run: echo $PWD
+      - name: Get commit from tag
+        run: echo "GIT_COMMIT=$(git rev-list -n1 "${{ env.CURRENT_TAG }}")" >> "$GITHUB_ENV"
 
-      - uses: cpanato/actions/release-notes@fix-relnotes
-        with:
-          branch_name: 'main'
-          start_rev: ${{ env.PREVIOUS_TAG }}
-          end_rev: ${{ env.CURRENT_TAG }}
-          changelog_filename:  'CHANGELOG.md'
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo $GIT_COMMIT
+
+      # - uses: cpanato/actions/release-notes@fix-relnotes
+      #   with:
+      #     branch_name: 'main'
+      #     start_rev: ${{ env.PREVIOUS_TAG }}
+      #     end_rev: ${{ env.CURRENT_TAG }}
+      #     changelog_filename:  'CHANGELOG.md'
+      #     token: ${{ secrets.GITHUB_TOKEN }}
