@@ -8,30 +8,18 @@ on:
 
 jobs:
 
-  test:
+  build:
+    name: Build Drop
     runs-on: ubuntu-latest
 
     steps:
     - name: Check out code onto GOPATH
       uses: actions/checkout@v3
 
-    - run: sleep 300
+    - run: sleep 100
 
     - name: get epository name
       run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-
-    # https://github.com/mvdan/github-actions-golang#how-do-i-set-up-caching-between-builds
-    - uses: actions/cache@v3
-      with:
-        # In order:
-        # * Module download cache
-        # * Build cache (Linux)
-        path: |
-          ~/go/pkg/mod
-          ~/.cache/go-build
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-go-
 
     - name: Set up Go 1.17.x
       uses: actions/setup-go@v3
@@ -41,10 +29,3 @@ jobs:
 
     - run: |
         go test -race $(go list ./...)
-
-    - uses: nick-fields/retry@v2
-      with:
-        timeout_seconds: 15
-        max_attempts: 3
-        retry_on: error
-        command: exit 1

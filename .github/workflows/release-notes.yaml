@@ -37,7 +37,7 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.2.0
         with:
           ref: main
-          check-name: test
+          check-name: 'build / Build Drop'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 20
 
