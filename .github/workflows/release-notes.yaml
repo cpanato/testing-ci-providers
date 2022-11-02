@@ -32,6 +32,15 @@ jobs:
       - name: Get commit from tag
         run: echo "GIT_COMMIT=$(git rev-list -n1 "${{ env.CURRENT_TAG }}")" >> "$GITHUB_ENV"
 
+
+      - name: Wait for tests to succeed
+        uses: lewagon/wait-on-check-action@v1.2.0
+        with:
+          ref: main
+          check-name: Test
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 20
+
       - run: echo $GIT_COMMIT
 
       - run: mkdir -p ./drop
