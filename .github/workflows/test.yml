@@ -20,18 +20,6 @@ jobs:
     - name: get epository name
       run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-    - run: echo ${{ github.event.repository.name }}
-    - run: echo ${{ env.REPO_NAME }}
-    - name: Generate README
-      uses: distroless/readme-generator@main
-      with:
-        repo: https://github.com/${{ github.repository }}
-        name: ${{ env.REPO_NAME }}
-        location: cgr.dev/chainguard/${{ env.REPO_NAME }}
-        description: "WORK IN PROGRESS"
-        exclude-tags: 1-r1
-        push-to-repo: true
-
     # https://github.com/mvdan/github-actions-golang#how-do-i-set-up-caching-between-builds
     - uses: actions/cache@v3
       with:
