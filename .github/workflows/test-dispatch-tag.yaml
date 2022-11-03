@@ -1,0 +1,49 @@
+name: release-notes
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "what tag to use to build chainctl"
+        type: string
+        default: ""
+        required: true
+jobs:
+  release-notes:
+
+    permissions:
+      contents: write
+      id-token: write
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: checkout to tag if needed
+        if: ${{ github.event_name == 'workflow_dispatch'}}
+        run: git checkout ${{ github.event.inputs.environment }}
+
+      - name: Get previous tag
+        run: echo "PREVIOUS_TAG=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_ENV
+
+      - name: Get current tag
+        if: ${{ github.event_name != 'workflow_dispatch'}}
+        run: echo "CURRENT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Get current tag
+        if: ${{ github.event_name == 'workflow_dispatch'}}
+        run: echo "CURRENT_TAG=${{ github.event.inputs.environment }} >> $GITHUB_ENV
+
+      - name: donmainb
+        run: echo "DOMAIN=test.dev" >> $GITHUB_ENV
+
+      - name: Get commit from tag
+        run: echo "GIT_COMMIT=$(git rev-list -n1 "${{ env.CURRENT_TAG }}")" >> "$GITHUB_ENV"
+
+      - run: echo "${GIT_COMMIT} and ${CURRENT_TAG} and ${PREVIOUS_TAG} - ${DOMAIN}
