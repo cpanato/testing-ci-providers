@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: checkout to tag if needed
         if: ${{ github.event_name == 'workflow_dispatch'}}
