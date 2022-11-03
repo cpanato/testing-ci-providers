@@ -46,4 +46,4 @@ jobs:
       - name: Get commit from tag
         run: echo "GIT_COMMIT=$(git rev-list -n1 "${{ env.CURRENT_TAG }}")" >> "$GITHUB_ENV"
 
-      - run: echo "${GIT_COMMIT} and ${CURRENT_TAG} and ${PREVIOUS_TAG} - ${DOMAIN}
+      - run: echo "${GIT_COMMIT} and ${CURRENT_TAG} and ${PREVIOUS_TAG} - ${DOMAIN}"
