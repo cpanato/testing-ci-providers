@@ -1,0 +1,31 @@
+name: Sync Org Labels
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/sync-labels.yaml
+      - labels.json
+      - repos.yaml
+  workflow_dispatch:
+
+jobs:
+  sync-labels:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.PAT_GITHUB}}
+          script: |
+            const yaml = require('js-yaml');
+            const fs = require('fs');
+            try {
+                const config = yaml.safeLoad(fs.readFileSync(`${process.env.GITHUB_WORKSPACE}/repos.yaml`, 'utf8'));
+                for (const repo of config.repos) {
+                    console.log(repo);
+                }
+            } catch (e) {
+                console.log(e);
+            }
