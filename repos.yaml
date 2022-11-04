@@ -1,4 +1,4 @@
 ---
 repos:
-  - actions
-  - test
+  - testing-ci-providers
+  - testing-go-actions
