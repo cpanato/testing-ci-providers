@@ -19,13 +19,5 @@ jobs:
         with:
           github-token: ${{secrets.PAT_GITHUB}}
           script: |
-            const yaml = require('js-yaml');
-            const fs = require('fs');
-            try {
-                const config = yaml.safeLoad(fs.readFileSync(`${process.env.GITHUB_WORKSPACE}/repos.yaml`, 'utf8'));
-                for (const repo of config.repos) {
-                    console.log(repo);
-                }
-            } catch (e) {
-                console.log(e);
-            }
+            const repos = require(`${process.env.GITHUB_WORKSPACE}/repos.yaml`);
+            console.log(repos);
