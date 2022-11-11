@@ -13,7 +13,7 @@ before:
 builds:
   - env:
       - CGO_ENABLED=0
-    binary: test_{{ .Os }}_{{ .Arch }}
+    binary: test_{{ .Os }}_{{ .Arch }}{{ with .Arm }}_{{ . }}{{ end }}
     goos:
       - linux
       - darwin
@@ -47,7 +47,6 @@ signs:
       - "--output-signature=${artifact}.sig"
       - "--output-certificate=${artifact}.cert.pem"
       - "${artifact}"
-
 
 archives:
   - format: binary
