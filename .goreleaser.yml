@@ -1,5 +1,9 @@
 project_name: testing-things
 
+env:
+  - API_ENDPOINT={{ if index .Env "API_ENDPOINT"}}{{ .Env.API_ENDPOINT }}{{ else }}test{{ end }}
+
+
 snapshot:
   name_template: '{{ .Tag }}-SNAPSHOT'
 
@@ -10,27 +14,41 @@ before:
 builds:
   - env:
       - CGO_ENABLED=0
+    binary: test_{{ .Os }}_{{ .Arch }}
     goos:
       - linux
-      - windows
       - darwin
+      - windows
     goarch:
       - amd64
+      - arm64
+      - arm
+    goarm:
+      - "6"
+      - "7"
 
 signs:
-  - signature: "${artifact}.sig"
-    cmd: cosign
-    args: ["sign-blob", "-output", "${artifact}.sig", "-key", "cosign.key", "${artifact}"]
+  - id: binary
     artifacts: binary
-    stdin: "{{ .Env.COSIGN_PASSWORD }}"
+    signature: "${artifact}.sig"
+    certificate: "${artifact}.cert.pem"
+    cmd: cosign
+    args:
+      - sign-blob
+      - "--output-signature=${artifact}.sig"
+      - "--output-certificate=${artifact}.cert.pem"
+      - "${artifact}"
+  - id: checksum
+    artifacts: checksum
+    signature: "${artifact}.sig"
+    certificate: "${artifact}.cert.pem"
+    cmd: cosign
+    args:
+      - sign-blob
+      - "--output-signature=${artifact}.sig"
+      - "--output-certificate=${artifact}.cert.pem"
+      - "${artifact}"
 
-announce:
-  mattermost:
-    enabled: true
-    icon_url: https://goreleaser.com/static/logo.png
 
 archives:
   - format: binary
-# release:
-#   extra_files:
-#     - glob: dist/*.sig

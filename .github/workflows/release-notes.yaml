@@ -5,14 +5,12 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
-    
 
 jobs:
-  release-notes:
+  release-go:
 
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
       id-token: write
 
     runs-on: ubuntu-latest
@@ -22,46 +20,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get previous tag
-        run: echo "PREVIOUS_TAG=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_ENV
+      - uses: sigstore/cosign-installer@v2
 
-      - name: Get current tag
-        run: echo "CURRENT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-
-      - name: donmainb
-        run: echo "DOMAIN=test.dev" >> $GITHUB_ENV
-
-      - name: Get commit from tag
-        run: echo "GIT_COMMIT=$(git rev-list -n1 "${{ env.CURRENT_TAG }}")" >> "$GITHUB_ENV"
-
-
-      - name: Wait for tests to succeed
-        uses: lewagon/wait-on-check-action@v1.2.0
+      - name: Set up Go
+        uses: actions/setup-go@v3
         with:
-          ref: main
-          check-name: 'Build Drop'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 20
+          go-version: 1.19
+          check-latest: true
 
-      - run: echo $GIT_COMMIT
-
-      - run: mkdir -p ./drop
-
-      - name: "Download artifact"
-        working-directory: "./drop/"
-        run: |
-          REPO="test/mono"
-          WF_NAME="Provision Prod Infrastructure (enforce.dev)"
-          ARTIFACT_NAME="drop-${{ env.DOMAIN }}-${{ env.GIT_COMMIT }}"
-          RUN_ID=$(gh run --repo "${REPO}" list --workflow "${WF_NAME}" --json databaseId --jq '.[0].databaseId')
-          gh run --repo ${REPO} download ${RUN_ID} -n ${ARTIFACT_NAME}
+      - name: Release chainctl with goreleaser
+        uses: goreleaser/goreleaser-action@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - uses: cpanato/actions/release-notes@fix-relnotes
-      #   with:
-      #     branch_name: 'main'
-      #     start_rev: ${{ env.PREVIOUS_TAG }}
-      #     end_rev: ${{ env.CURRENT_TAG }}
-      #     changelog_filename:  'CHANGELOG.md'
-      #     token: ${{ secrets.GITHUB_TOKEN }}
+          API_ENDPOINT: "https://api.${{ inputs.domain }}"
+          CONSOLE_ENDPOINT: "https://console-ui.${{ inputs.domain }}"
+          ISSUER_ENDPOINT: "https://issuer.${{ inputs.domain }}"
+          CANARY_ENDPOINT: "https://canary.${{ inputs.domain }}"
+          RELEASE_BUCKET: "${{ inputs.release_bucket }}"
+        with:
+          version: latest
+          args: release --rm-dist
