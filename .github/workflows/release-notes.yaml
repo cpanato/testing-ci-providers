@@ -36,6 +36,7 @@ jobs:
           ISSUER_ENDPOINT: "https://issuer.${{ inputs.domain }}"
           CANARY_ENDPOINT: "https://canary.${{ inputs.domain }}"
           RELEASE_BUCKET: "${{ inputs.release_bucket }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           version: latest
           args: release --rm-dist
