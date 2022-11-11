@@ -10,7 +10,7 @@ jobs:
   release-go:
 
     permissions:
-      contents: read
+      contents: write
       id-token: write
 
     runs-on: ubuntu-latest
