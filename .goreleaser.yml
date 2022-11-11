@@ -2,8 +2,7 @@ project_name: testing-things
 
 env:
   - API_ENDPOINT={{ if index .Env "API_ENDPOINT"}}{{ .Env.API_ENDPOINT }}{{ else }}test{{ end }}
-
-
+  - COSIGN_EXPERIMENTAL=true
 snapshot:
   name_template: '{{ .Tag }}-SNAPSHOT'
 
