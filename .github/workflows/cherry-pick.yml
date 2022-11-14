@@ -14,11 +14,11 @@ jobs:
   cherry-pick:
     permissions:
       contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: cherry-pick
-        uses: cpanato/cherry-pick-action@main
+      - uses: cpanato/cherry-pick-action@main
         with:
           pull_number: ${{ inputs.pull_request_number }}
           to_branch: ${{ inputs.to_branch }}
