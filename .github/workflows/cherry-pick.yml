@@ -1,0 +1,24 @@
+name: cherry-pick
+on:
+  workflow_dispatch:
+    inputs:
+      pull_request_number:
+        type: string
+        default: ""
+        required: true
+      to_branch:
+        type: string
+        default: ""
+        required: true
+jobs:
+  cherry-pick:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: cherry-pick
+        uses: cpanato/cherry-pick-action@main
+        with:
+          pull_number: ${{ inputs.pull_request_number }}
+          to_branch: ${{ inputs.to_branch }}
+          token: ${{ secrets.GITHUB_TOKEN }}
