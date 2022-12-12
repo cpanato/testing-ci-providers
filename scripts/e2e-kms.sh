@@ -1,5 +1,6 @@
 set -ex
 
+ls -la
 pushd cosign
 go build -o cosign ./cmd/cosign
 go build -o sget ./cmd/sget
