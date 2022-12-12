@@ -21,6 +21,7 @@ TEST_KMS=${TEST_KMS:-hashivault://transit}
 # (crane delete $(./cosign triangulate $img)) || true
 COSIGN_KMS=$TEST_KMS ./cosign generate-key-pair
 signing_key=$TEST_KMS
+verification_key=cosign.pub
 
 if (./cosign verify --key ${verification_key} $img); then false; fi
 COSIGN_KEY=${signing_key} ./cosign sign --tlog-upload=true $img
