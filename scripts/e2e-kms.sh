@@ -23,17 +23,17 @@ COSIGN_KMS=$TEST_KMS ./cosign generate-key-pair
 signing_key=$TEST_KMS
 
 if (./cosign verify --key ${verification_key} $img); then false; fi
-COSIGN_KEY=${signing_key} ./cosign sign $img
+COSIGN_KEY=${signing_key} ./cosign sign --tlog-upload=true $img
 COSIGN_KEY=${verification_key} ./cosign verify $img
 
 if (./cosign verify -a foo=bar --key ${verification_key} $img); then false; fi
-COSIGN_KEY=${signing_key} ./cosign sign -a foo=bar $img
+COSIGN_KEY=${signing_key} ./cosign sign -a foo=bar --tlog-upload=true $img
 COSIGN_KEY=${verification_key} ./cosign verify -a foo=bar $img
 
 # store signatures in a different repo
 export COSIGN_REPOSITORY=${TEST_INSTANCE_REPO}/subbedrepo
 # (crane delete $(./cosign triangulate $img)) || true
-COSIGN_KEY=${signing_key} ./cosign sign $img
+COSIGN_KEY=${signing_key} ./cosign sign --tlog-upload=true $img
 COSIGN_KEY=${verification_key} ./cosign verify $img
 unset COSIGN_REPOSITORY
 
