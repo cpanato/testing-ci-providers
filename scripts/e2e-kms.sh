@@ -8,7 +8,7 @@ tmp=$(mktemp -d -t cosign-e2e-secrets.XXXXXX)
 cp cosign $tmp/
 cp sget $tmp/
 
-pushd $tmp
+cd $tmp
 
 pass="$RANDOM"
 export COSIGN_PASSWORD=$pass
