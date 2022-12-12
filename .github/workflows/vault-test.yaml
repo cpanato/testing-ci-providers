@@ -1,0 +1,31 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    container:
+      image: "golang:1.19"
+    services:
+      vault:
+        image: hashicorp/vault:latest
+        env:
+          VAULT_DEV_ROOT_TOKEN_ID: root
+        options: >-
+          --health-cmd "VAULT_ADDR=http://127.0.0.1:8200 vault status"
+          --health-interval 1s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      VAULT_TOKEN: "root"
+      VAULT_ADDR: "http://vault:8200"
+    steps:
+      - uses: actions/checkout@v3
+      - name: enable vault transit
+        run: vault secrets enable transit
+      - name: Acceptance Tests
+        run: |
+          ./scripts/e2e-kms.sh
