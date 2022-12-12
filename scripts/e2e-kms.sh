@@ -4,7 +4,7 @@ ls -la
 cd  ${PWD}/cosign
 go build -o cosign ./cmd/cosign
 go build -o sget ./cmd/sget
-tmp=$(mktemp -d -t cosign-e2e-secrets.XXXX)
+tmp=$(mktemp -d -t cosign-e2e-secrets.XXXXXX)
 cp cosign $tmp/
 cp sget $tmp/
 
