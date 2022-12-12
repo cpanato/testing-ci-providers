@@ -22,7 +22,7 @@ crane cp busybox "${img}"
 
 ## KMS using env variables!
 TEST_KMS=${TEST_KMS:-hashivault://transit}
-# (crane delete $(./cosign triangulate $img)) || true
+(crane delete $(./cosign triangulate $img)) || true
 COSIGN_KMS=$TEST_KMS ./cosign generate-key-pair
 signing_key=$TEST_KMS
 verification_key=cosign.pub
@@ -37,7 +37,7 @@ COSIGN_KEY=${verification_key} ./cosign verify -a foo=bar $img
 
 # store signatures in a different repo
 export COSIGN_REPOSITORY=${TEST_INSTANCE_REPO}/subbedrepo
-# (crane delete $(./cosign triangulate $img)) || true
+(crane delete $(./cosign triangulate $img)) || true
 COSIGN_KEY=${signing_key} ./cosign sign --tlog-upload=true $img
 COSIGN_KEY=${verification_key} ./cosign verify $img
 unset COSIGN_REPOSITORY
@@ -45,7 +45,7 @@ unset COSIGN_REPOSITORY
 # test stdin interaction for private key password
 stdin_password=${COSIGN_PASSWORD}
 unset COSIGN_PASSWORD
-# (crane delete $(./cosign triangulate $img)) || true
+(crane delete $(./cosign triangulate $img)) || true
 echo $stdin_password | ./cosign sign --key ${signing_key} --output-signature interactive.sig  $img
 COSIGN_KEY=${verification_key} COSIGN_SIGNATURE=interactive.sig ./cosign verify $img
 export COSIGN_PASSWORD=${stdin_password}
