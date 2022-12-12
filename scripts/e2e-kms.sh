@@ -1,6 +1,7 @@
+#!/usr/bin/env bash
+
 set -ex
 
-ls -la
 cd  ${PWD}/cosign
 go build -o cosign ./cmd/cosign
 go build -o sget ./cmd/sget
@@ -15,6 +16,9 @@ export COSIGN_PASSWORD=$pass
 
 BASE_TEST_REPO=${BASE_TEST_REPO:-ttl.sh/cosign-ci}
 TEST_INSTANCE_REPO="${BASE_TEST_REPO}/$(date +'%Y/%m/%d')/$RANDOM"
+
+img="${TEST_INSTANCE_REPO}/test-${RANDOM}"
+crane cp busybox "${img}"
 
 ## KMS using env variables!
 TEST_KMS=${TEST_KMS:-hashivault://transit}
