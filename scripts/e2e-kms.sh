@@ -1,7 +1,7 @@
 set -ex
 
 ls -la
-pushd cosign
+cd  ${PWD}/cosign
 go build -o cosign ./cmd/cosign
 go build -o sget ./cmd/sget
 tmp=$(mktemp -d -t cosign-e2e-secrets.XXXX)
