@@ -7,7 +7,7 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     container:
-      image: "golang:1.19"
+      image: "golang:1.19-alpine"
     services:
       vault:
         image: hashicorp/vault:latest
