@@ -34,7 +34,7 @@ jobs:
         with:
           version: '~1.4'
 
-      - run: apk add bash jq
+      - run: apk add bash jq curl
 
       - uses: imjasonh/setup-crane@e82f1b9a8007d399333baba4d75915558e9fb6a4 # v0.2
 
