@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      checkout_ref:
+        required: false
+        type: string
+        default: ''
+        description: 'Commit ref (sha, branch, or tag) to run at.'
+  push:
+    tags:
+      - 'v*'
+
+
+jobs:
+  validate-ref:
+    name: validate-ref
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+    steps:
+      - run: |
+          echo "DEFAULT_TAG=${GITHUB_REF#refs/*/}" >> "$GITHUB_ENV"
+      - id: tag
+        run: |
+          TAG=${{ github.event.inputs.checkout_ref || env.DEFAULT_TAG }}
+          # Expect ref to be of the format v0.0.0*. Example: v0.0.37, v0.0.7-x
+          if [[ ! "${{ inputs.checkout_ref }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+.*$ ]]; then
+            echo "${{ inputs.checkout_ref }} does not match tag pattern, please use a release tag."
+          if [[ ! "${TAG}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+.*$ ]]; then
+            echo "${TAG} does not match tag pattern, please use a release tag."
+            exit 1
+          fi
+          echo ${TAG}
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
