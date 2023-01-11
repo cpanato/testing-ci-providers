@@ -18,16 +18,13 @@ jobs:
       - uses: cpanato/setup-zeitgeist@6ac024d7412af63e758009740c188a9fd0033d9b # v0.0.1
 
       - run: |
-          zeitgeist version
-          zeitgeist -h
-          ls -la
           zeitgeist export --config external-dependencies.yaml --output-file out.yaml --output-format yaml
           if grep -q "\\[\\]" out.yaml; then
             exit 0;
           fi
-          ls -la
-          echo 'OUTDATED_DEPENDENCIES=<<EOF' >> $GITHUB_ENV
-          cat out.yaml >> $GITHUB_ENV
+          OUTDATED_DEPENDENCIES="$(cat out.yaml)"
+          echo 'OUTDATED_DEPENDENCIES<<EOF' >> $GITHUB_ENV
+          echo "$OUTDATED_DEPENDENCIES" >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
       - name: Create an issue
