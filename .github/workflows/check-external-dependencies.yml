@@ -26,9 +26,9 @@ jobs:
             exit 0;
           fi
           ls -la
-          DEP=$(cat out.yaml)
-          echo $DEP
-          echo "DEP=$DEP" >> $GITHUB_ENV
+          echo 'OUTDATED_DEPENDENCIES=<<EOF' >> $GITHUB_ENV
+          cat out.yaml >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
 
       - name: Create an issue
         uses: actions-ecosystem/action-create-issue@b02a3c1d9d929a5839315bd255e40389f0dab627 # v1.0.0
@@ -39,5 +39,5 @@ jobs:
             ## New External Dependencies Images available
 
             ```yaml
-            ${{ env.DEP }}
+            ${{ env.OUTDATED_DEPENDENCIES }}
             ````
