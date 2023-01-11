@@ -18,6 +18,9 @@ jobs:
       - uses: cpanato/setup-zeitgeist@6ac024d7412af63e758009740c188a9fd0033d9b # v0.0.1
 
       - run: |
+          zeitgeist version
+          zeitgeist -h
+          ls -la
           zeitgeist export --config external-dependencies.yaml --output-file out.yaml --output-format yaml
           if grep -q "\\[\\]" out.yaml; then
             exit 0;
