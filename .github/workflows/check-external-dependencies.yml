@@ -26,6 +26,7 @@ jobs:
             exit 0;
           fi
           ls -la
+          echo "DEP=$(cat out.yaml)" >> $GITHUB_ENV
 
       - name: Create an issue
         uses: actions-ecosystem/action-create-issue@b02a3c1d9d929a5839315bd255e40389f0dab627 # v1.0.0
