@@ -1,0 +1,34 @@
+name: check files2
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  presubmit-matrix:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+    - id: files
+      uses: jitterbit/get-changed-files@b17fbb00bdc0c0f63fcf166580804b4d2cdc2a42 # v1
+      with:
+        format: csv
+
+    # - name: Get changed files
+    #   id: changed-files
+    #   uses: tj-actions/changed-files@v35
+
+    # - name: List all changed files
+    #   run: |
+    #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+    #       echo "$file was changed"
+    #     done
+    - run: echo ${{ steps.files.outputs.all }}
