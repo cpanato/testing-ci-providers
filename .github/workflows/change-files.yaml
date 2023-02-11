@@ -15,18 +15,14 @@ jobs:
 
     steps:
     - run: pwd
-    - run: mkdir -p ${{ github.workspace }}/new-folder
-    - run: touch ${{ github.workspace }}/new-folder/a.txt
-    - run: ls -la && ls -la ${{ github.workspace }}/new-folder
+    - run: mkdir -p ${{ github.workspace }}/../new-folder
+    - run: touch ${{ github.workspace }}/../new-folder/a.txt
+    - run: ls -la && ls -la ${{ github.workspace }}/../ && ls -la ${{ github.workspace }}/../new-folder
     - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
       with:
         ref: ${{ github.event.pull_request.head.sha }}
-        clean: false
-        path: ../
 
-    - run: ls -la && ls -la ${{ github.workspace }}/new-folder
-
-
+    - run: ls -la && ls -la ${{ github.workspace }}/../ && ls -la ${{ github.workspace }}/../new-folder
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v35
