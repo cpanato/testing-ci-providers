@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - run: pwd
     - run: mkdir -p ${{ github.workspace }}/new-folder
     - run: touch ${{ github.workspace }}/new-folder/a.txt
     - run: ls -la && ls -la ${{ github.workspace }}/new-folder
@@ -21,6 +22,7 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.sha }}
         clean: false
+        path: ../
 
     - run: ls -la && ls -la ${{ github.workspace }}/new-folder
 
