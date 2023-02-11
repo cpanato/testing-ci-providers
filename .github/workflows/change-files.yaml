@@ -14,13 +14,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - run: mkdir -p ${{ env.GITHUB_WORKSPACE }}/new-folder
+    - run: touch ${{ env.GITHUB_WORKSPACE }}/new-folder/a.txt
+    - run: ls -la && ls -la ${{ env.GITHUB_WORKSPACE }}/new-folder
     - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
       with:
         ref: ${{ github.event.pull_request.head.sha }}
-    # - id: files
-    #   uses: jitterbit/get-changed-files@b17fbb00bdc0c0f63fcf166580804b4d2cdc2a42 # v1
-    #   with:
-    #     format: csv
+
+    - run: ls -la && ls -la ${{ env.GITHUB_WORKSPACE }}/new-folder
+
 
     - name: Get changed files
       id: changed-files
