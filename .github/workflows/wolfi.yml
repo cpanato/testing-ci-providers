@@ -25,4 +25,4 @@ jobs:
         uses: docker://ghcr.io/wolfi-dev/wolfictl:latest
         with:
           entrypoint: /bin/bash
-          args: -c "git config --list > test.txt && ls -la && head test.txt"
+          args: -c "git config --global user.email "test@example.com" && git config --list > test.txt && ls -la && head test.txt"
