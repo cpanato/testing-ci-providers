@@ -25,4 +25,4 @@ jobs:
         uses: docker://ghcr.io/wolfi-dev/wolfictl:latest
         with:
           entrypoint: /bin/bash
-          run: git config -l
+          run: git config --list > test && cat test
