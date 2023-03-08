@@ -7,7 +7,6 @@ import (
 	"log"
 	"os/exec"
 
-	"github.com/google/go-containerregistry/cmd/crane"
 	"github.com/google/go-containerregistry/pkg/crane"
 	"github.com/google/go-github/v50/github"
 )
