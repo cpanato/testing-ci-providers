@@ -21,9 +21,9 @@ jobs:
 
           REPO=${{ github.repository }}
 
-          if [[ ${{ github.event.pull_request.number }} -eq 0 ]]; then
+          if [[ "${{ github.event.pull_request }}" == "" ]]; then
             BRANCH="main"
-            echo "Fetching list of cache key - $REPO/$BRANCH"
+            echo "Fetching list of cache key - $REPO - $BRANCH"
             # keep the last cache because that one is the current
             cacheKeysForPR=$(gh actions-cache list -R $REPO -B $BRANCH --sort last-used --order asc | cut -f 1 | head -n -1)
           else
