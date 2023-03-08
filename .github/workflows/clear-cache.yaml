@@ -1,12 +1,16 @@
 name: cleanup caches by a branch
 on:
-  pull_request:
+  pull_request_target:
     types:
       - closed
 
 jobs:
   cleanup:
     runs-on: ubuntu-latest
+
+    permissions:
+      actions: write
+
     steps:
       - name: Check out code
         uses: actions/checkout@v3
