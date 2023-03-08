@@ -7,6 +7,7 @@ import (
 	"log"
 	"os/exec"
 
+	"github.com/google/go-containerregistry/pkg/crane"
 	"github.com/google/go-github/v50/github"
 )
 
@@ -37,4 +38,10 @@ func main() {
 	for _, org := range orgs {
 		fmt.Println(org.Name)
 	}
+
+	dig, err := crane.Digest("docker.io/postgres")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(dig)
 }
