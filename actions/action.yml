@@ -12,7 +12,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - uses: imjasonh/setup-crane@v0.2
+  - uses: imjasonh/setup-crane@v0.3
   - shell: bash
     run: |
       while IFS= read -r -d '' file; do
