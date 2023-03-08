@@ -2,9 +2,12 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"log"
 	"os/exec"
+
+	"github.com/google/go-github/v50/github"
 )
 
 func main() {
@@ -22,4 +25,16 @@ func main() {
 	}
 
 	fmt.Printf("cmd exec: %v\n", out.String())
+
+	client := github.NewClient(nil)
+
+	// list all organizations for user "willnorris"
+	orgs, _, err := client.Organizations.List(context.Background(), "cpanato", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, org := range orgs {
+		fmt.Println(org.Name)
+	}
 }
