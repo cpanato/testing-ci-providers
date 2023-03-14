@@ -15,7 +15,7 @@ jobs:
       - name: Check out code onto GOPATH
         uses: actions/checkout@v3
 
-      - run: sudo apt-get update
+      - run: echo ${{ github.repository }} / ${{ github.repository_owner }}
 
       - name: get epository name
         run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
