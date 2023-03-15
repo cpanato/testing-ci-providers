@@ -40,14 +40,14 @@ jobs:
     strategy:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
-      # - name: Repository Dispatch
-      #   uses: peter-evans/repository-dispatch@v1
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     event-type: create-check
-      #     client-payload: '{"check": "${{ matrix.test-env }}-${{ matrix.istio-opt }}", "sha": "${{ github.sha }}"}'
-      - uses: ouzi-dev/commit-status-updater@v2
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
         with:
-          name: "${{ matrix.test-env }}-${{ matrix.istio-opt }}"
-          status: "success"
-          description: "${{ matrix.test-env }}-${{ matrix.istio-opt }} skipped!"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: create-check
+          client-payload: '{"check": "${{ matrix.test-env }}-${{ matrix.istio-opt }}", "sha": "${{ github.sha }}"}'
+      # - uses: ouzi-dev/commit-status-updater@v2
+      #   with:
+      #     name: "${{ matrix.test-env }}-${{ matrix.istio-opt }}"
+      #     status: "success"
+      #     description: "${{ matrix.test-env }}-${{ matrix.istio-opt }} skipped!"

@@ -8,9 +8,17 @@ jobs:
       statuses: write
     runs-on: ubuntu-latest
     steps:
-      - uses: cpanato/commit-status-updater@add-sha
+      # - uses: cpanato/commit-status-updater@add-sha
+      #   with:
+      #     name: " ${{ github.event.client_payload.check }}"
+      #     status: "success"
+      #     sha: ${{ github.event.client_payload.sha }}
+      #     description: " ${{ github.event.client_payload.check }} skipped!"
+      - name: Run the action # You would run your tests before this using the output to set state/desc
+        uses: Sibz/github-status-action@v1
         with:
-          name: " ${{ github.event.client_payload.check }}"
-          status: "success"
-          sha: ${{ github.event.client_payload.sha }}
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          context: " ${{ github.event.client_payload.check }}"
           description: " ${{ github.event.client_payload.check }} skipped!"
+          state: 'success'
+          sha: ${{ github.event.client_payload.sha }}
