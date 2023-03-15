@@ -18,9 +18,10 @@ jobs:
 
   job2:
     needs: job1
-    # if: ${{ needs.job1.outputs.nothing == true }}
+    if: ${{ needs.job1.outputs.nothing == 'true' }}
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
-      - run: echo "${{ matrix.include }}"
+      - run: echo ${{ fromJSON(needs.job1.outputs.matrix) }}
+
