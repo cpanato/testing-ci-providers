@@ -9,6 +9,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       nothing: ${{ steps.set-matrix.outputs.nothing }}
     steps:
+      - uses: actions/checkout@v3
       - id: set-matrix
         run: |
           cat m.json
