@@ -15,7 +15,7 @@ jobs:
           echo "matrix=$(cat m.json)" >> $GITHUB_OUTPUT
   job2:
     needs: job1
-    if: ${{ contains('null', needs.job1.outputs.matrix) }}
+    if: ${{ contains('null', fromJSON(needs.job1.outputs.matrix)) }}
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
