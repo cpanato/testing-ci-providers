@@ -34,8 +34,8 @@ jobs:
     needs: job1
     runs-on: ubuntu-latest
 
-    permissions:
-      statuses: write
+    # permissions:
+    #   statuses: write
 
     strategy:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
