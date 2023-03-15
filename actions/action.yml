@@ -40,7 +40,7 @@ runs:
         echo ::set-output name=create_pr::true
       fi
   - name: Create Pull Request
-    uses: peter-evans/create-pull-request@v4.2.3
+    uses: peter-evans/create-pull-request@v4.2.4
     if: ${{ steps.create_pr.outputs.create_pr == 'true' }}
     with:
       token: ${{ inputs.token }}
