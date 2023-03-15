@@ -1,1 +1,1 @@
-{"include":[{"test-env": "chainctl-e2e","istio-opt": "mesh"},{"test-env": "cosigned-e2e","istio-opt": "mesh"}]}
+{"include":null}
