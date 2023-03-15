@@ -39,9 +39,16 @@ jobs:
     strategy:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v1
+      # - name: Repository Dispatch
+      #   uses: peter-evans/repository-dispatch@v1
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     event-type: create-check
+      #     client-payload: '{"check": "${{ matrix.test-env }}-${{ matrix.istio-opt }}", "sha": "${{ github.sha }}"}'
+      - name: Report PHPUnit Starting
+        uses: dflydev/check-runs-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: create-check
-          client-payload: '{"check": "${{ matrix.test-env }}-${{ matrix.istio-opt }}", "sha": "${{ github.sha }}"}'
+          id: ${{ matrix.test-env }}-${{ matrix.istio-opt }}
+          status: completed
+          conclusion: skipped
