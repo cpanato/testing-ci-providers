@@ -15,10 +15,18 @@ jobs:
           echo "matrix=$(cat m.json)" >> $GITHUB_OUTPUT
   job2:
     needs: job1
-    if: ${{ contains('null', toJson(needs.job1.outputs.matrix)) }}
+    if: ${{ contains('{\"include\":null}', needs.job1.outputs.matrix) }}
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
       - run: echo ${{ fromJSON(needs.job1.outputs.matrix) }}
 
+  job3:
+    needs: job1
+    if: ${{ contains('{\"include\":null}', fromJSON(needs.job1.outputs.matrix)) }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
+    steps:
+      - run: echo ${{ fromJSON(needs.job1.outputs.matrix) }}
