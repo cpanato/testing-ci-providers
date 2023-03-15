@@ -50,4 +50,4 @@ jobs:
         with:
           name: "${{ matrix.test-env }}-${{ matrix.istio-opt }}"
           status: "success"
-          successComment: "${{ matrix.test-env }}-${{ matrix.istio-opt }} skipped!"
+          description: "${{ matrix.test-env }}-${{ matrix.istio-opt }} skipped!"
