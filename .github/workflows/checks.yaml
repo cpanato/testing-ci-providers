@@ -13,3 +13,6 @@ jobs:
           name: ${{ github.event.client_payload.check }}
           status: completed
           conclusion: neutral
+          sha: ${{ github.event.client_payload.sha }}
+          output: |
+            {"summary":"Test was a skipped","text_description":""}

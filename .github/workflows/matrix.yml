@@ -44,4 +44,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           event-type: create-check
-          client-payload: '{"check": "${{ matrix.test-env }}-${{ matrix.istio-opt }}"}'
+          client-payload: '{"check": "${{ matrix.test-env }}-${{ matrix.istio-opt }}", "sha": "${{ github.sha }}"}'
