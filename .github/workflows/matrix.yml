@@ -19,9 +19,10 @@ jobs:
   job2:
     needs: job1
     # if: ${{ needs.job1.outputs.nothing == 'true' }}
-    name: ${{ matrix.include.test-env}}-${{ matrix.include.istio-opt }}
+    name: ${{ matrix.test-env}}-${{ matrix.istio-opt }}
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
-      - run: echo ${{ needs.job1.outputs.matrix}}
+      - run: echo ${{ needs.job1.outputs.matrix }}
+      - run: echo ${{ matrix.istio-opt }}
