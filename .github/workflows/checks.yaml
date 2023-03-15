@@ -4,15 +4,13 @@ on:
     types: [create-check]
 jobs:
   create-check:
+    permissions:
+      statuses: writes
     runs-on: ubuntu-latest
     steps:
-      - uses: LouisBrunner/checks-action@v1.6.0
-        if: always()
+      - uses: cpanato/commit-status-updater@add-sha
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: ${{ github.event.client_payload.check }}
-          status: completed
-          conclusion: neutral
+          name: " ${{ github.event.client_payload.check }}"
+          status: "success"
           sha: ${{ github.event.client_payload.sha }}
-          output: |
-            {"summary":"Test was a skipped","text_description":""}
+          description: " ${{ github.event.client_payload.check }} skipped!"
