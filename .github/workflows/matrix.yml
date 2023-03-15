@@ -7,26 +7,21 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
+      # nothing: ${{ steps.set-matrix.outputs.nothing }}
     steps:
       - uses: actions/checkout@v3
       - id: set-matrix
         run: |
           cat m.json
           echo "matrix=$(cat m.json)" >> $GITHUB_OUTPUT
+          # echo "nothing=true" >> $GITHUB_OUTPUT
+
   job2:
     needs: job1
-    if: ${{ contains('{"include":null}', needs.job1.outputs.matrix) }}
+    # if: ${{ needs.job1.outputs.nothing == 'true' }}
+    name: ${{ matrix.include.test-env}}-${{ matrix.include.istio-opt }}
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
-      - run: echo ${{ fromJSON(needs.job1.outputs.matrix) }}
-
-  job3:
-    needs: job1
-    if: ${{ contains('{"include":null}', fromJSON(needs.job1.outputs.matrix)) }}
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
-    steps:
-      - run: echo ${{ fromJSON(needs.job1.outputs.matrix) }}
+      - run: echo ${{ needs.job1.outputs.matrix}}
