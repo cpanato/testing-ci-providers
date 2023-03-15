@@ -1,13 +1,16 @@
-name: build
-on: 
+name: matrix
+on:
   push:
+    branches:
+      - main
+  pull_request:
+
 
 jobs:
   job1:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
-      # nothing: ${{ steps.set-matrix.outputs.nothing }}
     steps:
       - uses: actions/checkout@v3
       - id: set-matrix
@@ -16,13 +19,29 @@ jobs:
           echo "matrix=$(cat m.json)" >> $GITHUB_OUTPUT
           # echo "nothing=true" >> $GITHUB_OUTPUT
 
-  job2:
+  # job2:
+  #   needs: job1
+  #   # if: ${{ needs.job1.outputs.nothing == 'false' }}
+  #   name: ${{ matrix.test-env}}-${{ matrix.istio-opt }}
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
+  #   steps:
+  #     - run: echo ${{ needs.job1.outputs.matrix }}
+  #     - run: echo ${{ matrix.istio-opt }}
+
+  trigger-checks:
     needs: job1
-    # if: ${{ needs.job1.outputs.nothing == 'true' }}
-    name: ${{ matrix.test-env}}-${{ matrix.istio-opt }}
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
     strategy:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
-      - run: echo ${{ needs.job1.outputs.matrix }}
-      - run: echo ${{ matrix.istio-opt }}
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: create-check
+          client-payload: '{"check": "${{ matrix.test-env }}-${{ matrix.istio-opt }}"}'
