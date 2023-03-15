@@ -35,7 +35,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write
+      statuses: write
+
     strategy:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
@@ -45,10 +46,8 @@ jobs:
       #     token: ${{ secrets.GITHUB_TOKEN }}
       #     event-type: create-check
       #     client-payload: '{"check": "${{ matrix.test-env }}-${{ matrix.istio-opt }}", "sha": "${{ github.sha }}"}'
-      - name: Report PHPUnit Starting
-        uses: dflydev/check-runs-action@v1
+      - uses: ouzi-dev/commit-status-updater@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: ${{ matrix.test-env }}-${{ matrix.istio-opt }}
-          status: completed
-          conclusion: skipped
+          name: "${{ matrix.test-env }}-${{ matrix.istio-opt }}"
+          status: "success"
+          successComment: "${{ matrix.test-env }}-${{ matrix.istio-opt }} skipped!"
