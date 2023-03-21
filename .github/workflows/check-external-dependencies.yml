@@ -33,9 +33,8 @@ jobs:
           # body-includes: ${{ env.OUTDATED_DEPENDENCIES }}
           title-includes: "test"
 
-      - run: echo ${{ steps.find-issue.outputs.issues }}
-
       - name: Create an issue
+        if: fromJSON(steps.find-issue.outputs.issues)[0] == null
         uses: actions-ecosystem/action-create-issue@b02a3c1d9d929a5839315bd255e40389f0dab627 # v1.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
