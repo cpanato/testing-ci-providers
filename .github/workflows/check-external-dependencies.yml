@@ -25,7 +25,7 @@ jobs:
           echo 'EOF' >> $GITHUB_ENV
 
       - name: Find issues
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper@main
         id: find-issue
         with:
           actions: 'find-issues'
