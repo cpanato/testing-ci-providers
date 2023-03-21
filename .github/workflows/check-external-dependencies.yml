@@ -2,9 +2,6 @@ name: Check External Dependencies
 
 on:
   workflow_dispatch:
-  schedule:
-    # run every day at nigth
-    - cron: '0 0/1 * * *'
 
 permissions:
   contents: read
@@ -26,6 +23,21 @@ jobs:
           echo 'OUTDATED_DEPENDENCIES<<EOF' >> $GITHUB_ENV
           echo "$OUTDATED_DEPENDENCIES" >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
+
+      - name: Find issues
+        uses: actions-cool/issues-helper@v3
+        id: find-issue
+        with:
+          actions: 'find-issues'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body-includes: |
+            ## New External Dependencies Images available
+
+            ```yaml
+            ${{ env.OUTDATED_DEPENDENCIES }}
+            ````
+
+      - run: echo ${{ steps.find-issue.outputs.issues }}
 
       - name: Create an issue
         uses: actions-ecosystem/action-create-issue@b02a3c1d9d929a5839315bd255e40389f0dab627 # v1.0.0
