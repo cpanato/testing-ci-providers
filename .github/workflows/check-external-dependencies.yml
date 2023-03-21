@@ -24,9 +24,6 @@ jobs:
           echo "$OUTDATED_DEPENDENCIES" >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
-
-      - run: echo ${{ env.OUTDATED_DEPENDENCIES }}
-
       - name: Find issues
         uses: actions-cool/issues-helper@v3
         id: find-issue
