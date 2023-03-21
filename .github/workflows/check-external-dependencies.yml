@@ -30,8 +30,8 @@ jobs:
         with:
           actions: 'find-issues'
           token: ${{ secrets.GITHUB_TOKEN }}
-          # body-includes: ${{ env.OUTDATED_DEPENDENCIES }}
-          title-includes: "New External Dependencies Images available"
+          body-includes: ${{ env.OUTDATED_DEPENDENCIES }}
+          # title-includes: "New External Dependencies Images available"
 
       - name: Create an issue
         if: fromJSON(steps.find-issue.outputs.issues)[0] == null
