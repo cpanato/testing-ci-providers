@@ -30,7 +30,8 @@ jobs:
         with:
           actions: 'find-issues'
           token: ${{ secrets.GITHUB_TOKEN }}
-          body-includes: ${{ env.OUTDATED_DEPENDENCIES }}
+          # body-includes: ${{ env.OUTDATED_DEPENDENCIES }}
+          title-includes: "New External Dependencies Images available"
 
       - run: echo ${{ steps.find-issue.outputs.issues }}
 
