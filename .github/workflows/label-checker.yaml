@@ -9,7 +9,7 @@ jobs:
   check_labels:
     name: Check labels
     runs-on: ubuntu-latest
+    if: contains( github.event.pull_request.labels.*.name, 'E2E')
     steps:
-      - if: contains( github.event.pull_request.labels.*.name, 'E2E')
-        run: |
-          exit 0;
+      - run: |
+          echo "will trigger the workflow run to run e2e"
