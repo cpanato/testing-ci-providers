@@ -15,7 +15,12 @@ jobs:
       - name: Check out code onto GOPATH
         uses: actions/checkout@v3
 
-      - run: echo ${{ github.repository }} / ${{ github.repository_owner }}
+      - uses: ./.github/actions/docker-build
+        id: build
+        with:
+          docker-registry: xoxox/xoxo1
+
+      - run: echo '${{ steps.build.outputs.digest }}'
 
       - name: get epository name
         run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
