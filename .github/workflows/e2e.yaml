@@ -7,6 +7,9 @@ on:
 
 jobs:
   on-success:
+    permissions:
+      statuses: write
+
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
@@ -14,4 +17,35 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_branch }}
 
-      - run: cat CHANGELOG.md
+      - run: echo ${{ github.event.workflow_run }}
+
+      - name: Run the action # You would run your tests before this using the output to set state/desc
+        uses: Sibz/github-status-action@v1
+        with:
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          context: "E2E Tests"
+          # description: " ${{ github.event.client_payload.check }} skipped!"
+          state: 'pending'
+          sha: ${{ github.event.workflow_run.head_sha }}
+
+      - run: sleep 120
+
+      - name: Run the action # You would run your tests before this using the output to set state/desc
+        if: success()
+        uses: Sibz/github-status-action@v1
+        with:
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          context: "E2E Tests"
+          # description: " ${{ github.event.client_payload.check }} skipped!"
+          state: 'sucess'
+          sha: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Run the action # You would run your tests before this using the output to set state/desc
+        if: failed()
+        uses: Sibz/github-status-action@v1
+        with:
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          context: "E2E Tests"
+          # description: " ${{ github.event.client_payload.check }} skipped!"
+          state: 'failed'
+          sha: ${{ github.event.workflow_run.head_sha }}
