@@ -21,4 +21,4 @@ runs:
 outputs:
   digest:
     description: The image digest
-    value: ${{ steps.image_digest.output.DIGEST }}
+    value: ${{ steps.image_digest.outputs.DIGEST }}

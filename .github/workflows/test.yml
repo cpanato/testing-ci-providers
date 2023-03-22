@@ -20,7 +20,7 @@ jobs:
         with:
           docker-registry: xoxox/xoxo1
 
-      - run: echo '${{ steps.build.outputs.digest }}'
+      - run: echo ${{ steps.build.outputs.digest }}
 
       - name: get epository name
         run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
