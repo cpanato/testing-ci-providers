@@ -10,13 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: "Download artifact"
-        run: |
-          WF_NAME="Label-Checker"
-          ARTIFACT_NAME="pr_num"
-          RUN_ID=`gh run --repo ${GITHUB_REPOSITORY} list --workflow ${WF_NAME} --json databaseId --jq .[0].databaseId`
-          gh run --repo ${GITHUB_REPOSITORY} download ${RUN_ID} -n ${ARTIFACT_NAME}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
-      - run: cat pr_num.txt
+      - run: cat CHANGELOG.md
