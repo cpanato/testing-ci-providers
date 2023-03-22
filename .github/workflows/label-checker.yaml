@@ -1,0 +1,15 @@
+name: Label-Checker
+on:
+  pull_request:
+    types:
+      - labeled
+
+jobs:
+
+  check_labels:
+    name: Check labels
+    runs-on: ubuntu-latest
+    steps:
+      - if: contains( github.event.pull_request.labels.*.name, 'E2E')
+        run: |
+          exit 0;
