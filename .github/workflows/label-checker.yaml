@@ -11,5 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     if: contains( github.event.pull_request.labels.*.name, 'E2E')
     steps:
-      - run: |
-          echo "will trigger the workflow run to run e2e"
+      - name: Save the PR number in an artifact
+        shell: bash
+        env:
+          PR_NUM: ${{ github.event.number }}
+        run: echo $PR_NUM > pr_num.txt
+      - name: Upload the PR number
+        uses: actions/upload-artifact@v3
+        with:
+          name: pr_num
+          path: ./pr_num.txt
