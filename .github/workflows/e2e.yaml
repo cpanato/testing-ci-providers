@@ -31,7 +31,7 @@ jobs:
       - run: sleep 120
 
       - name: Run the action # You would run your tests before this using the output to set state/desc
-        if: success()
+        if: ${{ success() }}
         uses: Sibz/github-status-action@v1
         with:
           authToken: ${{secrets.GITHUB_TOKEN}}
@@ -41,11 +41,11 @@ jobs:
           sha: ${{ github.event.workflow_run.head_sha }}
 
       - name: Run the action # You would run your tests before this using the output to set state/desc
-        if: failed()
+        if: ${{ failure() }}
         uses: Sibz/github-status-action@v1
         with:
           authToken: ${{secrets.GITHUB_TOKEN}}
           context: "E2E Tests"
           # description: " ${{ github.event.client_payload.check }} skipped!"
-          state: 'failed'
+          state: 'failure'
           sha: ${{ github.event.workflow_run.head_sha }}
