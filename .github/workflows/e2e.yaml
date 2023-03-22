@@ -13,7 +13,7 @@ jobs:
       - name: "Download artifact"
         run: |
           WF_NAME="Label-Checker"
-          ARTIFACT_NAME="pr_num.txt"
+          ARTIFACT_NAME="pr_num"
           RUN_ID=`gh run --repo ${GITHUB_REPOSITORY} list --workflow ${WF_NAME} --json databaseId --jq .[0].databaseId`
           gh run --repo ${GITHUB_REPOSITORY} download ${RUN_ID} -n ${ARTIFACT_NAME}
         env:
