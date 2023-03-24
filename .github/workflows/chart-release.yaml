@@ -29,10 +29,11 @@ jobs:
       - name: Run chart-releaser
         id: release
         # uses: helm/chart-releaser-action@v1.5.0
-        uses: odenio/chart-releaser-action@main
+        uses: cpanato/chart-releaser-action@testing
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
       - run: |
+          env
           echo ${{ steps.release.outputs.changed_charts }}
           echo ${{ steps.release.outputs.chart_version }}
