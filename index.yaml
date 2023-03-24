@@ -3,6 +3,15 @@ entries:
   nginx:
   - apiVersion: v1
     appVersion: "1.0"
+    created: "2023-03-24T10:06:32.384760437Z"
+    description: A Helm chart for Kubernetes
+    digest: 86fe3051519e91f383f164a42c1334fafb9933ffe8369e33d0d04cdafaa5ece3
+    name: nginx
+    urls:
+    - https://github.com/cpanato/testing-ci-providers/releases/download/nginx-0.1.3/nginx-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v1
+    appVersion: "1.0"
     created: "2023-03-24T10:04:24.182627036Z"
     description: A Helm chart for Kubernetes
     digest: 89193ad68452ca996a819efb419722d9d437e7f6cbee9d5a79f8f490e2e29de6
@@ -19,4 +28,4 @@ entries:
     urls:
     - https://github.com/cpanato/testing-ci-providers/releases/download/nginx-0.1.1/nginx-0.1.1.tgz
     version: 0.1.1
-generated: "2023-03-24T10:04:24.182660536Z"
+generated: "2023-03-24T10:06:32.38478564Z"
