@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  nginx:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2023-03-24T09:55:58.495398128Z"
+    description: A Helm chart for Kubernetes
+    digest: 4778af3347361ab9aa4bdf3d49a11fb36b508f33e7f583a6f6a77b181232212f
+    name: nginx
+    urls:
+    - https://github.com/cpanato/testing-ci-providers/releases/download/nginx-0.1.1/nginx-0.1.1.tgz
+    version: 0.1.1
+generated: "2023-03-24T09:55:58.495404828Z"
