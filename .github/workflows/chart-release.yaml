@@ -34,6 +34,7 @@ jobs:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
       - run: |
-          env
+          echo $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
           echo ${{ steps.release.outputs.changed_charts }}
           echo ${{ steps.release.outputs.chart_version }}
