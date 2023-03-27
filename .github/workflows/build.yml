@@ -1,0 +1,25 @@
+# Sample Project builder
+name: Build-Go
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Test Project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'
+          check-latest: true
+
+      - uses: actions/checkout@v3
+      - run: |
+          make build
+          ./hello
+      - name: Store Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: hello
+          path: ./hello

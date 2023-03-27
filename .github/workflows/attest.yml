@@ -1,0 +1,46 @@
+name: Build SLSA Attestation
+on:
+  workflow_run:
+    types:
+      - completed
+    workflows:
+      - Build-Go
+
+jobs:
+  attest:
+    name: Attest Workflow Run
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+    steps:
+
+      - uses: actions/checkout@v3
+        with:
+          repository: kubernetes-sigs/tejolote
+          path: .ci/src/tejolote
+
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'
+          check-latest: true
+          cache: true
+          cache-dependency-path: .ci/src/tejolote/go.sum
+
+      - uses: sigstore/cosign-installer@v3.0.1
+
+      - name: Build Tejolote Attester
+        run: |
+          pwd
+          (cd .ci/src/tejolote; go build -o ../../tejolote cmd/tejolote/main.go)
+          rm -rfv .ci/src/tejolote
+
+      - name: Attest Run
+        env:
+          COSIGN_YES: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pwd
+          ./.ci/tejolote attest --log-level=debug --sign github://cpanato/testing-ci-providers/${{ github.event.workflow_run.id }}
