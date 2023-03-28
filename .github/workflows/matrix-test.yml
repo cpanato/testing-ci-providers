@@ -1,7 +1,7 @@
 name: Test-matrix
 
 on:
-  workflow_dispatch:
+  pull_request:
 
 jobs:
   gen-matrix:
@@ -30,5 +30,11 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - run: echo ${{ needs.job-matrix.outputs }}
-      - run: echo ${{ needs.job-matrix.outputs.job }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
