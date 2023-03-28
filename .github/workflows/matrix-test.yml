@@ -1,0 +1,34 @@
+name: Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  gen-matrix:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "ok"
+
+  job-matrix:
+    needs:
+      - gen-matrix
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        test-job:
+          - bla
+          - xoxo
+
+    steps:
+      - run: echo ${{ matrix.test-job }}
+
+  fan-in:
+    needs:
+      - job-matrix
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - run: echo ${{ needs.job-matrix.outputs }}
+      - run: echo ${{ needs.job-matrix.outputs.job }}
