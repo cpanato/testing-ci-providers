@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false # Keep running if one leg fails.
       matrix:
         test-job:
           - bla
@@ -24,7 +25,7 @@ jobs:
 
     steps:
       - run: echo ${{ matrix.test-job }}
-      - run: exit 1
+      - run: exit 0
 
   fan-in:
     needs:
