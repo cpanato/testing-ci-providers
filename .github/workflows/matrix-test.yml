@@ -11,6 +11,7 @@ jobs:
       - run: echo "ok"
 
   job-matrix:
+    if: github.repository == 'to-skipp'
     needs:
       - gen-matrix
     runs-on: ubuntu-latest
