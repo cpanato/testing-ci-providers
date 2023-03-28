@@ -40,3 +40,5 @@ jobs:
         env:
           JOB_CONTEXT: ${{ toJson(job) }}
         run: echo "$JOB_CONTEXT"
+        - uses: technote-space/workflow-conclusion-action@v3
+        - run: echo ${{ env.WORKFLOW_CONCLUSION }}
