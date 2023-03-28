@@ -11,7 +11,7 @@ jobs:
       - run: echo "ok"
 
   job-matrix:
-    if: github.repository == 'to-skipp'
+    # if: github.repository == 'to-skipp'
     needs:
       - gen-matrix
     runs-on: ubuntu-latest
@@ -26,6 +26,9 @@ jobs:
     steps:
       - run: echo ${{ matrix.test-job }}
       - run: exit 0
+        if: ${{ matrix.test-job == 'xoxo' }}
+      - run: exit 1
+        if: ${{ matrix.test-job == 'bla' }}
 
   fan-in:
     needs:
