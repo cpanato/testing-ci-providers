@@ -13,6 +13,8 @@ jobs:
     name: Build Test Project
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+
       - run: |
           echo "********************"
           echo ${{ github.event.pull_request.base.sha }}
