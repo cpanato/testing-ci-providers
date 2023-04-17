@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      release-workflow-run: ${{ GITHUB_RUN_ID }}
+      release-workflow-run: ${{ env.GITHUB_RUN_ID }}
 
     steps:
       - name: Check out code onto GOPATH
@@ -38,7 +38,6 @@ jobs:
 
       - run: echo ${{ env.GITHUB_RUN_ID }}
 
-      - run: echo ${{ GITHUB_RUN_ID }}
 
       # - run: |
       #     go test -race $(go list ./...)
