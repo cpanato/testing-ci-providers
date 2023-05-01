@@ -15,4 +15,4 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-controller:1.11.1@sha256:0fd50d16be16294e53ceb0a5d9a2ea0a301358bdb2b01d88ca209ae984c48cde
+        value: cgr.dev/chainguard/cert-manager-controller:1.11.1@sha256:5db8184cf49589979c786a20cb9f5b2ce4352dae9329be78acef78ecff7d2d42
