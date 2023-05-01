@@ -1,0 +1,18 @@
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - "https://github.com/cert-manager/cert-manager/releases/download/v1.11.1/cert-manager.yaml"
+
+
+patchesJSON6902:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: cert-manager
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: cgr.dev/chainguard/cert-manager-controller:v1.11.1@sha256:0fd50d16be16294e53ceb0a5d9a2ea0a301358bdb2b01d88ca209ae984c48cde
