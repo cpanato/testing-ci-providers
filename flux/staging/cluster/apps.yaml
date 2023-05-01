@@ -28,7 +28,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./flux/staging/apps/
+  path: ./flux/staging/apps/another
   prune: true
   wait: true
   timeout: 5m0s
