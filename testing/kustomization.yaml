@@ -1,12 +1,12 @@
-
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
   - "https://github.com/cert-manager/cert-manager/releases/download/v1.11.1/cert-manager.yaml"
 
-
 patchesJSON6902:
+  # dogfood our chainguard images:
+  # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-controller
   - target:
       group: apps
       version: v1
@@ -16,3 +16,37 @@ patchesJSON6902:
       - op: replace
         path: /spec/template/spec/containers/0/image
         value: cgr.dev/chainguard/cert-manager-controller:1.11.1@sha256:0fd50d16be16294e53ceb0a5d9a2ea0a301358bdb2b01d88ca209ae984c48cde
+
+  # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-cainjectors
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: cert-manager-cainjector
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: cgr.dev/chainguard/cert-manager-cainjector:1.11.1@sha256:c9a7019a119f9adf3dc7d9c7852249976de7af1fc172ba528c635be4e445ec07
+
+  # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-webhook
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: cert-manager-webhook
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: cgr.dev/chainguard/cert-manager-webhook:1.11.1@sha256:15c6c7bd08316b0674c05fbaf3bd25609f866f62a89c383472c43ca26bc4e901
+
+  # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-acmesolver
+  # When updating to a new certmanager release this please make sure that the args are still in that position
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: cert-manager
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/args/3
+        value: --acme-http01-solver-image=cgr.dev/chainguard/cert-manager-acmesolver:1.11.1@sha256:57e1aade407658c7678365546218922317e1f9b6165c559417ee25752857dd28
