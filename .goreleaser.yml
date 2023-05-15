@@ -1,51 +1,64 @@
-project_name: testing-things
+project_name: testing-ci-providers
 
 env:
-  - API_ENDPOINT={{ if index .Env "API_ENDPOINT"}}{{ .Env.API_ENDPOINT }}{{ else }}test{{ end }}
-  - COSIGN_EXPERIMENTAL=true
-snapshot:
-  name_template: '{{ .Tag }}-SNAPSHOT'
+  - GO111MODULE=on
+  - CGO_ENABLED=0
+  - DOCKER_CLI_EXPERIMENTAL=enabled
+  - COSIGN_YES=true
 
+# Prevents parallel builds from stepping on eachothers toes downloading modules
 before:
   hooks:
     - go mod tidy
+    - /bin/bash -c 'if [ -n "$(git --no-pager diff --exit-code go.mod go.sum)" ]; then exit 1; fi'
+
+gomod:
+  proxy: true
+
+sboms:
+  - artifacts: binary
 
 builds:
-  - env:
-      - CGO_ENABLED=0
-    binary: test_{{ .Os }}_{{ .Arch }}{{ with .Arm }}_{{ . }}{{ end }}
+  - id: test
+    binary: test-{{ .Arch }}
+    no_unique_dist_dir: true
+    main: .
     goos:
       - linux
-      - darwin
-      - windows
     goarch:
       - amd64
       - arm64
-      - arm
-    goarm:
-      - "7"
+    flags:
+      - -trimpath
+    mod_timestamp: '{{ .CommitTimestamp }}'
 
 signs:
-  - id: binary
+  # Keyless
+  - id: keyless
+    signature: "${artifact}-keyless.sig"
+    certificate: "${artifact}-keyless.pem"
+    cmd: cosign
+    args: ["sign-blob", "--output-signature", "${artifact}-keyless.sig", "--output-certificate", "${artifact}-keyless.pem", "${artifact}"]
     artifacts: binary
-    signature: "${artifact}.sig"
-    certificate: "${artifact}.cert.pem"
+  - id: checksum-keyless
+    signature: "${artifact}-keyless.sig"
+    certificate: "${artifact}-keyless.pem"
     cmd: cosign
-    args:
-      - sign-blob
-      - "--output-signature=${artifact}.sig"
-      - "--output-certificate=${artifact}.cert.pem"
-      - "${artifact}"
-  - id: checksum
+    args: ["sign-blob", "--output-signature", "${artifact}-keyless.sig", "--output-certificate", "${artifact}-keyless.pem", "${artifact}"]
     artifacts: checksum
-    signature: "${artifact}.sig"
-    certificate: "${artifact}.cert.pem"
-    cmd: cosign
-    args:
-      - sign-blob
-      - "--output-signature=${artifact}.sig"
-      - "--output-certificate=${artifact}.cert.pem"
-      - "${artifact}"
 
 archives:
   - format: binary
+    name_template: "{{ .Binary }}"
+    allow_different_binary_count: true
+
+checksum:
+  name_template: "{{ .ProjectName }}_checksums.txt"
+
+snapshot:
+  name_template: SNAPSHOT-{{ .ShortCommit }}
+
+release:
+  prerelease: auto
+  draft: true # allow for manual edits
+  github:
