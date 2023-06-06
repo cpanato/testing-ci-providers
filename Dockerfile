@@ -1,1 +1,1 @@
-FROM alpine:3.17
+FROM cgr.dev/chainguard/busybox:latest
