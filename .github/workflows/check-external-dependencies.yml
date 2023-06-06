@@ -2,6 +2,9 @@ name: Check External Dependencies
 
 on:
   workflow_dispatch:
+  schedule:
+    # run every day at night
+    - cron: '0 0 * * *'
 
 permissions:
   contents: read
@@ -11,8 +14,8 @@ jobs:
   dependencies:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-      - uses: cpanato/setup-zeitgeist@6ac024d7412af63e758009740c188a9fd0033d9b # v0.0.1
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - uses: cpanato/setup-zeitgeist@3e861b7af3b3b4096b0b4837b612bf0665bdb308 # v0.0.2
 
       - run: |
           zeitgeist export --config external-dependencies.yaml --output-file out.yaml --output-format yaml
@@ -25,13 +28,13 @@ jobs:
           echo 'EOF' >> $GITHUB_ENV
 
       - name: Find issues
-        uses: actions-cool/issues-helper@main
+        uses: actions-cool/issues-helper@65840f57fe2b3b9a796776577b6b19d2a16adc72 # v3.4.0
         id: find-issue
         with:
           actions: 'find-issues'
           token: ${{ secrets.GITHUB_TOKEN }}
-          body-includes: ${{ env.OUTDATED_DEPENDENCIES }}
-          # title-includes: "New External Dependencies Images available"
+          issue-state: 'open'
+          title-includes: "New External Dependencies Images available"
 
       - name: Create an issue
         if: fromJSON(steps.find-issue.outputs.issues)[0] == null

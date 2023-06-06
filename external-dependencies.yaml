@@ -1,11 +1,12 @@
 dependencies:
+dependencies:
   - name: gce-proxy
-    version: 1.32.2
+    version: 1.33.7
     upstream:
       flavour: container
       registry: gcr.io/cloudsql-docker/gce-proxy
   - name: trillian-db-server
-    version: v1.5.0
+    version: v1.5.2
     upstream:
       flavour: container
       registry: gcr.io/trillian-opensource-ci/db_server
