@@ -29,7 +29,7 @@ jobs:
       - id: docker_meta
         uses: docker/metadata-action@v3.6.0
         with:
-          images: ghcr.io/cpanato/sample-honk
+          images: ghcr.io/cpanato/testing-ci-providers
           tags: type=sha,format=long
 
       - name: Build and Push container images
