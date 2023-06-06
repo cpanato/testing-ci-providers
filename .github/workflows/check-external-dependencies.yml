@@ -40,7 +40,7 @@ jobs:
           title-includes: "New External Dependencies Images available"
 
       - name: Create an issue
-        if: ${{ steps.new-deps.outputs.new_deps == truen && fromJSON(steps.find-issue.outputs.issues)[0] == null }}
+        if: ${{ steps.new-deps.outputs.new_deps == true && fromJSON(steps.find-issue.outputs.issues)[0] == null }}
         uses: actions-ecosystem/action-create-issue@b02a3c1d9d929a5839315bd255e40389f0dab627 # v1.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
