@@ -32,7 +32,6 @@ jobs:
 
       - name: Find issues
         uses: actions-cool/issues-helper@65840f57fe2b3b9a796776577b6b19d2a16adc72 # v3.4.0
-        if: ${{ steps.new-deps.outputs.new_deps == true }}
         id: find-issue
         with:
           actions: 'find-issues'
@@ -41,7 +40,7 @@ jobs:
           title-includes: "New External Dependencies Images available"
 
       - name: Create an issue
-        if: ${{ fromJSON(steps.find-issue.outputs.issues)[0] == null && steps.new-deps.outputs.new_deps == true }}
+        if: ${{ steps.new-deps.outputs.new_deps == truen && fromJSON(steps.find-issue.outputs.issues)[0] == null }}
         uses: actions-ecosystem/action-create-issue@b02a3c1d9d929a5839315bd255e40389f0dab627 # v1.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
