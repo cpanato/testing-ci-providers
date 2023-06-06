@@ -2,9 +2,6 @@ name: Check External Dependencies
 
 on:
   workflow_dispatch:
-  schedule:
-    # run every day at night
-    - cron: '0 0 * * *'
 
 permissions:
   contents: read
