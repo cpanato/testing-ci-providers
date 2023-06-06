@@ -2,6 +2,9 @@ name: container
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   test_cosign_action:
@@ -22,19 +25,19 @@ jobs:
         uses: sigstore/cosign-installer@main
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2.1.0
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2.5.0
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v2.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - id: docker_meta
-        uses: docker/metadata-action@v3.6.0
+        uses: docker/metadata-action@v4.4.0
         with:
           images: ghcr.io/cpanato/testing-ci-providers
           tags: type=sha,format=long
@@ -43,7 +46,7 @@ jobs:
           echo ${{ steps.docker_meta.outputs.tags }}
 
       - name: Build and Push container images
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v4.0.0
         id: build-and-push
         with:
           platforms: linux/amd64,linux/arm/v7,linux/arm64
