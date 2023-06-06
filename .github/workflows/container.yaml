@@ -39,6 +39,10 @@ jobs:
           images: ghcr.io/cpanato/testing-ci-providers
           tags: type=sha,format=long
 
+      - run: |
+          echo ${{ steps.docker_meta.outputs.tags }}
+          echo ${{ steps.docker_meta.outputs.labels }}
+
       - name: Build and Push container images
         uses: docker/build-push-action@v2
         id: build-and-push
