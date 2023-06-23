@@ -27,13 +27,13 @@ jobs:
           go-version: '1.20'
           check-latest: true
 
-      - uses: helm/kind-action@v1.4.0
-#       - uses: chainguard-dev/actions/setup-kind@main
-#         with:
-#           k8s-version: v1.25.x
+#       - uses: helm/kind-action@v1.4.0
+      - uses: chainguard-dev/actions/setup-kind@main
+        with:
+          k8s-version: v1.25.x
           
       - run: kubectl get nodes
-      - run: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.5/config/manifests/metallb-native.yaml
+#       - run: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.5/config/manifests/metallb-native.yaml
       - run: kubectl get po -A
         if: ${{ always() }}
       - run: sleep 60s
