@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     name: Build Test Project
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
 
@@ -21,16 +21,16 @@ jobs:
           echo ${{ github.sha }}
           echo ${{ github.sha || github.event.pull_request.base.sha }}
           echo ${{ github.event.pull_request.base.sha || github.sha }}
-      # - name: Install Go
-      #   uses: actions/setup-go@v3
-      #   with:
-      #     go-version: '1.20'
-      #     check-latest: true
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'
+          check-latest: true
 
       # - uses: actions/checkout@v3
-      # - run: |
-      #     make build
-      #     ./hello
+      - run: |
+          make build
+          ./hello
       # - name: Store Artifacts
       #   uses: actions/upload-artifact@v3
       #   with:
