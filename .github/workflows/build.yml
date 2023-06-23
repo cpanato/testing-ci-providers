@@ -14,7 +14,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
-
+      - uses: azure/setup-kubectl@v3
       - run: |
           echo "********************"
           echo ${{ github.event.pull_request.base.sha }}
@@ -30,6 +30,10 @@ jobs:
       - uses: chainguard-dev/actions/setup-kind@main
         with:
           k8s-version: v1.25.x
+          
+      - run: kubectl get nodes
+      - run: kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
+      - run: kubectl get po -A
           
       # - uses: actions/checkout@v3
       - run: |
