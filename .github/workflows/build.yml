@@ -28,7 +28,9 @@ jobs:
           check-latest: true
 
       - uses: chainguard-dev/actions/setup-kind@main
-
+        with:
+          k8s-version: v1.25.x
+          
       # - uses: actions/checkout@v3
       - run: |
           make build
