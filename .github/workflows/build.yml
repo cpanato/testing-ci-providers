@@ -33,8 +33,9 @@ jobs:
 #           k8s-version: v1.25.x
           
       - run: kubectl get nodes
-      - run: kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
+      - run: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.5/config/manifests/metallb-native.yaml
       - run: kubectl get po -A
+        if: ${{ always() }}
           
       # - uses: actions/checkout@v3
       - run: |
