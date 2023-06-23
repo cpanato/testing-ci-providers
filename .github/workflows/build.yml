@@ -27,9 +27,10 @@ jobs:
           go-version: '1.20'
           check-latest: true
 
-      - uses: chainguard-dev/actions/setup-kind@main
-        with:
-          k8s-version: v1.25.x
+      - uses: helm/kind-action@v1.4.0
+#       - uses: chainguard-dev/actions/setup-kind@main
+#         with:
+#           k8s-version: v1.25.x
           
       - run: kubectl get nodes
       - run: kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
