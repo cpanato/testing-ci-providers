@@ -27,6 +27,10 @@ jobs:
           go-version: '1.20'
           check-latest: true
 
+      - uses: chainguard-dev/actions/setup-kind@main
+        with:
+          k8s-version: 1.23.x
+
       # - uses: actions/checkout@v3
       - run: |
           make build
