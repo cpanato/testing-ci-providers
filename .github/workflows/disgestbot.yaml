@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: chainguard-dev/actions/digesta-bot@main
+      - uses: cpanato/actions/digesta-bot@add-shell
         id: digest-bot
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
