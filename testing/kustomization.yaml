@@ -15,7 +15,7 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-controller:1.11.1@sha256:0fd50d16be16294e53ceb0a5d9a2ea0a301358bdb2b01d88ca209ae984c48cde
+        value: cgr.dev/chainguard/cert-manager-controller:1.11.1@sha256:819a8714fc52fe3ecf3d046ba142e02ce2a95d1431b7047b358d23df6759de6c
 
   # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-cainjectors
   - target:
@@ -26,7 +26,7 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-cainjector:1.11.1@sha256:c9a7019a119f9adf3dc7d9c7852249976de7af1fc172ba528c635be4e445ec07
+        value: cgr.dev/chainguard/cert-manager-cainjector:1.11.1@sha256:9f90a2d54d32e16d827985ded5628692e1fae9861f5df2ccfab99d6a6c506d6d
 
   # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-webhook
   - target:
@@ -37,7 +37,7 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-webhook:1.11.1@sha256:15c6c7bd08316b0674c05fbaf3bd25609f866f62a89c383472c43ca26bc4e901
+        value: cgr.dev/chainguard/cert-manager-webhook:1.11.1@sha256:4b24584a2243a3a0f2eb40d042c4eca0d143c99465aa6a96bcd6cf3cb75ed6ad
 
   # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-acmesolver
   # When updating to a new certmanager release this please make sure that the args are still in that position
@@ -49,4 +49,4 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/args/3
-        value: --acme-http01-solver-image=cgr.dev/chainguard/cert-manager-acmesolver:1.11.1@sha256:57e1aade407658c7678365546218922317e1f9b6165c559417ee25752857dd28
+        value: --acme-http01-solver-image=cgr.dev/chainguard/cert-manager-acmesolver:1.11.1@sha256:059c0b906e1f0f031e8a4a55d43e193d6b1e75e99f8eb9ae406ecdea7c99ec42
