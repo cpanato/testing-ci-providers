@@ -1,0 +1,28 @@
+name: Create an issue
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get today's date
+        id: date
+        run: |
+          echo "::set-output name=today::$(date "+%Y/%m/%d")"
+
+      - name: Create an issue
+        uses: actions-ecosystem/action-create-issue@v1
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          title: ${{ steps.date.outputs.today }}
+          body: |
+            ## This today's TODO
+
+            - [ ] testing
+            - [ ] Check the dashboard
+
+          labels: |
+            meeting
+            weekly
