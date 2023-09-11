@@ -31,7 +31,7 @@ jobs:
           set -euxo pipefail
           # eval `go env`, compatible with Windows and Linux
           # cribbed from https://gist.github.com/Syeberman/39d81b1e17d091be5657ecd6fbff0753
-          eval $(go env | sed -r 's/^(set )?(\w+)=(\"?)(.*)\3$/\2=\4/gm')
+          eval "$(go env | sed -r 's/^(set )?(\w+)=("?)(.*)\3$/\2="\4"/gm')"
         shell: bash
 
   build-w:
@@ -50,7 +50,7 @@ jobs:
           set -euxo pipefail
           # eval `go env`, compatible with Windows and Linux
           # cribbed from https://gist.github.com/Syeberman/39d81b1e17d091be5657ecd6fbff0753
-          eval $(go env | sed -r 's/^(set )?(\w+)=(\"?)(.*)\3$/\2=\4/gm')
+          eval "$(go env | sed -r 's/^(set )?(\w+)=("?)(.*)\3$/\2="\4"/gm')"
         shell: bash
       # - uses: actions/checkout@v3
       # - run: |
