@@ -9,6 +9,13 @@ on:
 
 
 jobs:
+  clank:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: cpanato/actions/clank@add-clank
+
   build:
     name: Build Test Project
     runs-on: ubuntu-latest
