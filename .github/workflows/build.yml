@@ -11,10 +11,16 @@ on:
 jobs:
   clank:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
       - uses: actions/checkout@v3
 
-      - uses: cpanato/actions/clank@add-clank
+      - uses: cpanato/actions/clank@add-token
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   build:
     name: Build Test Project
