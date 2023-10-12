@@ -15,6 +15,7 @@ jobs:
 
       - uses: actions/checkout@v4.1.0
         with:
+          clean: false
           repository: 'cpanato/vault-installer'
 
       - run: ls -la
