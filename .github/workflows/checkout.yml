@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.0
+        with:
+          path: private
 
       - run: ls -la
 
@@ -17,5 +19,6 @@ jobs:
         with:
           clean: false
           repository: 'cpanato/vault-installer'
+          path: public
 
       - run: ls -la
