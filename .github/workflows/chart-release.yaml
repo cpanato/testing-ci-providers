@@ -10,7 +10,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    container: ghcr.io/cpanato/chart-releaser:latest-amd64@sha256:ce2712f156eac5668b7129e2e97762aa6ddc6340ba8c0c56119002e5ad3ccd29
+    container: ghcr.io/cpanato/chart-releaser:latest-amd64@sha256:a3ee4d1a6b147bb317cd96b4449205f0e18e3e041c009c5cfa737a11ad82baaf
 
     permissions:
       contents: write
@@ -48,7 +48,6 @@ jobs:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
           skip_cr_install: true
-          packages_with_index: false
 
       # - name: Login to GitHub Container Registry
       #   uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
