@@ -3,6 +3,15 @@ entries:
   nginx:
   - apiVersion: v1
     appVersion: "1.0"
+    created: "2023-10-27T10:18:39.352074454Z"
+    description: A Helm chart for Kubernetes
+    digest: 206d034c0cdb66e50272f3cbb542634fff7594fe0f653ec2adfa201910be8104
+    name: nginx
+    urls:
+    - nginx-0.1.23.tgz
+    version: 0.1.23
+  - apiVersion: v1
+    appVersion: "1.0"
     created: "2023-10-27T10:16:15.149757134Z"
     description: A Helm chart for Kubernetes
     digest: feb72ab240fecd1cfc247ed1e7d098bcd7a2523f4d03364355bb941dd6e3e11c
@@ -209,4 +218,4 @@ entries:
     urls:
     - nginx2-0.2.0.tgz
     version: 0.2.0
-generated: "2023-10-27T10:16:15.150087238Z"
+generated: "2023-10-27T10:18:39.352352761Z"
