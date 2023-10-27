@@ -10,6 +10,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    container: ghcr.io/cpanato/chart-releaser:latest-amd64
 
     permissions:
       contents: write
@@ -33,12 +34,19 @@ jobs:
       - name: Set up Helm
         uses: azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78 # v3.5
 
+      # - name: Run chart-releaser
+      #   uses: helm/chart-releaser-action@be16258da8010256c6e82849661221415f031968 # v1.5.0
+      #   with:
+      #     charts_dir: charts
+      #   env:
+      #     CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@be16258da8010256c6e82849661221415f031968 # v1.5.0
-        with:
-          charts_dir: charts
+        uses: vector-im/chart-releaser-action@1389a6afc9af1b11ab9e79267f371d694e4995b2
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          skip_cr_install: true
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
