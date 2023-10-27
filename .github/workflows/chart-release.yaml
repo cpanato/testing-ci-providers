@@ -48,6 +48,7 @@ jobs:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
           skip_cr_install: true
+          packages_with_index: true
 
       # - name: Login to GitHub Container Registry
       #   uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
