@@ -43,7 +43,7 @@ jobs:
       #     CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Run chart-releaser
-        uses: vector-im/chart-releaser-action@1389a6afc9af1b11ab9e79267f371d694e4995b2
+        uses: cpanato/chart-releaser-action@test-index
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
