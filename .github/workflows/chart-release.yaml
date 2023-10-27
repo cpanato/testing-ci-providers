@@ -10,12 +10,12 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    container: ghcr.io/cpanato/chart-releaser:latest-amd64
+    container: ghcr.io/cpanato/chart-releaser:latest-amd64@sha256:3e465f6ccd4e1794f7be571833f23837c20626f257a18c558184c710f8991997
 
     permissions:
       contents: write
-      packages: write
-      id-token: write
+      # packages: write
+      # id-token: write
 
     steps:
       - name: Checkout
