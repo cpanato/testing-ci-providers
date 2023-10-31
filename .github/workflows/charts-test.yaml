@@ -12,8 +12,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: sudo cp ./chart_schema.yaml /etc
-      - run: sudo cp ./lintconf.yaml /etc
+      - run: |
+          sudo cp ./chart_schema.yaml /etc
+          sudo cp ./lintconf.yaml /etc
 
       - uses: actions/setup-go@v4
         with:
@@ -28,6 +29,10 @@ jobs:
         with:
           python-version: '3.9'
           check-latest: true
+
+      - run: |
+          pip3 install "yamllint==1.27.1"
+          pip3 install "yamale==3.0.4"
 
       # - name: Set up chart-testing
       #   uses: helm/chart-testing-action@v2.5.0
