@@ -13,6 +13,7 @@ jobs:
           fetch-depth: 0
 
       - run: sudo cp ./chart_schema.yaml /etc
+      - run: sudo cp ./lintconf.yaml /etc
 
       - uses: actions/setup-go@v4
         with:
