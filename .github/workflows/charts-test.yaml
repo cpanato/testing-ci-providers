@@ -12,7 +12,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: cp ./chart_schema.yaml /etc
+      - run: sudo cp ./chart_schema.yaml /etc
 
       - uses: actions/setup-go@v4
         with:
