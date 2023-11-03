@@ -34,11 +34,11 @@ jobs:
       #     pip3 install "yamllint==1.27.1"
       #     pip3 install "yamale==3.0.4"
 
-      - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.6.0
-
       # - name: Set up chart-testing
-      #   uses: cpanato/chart-testing-action@bump
+      #   uses: helm/chart-testing-action@v2.6.0
+
+      - name: Set up chart-testing
+        uses: cpanato/chart-testing-action@update-ct
 
 
       # - run: go install github.com/helm/chart-testing/v3/ct@main
