@@ -15,7 +15,7 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-controller:latest@sha256:0fd50d16be16294e53ceb0a5d9a2ea0a301358bdb2b01d88ca209ae984c48cde
+        value: cgr.dev/chainguard/cert-manager-controller:latest@sha256:8a256b6ec720ce81e422dfec63f681a39de41d39d86b7924ede838228f95b905
 
   # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-cainjectors
   - target:
@@ -26,7 +26,7 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-cainjector:latest@sha256:c9a7019a119f9adf3dc7d9c7852249976de7af1fc172ba528c635be4e445ec07
+        value: cgr.dev/chainguard/cert-manager-cainjector:latest@sha256:3d4598e57b49d05c92f9496350b4f831be85a62f66e2d572d524c0152ed1fcc9
 
   # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-webhook
   - target:
@@ -37,7 +37,7 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-webhook:latest@sha256:15c6c7bd08316b0674c05fbaf3bd25609f866f62a89c383472c43ca26bc4e901
+        value: cgr.dev/chainguard/cert-manager-webhook:latest@sha256:c45cd1f09c89b047bf3f448aa174e6fe093fa665b8a1851764d9baec4882265e
 
   # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-acmesolver
   # When updating to a new certmanager release this please make sure that the args are still in that position
@@ -49,4 +49,4 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/args/3
-        value: --acme-http01-solver-image=cgr.dev/chainguard/cert-manager-acmesolver:latest@sha256:57e1aade407658c7678365546218922317e1f9b6165c559417ee25752857dd28
+        value: --acme-http01-solver-image=cgr.dev/chainguard/cert-manager-acmesolver:latest@sha256:c416388dad892b258265e63af68f06395e89289e3152d4e70447bace5e98328d
