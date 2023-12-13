@@ -15,8 +15,8 @@ jobs:
       actions: write
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: chainguard-dev/digestabot@main
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: chainguard-dev/digestabot@6d454c6445262c5fa4a8b34ae39762e5668b1c27 # v1.0.1
         id: digest-bot
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
