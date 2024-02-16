@@ -1,0 +1,16 @@
+name: testing-actions
+
+on:
+  pull_request:
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - uses: cpanato/testing-actions/testing-w-container@main
+        with:
+          repository: ${{github.repository}}
+          token: ${{ secrets.GITHUB_TOKEN }}
