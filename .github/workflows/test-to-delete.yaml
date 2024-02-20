@@ -20,6 +20,6 @@ jobs:
     - uses: wolfi-dev/actions/wolfictl-update-gh@update-actions
       with:
         repository: ${{github.repository}}
-        token: "fdvsvdsvdvs"
+        token: ${{ secrets.GITHUB_TOKEN }}
         git_author_name: ${{ env.GIT_AUTHOR_NAME }}
         git_author_email: ${{ env.GIT_AUTHOR_EMAIL }}
