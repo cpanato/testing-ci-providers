@@ -15,7 +15,7 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-controller:latest@sha256:0fd50d16be16294e53ceb0a5d9a2ea0a301358bdb2b01d88ca209ae984c48cde
+        value: cgr.dev/chainguard/cert-manager-controller:latest@sha256:b8e98bdec6d8a03c3eca66b27a28431e92c891601c0a62e52973c1eabae65432
 
   # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-cainjectors
   - target:
@@ -26,7 +26,7 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-cainjector:latest@sha256:c9a7019a119f9adf3dc7d9c7852249976de7af1fc172ba528c635be4e445ec07
+        value: cgr.dev/chainguard/cert-manager-cainjector:latest@sha256:d5cf8e804a62a30d67fdee9b8f1494b4490bfe0b75c1c2dae4fd424ddb4fa40f
 
   # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-webhook
   - target:
@@ -37,7 +37,7 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-webhook:latest@sha256:15c6c7bd08316b0674c05fbaf3bd25609f866f62a89c383472c43ca26bc4e901
+        value: cgr.dev/chainguard/cert-manager-webhook:latest@sha256:6084625362e2376649d3e8eb110975c0d3b2953974abac3222b209b07c954f1d
 
   # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-acmesolver
   # When updating to a new certmanager release this please make sure that the args are still in that position
@@ -49,4 +49,4 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/args/3
-        value: --acme-http01-solver-image=cgr.dev/chainguard/cert-manager-acmesolver:latest@sha256:57e1aade407658c7678365546218922317e1f9b6165c559417ee25752857dd28
+        value: --acme-http01-solver-image=cgr.dev/chainguard/cert-manager-acmesolver:latest@sha256:74c136e0dc25412f5145d52f741fea2a00d4e988a865daf9ab40ef9b9e1878ce
