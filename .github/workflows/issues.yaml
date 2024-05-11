@@ -12,10 +12,16 @@ jobs:
         run: |
           echo "::set-output name=today::$(date "+%Y/%m/%d")"
 
+      - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
+        id: octo-sts
+        with:
+          scope: cpanato/testing-ci-providers
+          identity: create-issue
+
       - name: Create an issue
         uses: actions-ecosystem/action-create-issue@v1
         with:
-          github_token: ${{ secrets.PAT_TOKEN }}
+          github_token: ${{ steps.octo-sts.outputs.token }}
           title: ${{ steps.date.outputs.today }}
           body: |
             ## This today's TODO
