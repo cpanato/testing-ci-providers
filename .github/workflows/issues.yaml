@@ -6,6 +6,11 @@ on:
 jobs:
   create_issue:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
       - name: Get today's date
         id: date
