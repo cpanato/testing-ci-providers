@@ -15,6 +15,6 @@ jobs:
       - name: Check DCO
         uses: cpanato/dco-check-action@main
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-          pull-request-number: ${{ github.event.number }}
+          pull_request_number: ${{ github.event.number }}
