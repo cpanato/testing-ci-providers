@@ -13,7 +13,7 @@ jobs:
           fetch-depth: 0
 
       - name: Check DCO
-        uses: cpanato/check-dco-action@main
+        uses: cpanato/dco-check-action@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
