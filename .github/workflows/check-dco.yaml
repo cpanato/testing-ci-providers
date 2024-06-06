@@ -6,6 +6,10 @@ on:
 jobs:
   DCO:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
       - name: Check DCO
         uses: cpanato/dco-check-action@main
