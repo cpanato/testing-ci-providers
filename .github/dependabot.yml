@@ -1,18 +1,9 @@
+---
 version: 2
 updates:
-- package-ecosystem: "github-actions"
-  directory: "/actions"
-  schedule:
-    interval: "daily"
-- package-ecosystem: "github-actions"
-  directory: "../actions"
-  schedule:
-    interval: "daily"
-- package-ecosystem: "github-actions"
-  directory: "/../actions"
-  schedule:
-    interval: "daily"
-- package-ecosystem: "github-actions"
-  directory: "/../../actions"
-  schedule:
-    interval: "daily"
+  - package-ecosystem: "github-actions"
+    directories:
+      - "/"
+      - "/actions""
+    schedule:
+      interval: "daily"

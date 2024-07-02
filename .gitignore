@@ -2,3 +2,4 @@
 /testing-ci-providers
 .vscode/*
 /hello
+/.DS_Store
