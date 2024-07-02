@@ -37,7 +37,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - id: docker_meta
-        uses: docker/metadata-action@v4.4.0
+        uses: docker/metadata-action@v5.5.1
         with:
           images: ghcr.io/cpanato/testing-ci-providers
           tags: type=sha,format=long
