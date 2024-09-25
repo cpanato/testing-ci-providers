@@ -17,7 +17,7 @@ jobs:
     steps:
       - run: jq --version
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - uses: cpanato/digestabot@99702957c5f8b59190bb5261fe51c5341d1ecd35 # multi-items
+      - uses: cpanato/digestabot@90ea1c8337f2a4287fdc69e1e908727eb9d3b2ac # multi-items
         id: digest-bot
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
