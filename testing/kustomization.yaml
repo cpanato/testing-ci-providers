@@ -15,7 +15,7 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-controller:latest@sha256:b8e98bdec6d8a03c3eca66b27a28431e92c891601c0a62e52973c1eabae65432
+        value: cgr.dev/chainguard/cert-manager-controller:latest@sha256:4c72a082bc5e088ba1896c41954966389586de3ed5fae83e3cc825c1e4870c16
 
   # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-cainjectors
   - target:
@@ -26,7 +26,7 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-cainjector:latest@sha256:d5cf8e804a62a30d67fdee9b8f1494b4490bfe0b75c1c2dae4fd424ddb4fa40f
+        value: cgr.dev/chainguard/cert-manager-cainjector:latest@sha256:af2ab986f3d2011b1e15e626a0e69ca464348c46b191e8044ae1caad1cae8dbb
 
   # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-webhook
   - target:
@@ -37,7 +37,7 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: cgr.dev/chainguard/cert-manager-webhook:latest@sha256:6084625362e2376649d3e8eb110975c0d3b2953974abac3222b209b07c954f1d
+        value: cgr.dev/chainguard/cert-manager-webhook:latest@sha256:7e06fed7574797f69ff59d5004a0c9c6099e3d7f919bfd40ac174c108304b006
 
   # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-acmesolver
   # When updating to a new certmanager release this please make sure that the args are still in that position
@@ -49,4 +49,4 @@ patchesJSON6902:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/args/3
-        value: --acme-http01-solver-image=cgr.dev/chainguard/cert-manager-acmesolver:latest@sha256:74c136e0dc25412f5145d52f741fea2a00d4e988a865daf9ab40ef9b9e1878ce
+        value: --acme-http01-solver-image=cgr.dev/chainguard/cert-manager-acmesolver:latest@sha256:e0b4cc524623ac7a1e0527035e91ed4dc3e66b7c3c9ceea7e0fa06e74138d3db
