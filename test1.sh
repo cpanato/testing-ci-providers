@@ -30,7 +30,7 @@ REBUILT_IMAGE_NAME=$(docker run --rm \
    --link "registry-${FREE_PORT}.local" \
    -v "${TMP}:/tmp/latest.apko.json" \
    -v ${PWD}:/work:ro -w /work \
-   ghcr.io/wolfi-dev/apko:latest@sha256:59061114264a3bb62904ebde530b0aeb78109c58ee460f211227ed64bc637fbb \
+   ghcr.io/wolfi-dev/apko:latest@sha256:a87353f424a3ccd50cdaa3bb51585aeae7cecea839f746900858dc965274386b \
    publish /tmp/latest.apko.json registry-${FREE_PORT}.local:5000/reproduction
 )
 
