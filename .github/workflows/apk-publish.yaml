@@ -28,6 +28,9 @@ jobs:
           cat apko.yaml
 
       - uses: chainguard-images/actions/apko-publish@fix
+        id: apko-publish
         with:
           config: apko.yaml
           tag: localhost:1234/apk-scan
+
+      - run: echo ${{ steps.apko-publish.outputs.digest}}
