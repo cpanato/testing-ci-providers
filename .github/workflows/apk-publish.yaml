@@ -1,4 +1,4 @@
-name: container
+name: apk-publish
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  test_cosign_action:
+  apk-publish:
     runs-on: ubuntu-latest
 
     permissions:
@@ -15,7 +15,6 @@ jobs:
       packages: write
       id-token: write # needed for signing the images with GitHub OIDC Token
 
-    name: Install Cosign and test presence in path
     steps:
       - uses: actions/checkout@v4.2.2
         with:
