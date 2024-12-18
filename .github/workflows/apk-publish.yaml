@@ -25,9 +25,9 @@ jobs:
           port: 1234
       - shell: bash
         run: |
-          cat ./apko.yaml
+          cat apko.yaml
 
       - uses: chainguard-images/actions/apko-publish@fix
         with:
-          config: ./apko.yaml
+          config: apko.yaml
           tag: localhost:1234/apk-scan
