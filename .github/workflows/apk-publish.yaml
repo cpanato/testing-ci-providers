@@ -27,7 +27,7 @@ jobs:
         run: |
           cat apko.yaml
 
-      - uses: chainguard-images/actions/apko-publish@fix
+      - uses: chainguard-images/actions/apko-publish@main
         id: apko-publish
         with:
           config: apko.yaml
