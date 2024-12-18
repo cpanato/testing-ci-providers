@@ -47,7 +47,7 @@ jobs:
         run: |
           cat ${{ steps.mkconfig.outputs.config-file }}
 
-      - uses: chainguard-images/actions/apko-publish@main
+      - uses: chainguard-images/actions/apko-publish@fix
         with:
           config: ${{ steps.mkconfig.outputs.config-file }}
           tag: localhost:1234/apk-scan
