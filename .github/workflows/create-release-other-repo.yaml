@@ -26,22 +26,24 @@ jobs:
       - uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5e537da # v3.7.0
 
       - uses: goreleaser/goreleaser-action@9ed2f89a662bf1735a48bc8557fd212fa902bebf # v6.1.0
-        id: goreleaser
         with:
           args: release --snapshot --clean --parallelism 1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_GITHUB_TOKEN: ${{ secrets.GH_PAT }}
 
       - name: Set outputs
         id: vars
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: |
+          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "curr_tag=$(git describe --abbrev=0)" >> $GITHUB_OUTPUT
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           repository: cpanato/testing-ci-private
-          tag_name: ${{ steps.vars.outputs.sha_short }}
+          tag_name: ${{ steps.vars.outputs.curr_tag }}-${{ steps.vars.outputs.sha_short }}
           files: |
-            dist/test-*
-            dist/*-checksums.txt
+            dist/test_*
+            dist/*_checksums.txt
           token: ${{ secrets.GH_PAT }}
