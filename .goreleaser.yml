@@ -8,9 +8,6 @@ env:
   - DOCKER_CLI_EXPERIMENTAL=enabled
   - COSIGN_YES=true
 
-sboms:
-  - artifacts: binary
-
 builds:
   - id: test
     binary: test-{{ .Arch }}
