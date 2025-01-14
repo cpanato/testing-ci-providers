@@ -52,7 +52,7 @@ brews:
       token: "{{ .Env.HOMEBREW_GITHUB_TOKEN }}"
     download_strategy: GitHubPrivateRepositoryReleaseDownloadStrategy
     custom_require: "lib/custom_download_strategy"
-    url_template: "https://github.com/cpanato/testing-ci-private/{{ .Version }}/{{ .ArtifactName }}"
+    url_template: "https://github.com/cpanato/testing-ci-private/{{ .env.CUSTOM_TAG }}/{{ .ArtifactName }}"
     directory: Formula
     homepage: "https://github.com/cpanato/testing-ci-private"
     description: "Chainguard's internal tool for working with packages, images, and vulnerabilities"
