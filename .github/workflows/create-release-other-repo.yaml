@@ -68,7 +68,8 @@ jobs:
 
           git add Formula/test.rb
 
-          git commit -a -m "${{ env.CI_COMMIT_MESSAGE }}"
+          git commit -a -m "update test ${{ env.CUSTOM_TAG }}"
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          CUSTOM_TAG: ${{ steps.vars.outputs.curr_tag }}-${{ steps.vars.outputs.sha_short }}
