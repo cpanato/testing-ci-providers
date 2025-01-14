@@ -1,0 +1,39 @@
+name: Cut release
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Go
+        uses: actions/setup-go@3041bf56c941b39c61721a86cd11f3bb1338122a # v5.2.0
+        with:
+          go-version: '1.23'
+          check-latest: true
+
+      - uses: goreleaser/goreleaser-action@9ed2f89a662bf1735a48bc8557fd212fa902bebf # v6.1.0
+        id: goreleaser
+        with:
+          args: release release --snapshot --clean --parallelism 1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          repository: cpanato/testing-ci-private
+          tag_name: ${{ github.sha }}
+          files: |
+            dist/test-*
+            dist/*-checksums.txt
+          token: ${{ secrets.GITHUB_PAT }}
