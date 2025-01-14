@@ -62,7 +62,8 @@ jobs:
           git config --global user.name "cpanato"
           git config --global user.email "cpanato@users.noreply.github.com"
 
-          cp ../dist/homebrew/test.rb Formula/test.rb
+          ls -la ../
+          cp ../dist/homebrew/Formula/test.rb Formula/test.rb
 
           git add Formula/test.rb
 
