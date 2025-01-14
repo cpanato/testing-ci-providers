@@ -7,6 +7,7 @@ env:
   - CGO_ENABLED=0
   - DOCKER_CLI_EXPERIMENTAL=enabled
   - COSIGN_YES=true
+  - CUSTOM_TAG={{ .Env.CUSTOM_TAG }}
 
 builds:
   - id: test
@@ -52,7 +53,7 @@ brews:
       token: "{{ .Env.HOMEBREW_GITHUB_TOKEN }}"
     download_strategy: GitHubPrivateRepositoryReleaseDownloadStrategy
     custom_require: "lib/custom_download_strategy"
-    url_template: "https://github.com/cpanato/testing-ci-private/{{ .env.CUSTOM_TAG }}/{{ .ArtifactName }}"
+    url_template: "https://github.com/cpanato/testing-ci-private/{{ .Env.CUSTOM_TAG }}/{{ .ArtifactName }}"
     directory: Formula
     homepage: "https://github.com/cpanato/testing-ci-private"
     description: "Chainguard's internal tool for working with packages, images, and vulnerabilities"
