@@ -36,4 +36,4 @@ jobs:
           files: |
             dist/test-*
             dist/*-checksums.txt
-          token: ${{ secrets.GITHUB_PAT }}
+          token: ${{ secrets.GH_PAT }}
