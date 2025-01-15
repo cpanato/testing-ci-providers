@@ -29,7 +29,6 @@ jobs:
         id: vars
         shell: bash
         run: |
-          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
           BASE_VERSION="0.0"
           YEAR=$(date +%Y)
           MONTH=$(date +%m)
@@ -51,7 +50,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           repository: cpanato/testing-ci-private
-          tag_name: ${{ steps.vars.outputs.sha_short }}-SNAPSHOT
+          tag_name: ${{ steps.vars.outputs.NEW_VERSION }}
           files: |
             dist/test_*
             dist/*_checksums.txt
