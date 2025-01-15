@@ -24,37 +24,8 @@ jobs:
       - name: Install Cosign
         uses: sigstore/cosign-installer@main
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3.2.0
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3.6.1
+      - name: setuip ko
+        uses: hsblhsn/setup-ko@main
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2.1.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: ko version
 
-      - id: docker_meta
-        uses: docker/metadata-action@v5.5.1
-        with:
-          images: ghcr.io/cpanato/testing-ci-providers
-          tags: type=sha,format=long
-
-      - run: |
-          echo ${{ steps.docker_meta.outputs.tags }}
-
-      - name: Build and Push container images
-        uses: docker/build-push-action@v6.7.0
-        id: build-and-push
-        with:
-          platforms: linux/amd64,linux/arm/v7,linux/arm64
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-
-      - name: Sign the images with GitHub OIDC Token
-        env:
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-          TAGS: ${{ steps.docker_meta.outputs.tags }}
-        run: cosign sign --yes "${TAGS}@${DIGEST}"
