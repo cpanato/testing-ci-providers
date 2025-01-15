@@ -50,7 +50,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           repository: cpanato/testing-ci-private
-          tag_name: ${{ steps.vars.outputs.NEW_VERSION }}
+          tag_name: ${{ steps.vars.outputs.NEW_VERSION }}-SNAPSHOT
           files: |
             dist/test_*
             dist/*_checksums.txt
@@ -80,4 +80,4 @@ jobs:
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-          CUSTOM_TAG: ${{ steps.vars.outputs.NEW_VERSION }}
+          CUSTOM_TAG: ${{ steps.vars.outputs.NEW_VERSION }}-SNAPSHOT
