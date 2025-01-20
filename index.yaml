@@ -265,6 +265,15 @@ entries:
   nginx2:
   - apiVersion: v1
     appVersion: "1.0"
+    created: "2025-01-20T11:16:14.363453402Z"
+    description: A Helm chart for Kubernetes
+    digest: e00e9185facd72f6c47b14704f47279deb1dba90abe8be575e71931f8c9bfbf9
+    name: nginx2
+    urls:
+    - https://github.com/cpanato/testing-ci-providers/releases/download/nginx2-0.2.3/nginx2-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v1
+    appVersion: "1.0"
     created: "2025-01-20T10:46:42.767756959Z"
     description: A Helm chart for Kubernetes
     digest: 8144c25b07a704110b13c624e7efae91454b55142e35bdd370eae771318a4c94
@@ -290,4 +299,4 @@ entries:
     urls:
     - nginx2-0.2.0.tgz
     version: 0.2.0
-generated: "2025-01-20T10:46:42.768090994Z"
+generated: "2025-01-20T11:16:14.363536137Z"
