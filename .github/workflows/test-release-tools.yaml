@@ -23,6 +23,6 @@ jobs:
         uses: cpanato/release-actions/publish-release@GH-107
         with:
             assets: /tmp/test/labels.json
-            sbom: 'false'
+            sbom: 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
