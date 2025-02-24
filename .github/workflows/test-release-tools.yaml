@@ -19,8 +19,8 @@ jobs:
           mv labels.json /tmp/test
           cat /tmp/test/labels.json
       - name: Publish Release
-        uses: kubernetes-sigs/release-actions/publish-release@main
-        # uses: cpanato/release-actions/publish-release@GH-107
+        # uses: kubernetes-sigs/release-actions/publish-release@main
+        uses: cpanato/release-actions/publish-release@GH-107
         with:
             assets: /tmp/test/labels.json
             sbom: false
