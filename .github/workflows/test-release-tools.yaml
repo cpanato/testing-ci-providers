@@ -1,0 +1,23 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # needed to write releases
+
+    steps:
+      - name: Publish Release
+        # uses: kubernetes-sigs/release-actions/publish-release@main
+        uses: cpanato/release-actions/publish-release@GH-107
+        with:
+            assets: "./labels.json"
+            sbom: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
