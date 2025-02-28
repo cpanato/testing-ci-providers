@@ -1,5 +1,4 @@
-name: Cut release
-
+name: GeneralTesting
 on:
   workflow_dispatch:
 
@@ -27,5 +26,5 @@ jobs:
         working-directory: ./testing-ci-private
         run: |
           ls -la
-          echo ${ GITHUB_WORKSPACE}
-          cat ${ GITHUB_WORKSPACE}/ct.yaml
+          echo "$GITHUB_WORKSPACE"
+          cat "$GITHUB_WORKSPACE/test.yaml"
