@@ -15,16 +15,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@85e6279cec87321a52edac9c87bce653a07cf6c2 # v4.2.2
 
-      - name: Check out code
-        uses: actions/checkout@85e6279cec87321a52edac9c87bce653a07cf6c2 # v4.2.2
+      - name: Drop bnd
+        uses: carabiner-dev/actions/drop@main
         with:
-          repository: cpanato/testing-ci-private
-          path: testing-ci-private
-          token: ${{ secrets.GH_PAT }}
-
-      - name: check workspace
-        working-directory: ./testing-ci-private
-        run: |
-          ls -la
-          echo "$GITHUB_WORKSPACE"
-          cat "$GITHUB_WORKSPACE/test.yaml"
+          insecure: true
+          binary: carabiner-dev/bnd
+          directory: '$HOME/.carabiner'
