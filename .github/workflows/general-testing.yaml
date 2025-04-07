@@ -27,4 +27,4 @@ jobs:
         with:
           insecure: true
           binary: carabiner-dev/bnd
-          directory: '/home/runner/.carabiner'
+          directory: '/github/workflow/.carabiner'
