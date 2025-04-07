@@ -27,4 +27,4 @@ jobs:
         with:
           insecure: true
           binary: carabiner-dev/bnd
-          directory: '/github/workflow/.carabiner'
+          directory: '$RUNNER_TEMP/.carabiner'
