@@ -20,4 +20,4 @@ jobs:
         with:
           insecure: true
           binary: carabiner-dev/bnd
-          install-dir: '$HOME/.carabiner'
+          directory: '$HOME/.carabiner/'
