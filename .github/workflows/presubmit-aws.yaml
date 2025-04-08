@@ -1,0 +1,30 @@
+# Copyright 2025 Chainguard, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+name: "AWS Pre-submit check"
+
+on:
+  pull_request_target:
+    branches:
+      - "main"
+
+permissions: {}
+
+jobs:
+  aws-check:
+
+    permissions:
+      id-token: write # federated identity
+      contents: read # read repo
+
+    strategy:
+      matrix:
+        arch:
+          - x86_64
+          - aarch64
+
+    uses: ./.github/workflows/.presubmit.yaml
+    with:
+      checkout_ref: refs/pull/${{ github.event.pull_request.number }}/merge
+      cloud_provider: "aws"
+      arch: ${{ matrix.arch }}

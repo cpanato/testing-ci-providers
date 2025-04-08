@@ -1,0 +1,44 @@
+# Copyright 2024 Chainguard, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Reusable Pre-Submit Workflow
+
+on:
+  workflow_call:
+    inputs:
+      checkout_ref:
+        required: false
+        type: string
+        description: 'Commit ref (sha, branch, or tag) to run at. Empty will get head/main.'
+      cg_identity:
+        type: string
+        required: false
+        description: "The identity to assume when interacting with chainguard."
+      cloud_provider:
+        required: false
+        type: string
+        default: "GCP"
+        description: "Which cloud provider we will build the vm"
+      arch:
+        required: false
+        type: string
+        default: "GCP"
+        description: "Which acrchitecture we will build the vm"
+
+permissions: {}
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read # read the repo
+      id-token: write # to get a token for the chainguard identity
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ inputs.checkout_ref || github.sha }}
+
+      - run: echo "Running ${{ inputs.cloud_provider }} on ${{ inputs.arch }}"
