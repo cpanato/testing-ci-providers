@@ -38,7 +38,9 @@ jobs:
           - aarch64
 
     steps:
-      - uses: cpanato/testing-ci-providers/.github/workflows/.presubmit.yaml@main
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/workflows/.presubmit.yaml
         with:
           checkout_ref: ${{ github.ref }}
           cloud_provider: "aws"
