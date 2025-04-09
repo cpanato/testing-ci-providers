@@ -38,6 +38,8 @@ jobs:
           - aarch64
 
     steps:
+      - uses: actions/checkout@v4
+
       - uses: ./.github/workflows/.presubmit.yaml
         with:
           checkout_ref: ${{ github.ref }}
