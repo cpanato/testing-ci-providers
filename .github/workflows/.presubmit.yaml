@@ -24,6 +24,11 @@ on:
         type: string
         default: "GCP"
         description: "Which acrchitecture we will build the vm"
+      push_vms:
+        required: false
+        type: boolean
+        default: false
+        description: "Push the vms to the cloud provider"
 
 permissions: {}
 
@@ -45,3 +50,11 @@ jobs:
       - run: |
           touch test-${{ inputs.cloud_provider }}-${{ inputs.arch }}.txt
           echo "This is a test file for ${{ inputs.cloud_provider }} on ${{ inputs.arch }}" > test-${{ inputs.cloud_provider }}-${{ inputs.arch }}.txt
+
+      - run: |
+          echo "push vms should be true: ${{ inputs.push_vms }}"
+        if : ${{ inputs.push_vms == true }}
+
+      - run: |
+          echo "push vms should be false: ${{ inputs.push_vms }}"
+        if : ${{ inputs.push_vms == false }}
