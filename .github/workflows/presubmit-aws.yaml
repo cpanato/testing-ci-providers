@@ -28,4 +28,4 @@ jobs:
       checkout_ref: refs/pull/${{ github.event.pull_request.number }}/merge
       cloud_provider: "aws"
       arch: ${{ matrix.arch }}
-      push_vms: 'false'
+      push_vms: false
