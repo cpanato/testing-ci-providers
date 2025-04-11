@@ -1,0 +1,18 @@
+name: "setup"
+description: ""
+inputs:
+  cloud_provider:
+    description: ""
+    required: true
+  arch:
+    description: ""
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: echo "Running ${{ inputs.cloud_provider }} on ${{ inputs.arch }}"
+      shell: bash
+    - run: |
+        touch test-${{ inputs.cloud_provider }}-${{ inputs.arch }}.txt
+        echo "This is a test file for ${{ inputs.cloud_provider }} on ${{ inputs.arch }}" > test-${{ inputs.cloud_provider }}-${{ inputs.arch }}.txt
+      shell: bash

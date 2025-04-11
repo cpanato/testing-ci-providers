@@ -31,4 +31,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: echo ${{ env.BUILD_TIMESTAMP }}
+      - uses: './.github/actions/test-comp'
+        with:
+          cloud_provider: 'testing'
+          arch: '${{ matrix.arch }}'
+
+      - run: |
+          cat test-testing-${{ matrix.arch }}.txt
