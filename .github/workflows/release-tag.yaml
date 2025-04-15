@@ -33,18 +33,18 @@ jobs:
             echo "bump=no" >> $GITHUB_OUTPUT
           fi
 
+      - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
+        id: octo-sts
+        with:
+          scope: ${{ github.repository }}
+          identity: release
+
       - run: |
           git remote -v
           git remote set-url origin "https://octo-sts:${TOKEN}@github.com/cpanato/testing-ci-providers"
           git remote -v
         env:
           TOKEN: ${{ steps.octo-sts.outputs.token }}
-
-      - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
-        id: octo-sts
-        with:
-          scope: ${{ github.repository }}
-          identity: release
 
       - name: Bump and push Git tag
         uses: chainguard-dev/actions/git-tag@f309c81b34d59c103f5b86a2e55a2a647dc8b40a # v1.0.1

@@ -9,4 +9,3 @@ claim_pattern:
 # the release workflow needs write permissions to create and push tags
 permissions:
   contents: write
-  workflows: write
