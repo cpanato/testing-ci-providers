@@ -1,0 +1,74 @@
+version: 2
+
+project_name: testing-ci-providers
+
+env:
+  - GO111MODULE=on
+  - CGO_ENABLED=0
+  - DOCKER_CLI_EXPERIMENTAL=enabled
+  - COSIGN_YES=true
+
+builds:
+  - id: test
+    binary: test_{{ .Os }}_{{ .Arch }}
+    no_unique_dist_dir: true
+    main: .
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -trimpath
+    mod_timestamp: '{{ .CommitTimestamp }}'
+
+signs:
+  # Keyless
+  - id: keyless
+    signature: "${artifact}-keyless.sig"
+    certificate: "${artifact}-keyless.pem"
+    cmd: cosign
+    args: ["sign-blob", "--output-signature", "${artifact}-keyless.sig", "--output-certificate", "${artifact}-keyless.pem", "${artifact}"]
+    artifacts: binary
+  - id: checksum-keyless
+    signature: "${artifact}-keyless.sig"
+    certificate: "${artifact}-keyless.pem"
+    cmd: cosign
+    args: ["sign-blob", "--output-signature", "${artifact}-keyless.sig", "--output-certificate", "${artifact}-keyless.pem", "${artifact}"]
+    artifacts: checksum
+
+archives:
+  - format: binary
+    name_template: "{{ .Binary }}"
+    allow_different_binary_count: true
+
+brews:
+  - name: test
+    repository:
+      owner: cpanato
+      name: testing-ci-private
+      branch: main
+    download_strategy: GitHubPrivateRepositoryReleaseDownloadStrategy
+    custom_require: "lib/custom_download_strategy"
+    url_template: "https://github.com/cpanato/testing-ci-private/releases/download/{{ .Version }}/{{ .ArtifactName }}"
+    directory: Formula
+    homepage: "https://github.com/cpanato/testing-ci-private"
+    description: "Chainguard's internal tool for working with packages, images, and vulnerabilities"
+    # Ensure homebrew installs rename the executable to `chainctl`, and set up shell completion on install
+    install: |
+      bin.install "{{ .Binary }}" => "{{ .ProjectName }}"
+    # Define what is considered a "successful install", in this case we just ping the version
+    test: |
+      system "#{bin}/test", "version"
+
+checksum:
+  name_template: "{{ .ProjectName }}_checksums.txt"
+
+snapshot:
+  version_template: "{{ .Version }}-SNAPSHOT"
+
+release:
+  github:
+    owner: cpanato
+    name: testing-ci-private

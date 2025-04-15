@@ -33,10 +33,19 @@ jobs:
           fi
 
       - name: Bump and push Git tag
-        uses: mgreau/actions/git-tag@git-tag
+        uses: chainguard-dev/actions/git-tag@855d928df4d35ab87d1495993810ba7725a2f8bb # v1.0.0
         if: steps.check.outputs.bump == 'yes'
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           git_tag_prefix: "v"
           bump_level: patch
           dry_run: ${{ inputs.dry_run }}
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@9c156ee8a17a598857849441385a2041ef570552 # v6.3.0
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
