@@ -63,5 +63,6 @@ jobs:
           distribution: goreleaser
           version: latest
           args: release --clean
+          workdir: testing-ci-providers-cloned
         env:
           GITHUB_TOKEN: ${{ steps.octo-sts.outputs.token }}
