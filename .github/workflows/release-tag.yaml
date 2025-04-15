@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write # to push the new tag
+      contents: read
       id-token: write # to sign the release
 
     steps:
@@ -33,11 +33,20 @@ jobs:
             echo "bump=no" >> $GITHUB_OUTPUT
           fi
 
+      - run: |
+          git remote -v
+
+      - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
+        id: octo-sts
+        with:
+          scope: ${{ github.repository }}
+          identity: release
+
       - name: Bump and push Git tag
         uses: chainguard-dev/actions/git-tag@f309c81b34d59c103f5b86a2e55a2a647dc8b40a # v1.0.1
         if: steps.check.outputs.bump == 'yes'
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.octo-sts.outputs.token }}
           git_tag_prefix: "v"
           bump_level: patch
           dry_run: ${{ inputs.dry_run }}
@@ -50,4 +59,4 @@ jobs:
           version: latest
           args: release --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.octo-sts.outputs.token }}
