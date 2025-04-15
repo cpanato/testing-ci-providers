@@ -6,8 +6,7 @@ builds:
   - skip: true
 
 release:
-  prerelease: allow
-  draft: true # allow for manual edits
+  draft: false
 
 changelog:
   use: github-native
