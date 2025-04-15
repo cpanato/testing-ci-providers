@@ -20,7 +20,17 @@ jobs:
       id-token: write # to sign the release
 
     steps:
+      - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
+        id: octo-sts
+        with:
+          scope: ${{ github.repository }}
+          identity: release
+
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          token: ${{ steps.octo-sts.outputs.token }}
+          fetch-depth: 0
+
       - name: Check if any changes since last tag
         id: check
         run: |
@@ -33,28 +43,14 @@ jobs:
             echo "bump=no" >> $GITHUB_OUTPUT
           fi
 
-      - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
-        id: octo-sts
-        with:
-          scope: ${{ github.repository }}
-          identity: release
-
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          token: ${{ steps.octo-sts.outputs.token }}
-          fetch-depth: 0
-          path: testing-ci-providers-cloned
-
       - name: Bump and push Git tag
-        # uses: chainguard-dev/actions/git-tag@f309c81b34d59c103f5b86a2e55a2a647dc8b40a # v1.0.1
-        uses: cpanato/actions/git-tag@fix-tag
+        uses: chainguard-dev/actions/git-tag@f309c81b34d59c103f5b86a2e55a2a647dc8b40a # v1.0.1
         if: steps.check.outputs.bump == 'yes'
         with:
           token: ${{ steps.octo-sts.outputs.token }}
           git_tag_prefix: "v"
           bump_level: patch
           dry_run: ${{ inputs.dry_run }}
-          working_directory: testing-ci-providers-cloned
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@9c156ee8a17a598857849441385a2041ef570552 # v6.3.0
@@ -63,6 +59,5 @@ jobs:
           distribution: goreleaser
           version: latest
           args: release --clean
-          workdir: testing-ci-providers-cloned
         env:
           GITHUB_TOKEN: ${{ steps.octo-sts.outputs.token }}
