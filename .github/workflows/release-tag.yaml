@@ -35,10 +35,10 @@ jobs:
 
       - run: |
           git remote -v
-          git remote set-url origin https://octo-sts:${{ env.GITHUB_TOKEN }}@github.com/cpanato/testing-ci-providers
+          git remote set-url origin "https://octo-sts:${TOKEN}@github.com/cpanato/testing-ci-providers"
           git remote -v
         env:
-          GITHUB_TOKEN: ${{ steps.octo-sts.outputs.token }}
+          TOKEN: ${{ steps.octo-sts.outputs.token }}
 
       - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
         id: octo-sts
