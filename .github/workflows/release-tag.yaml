@@ -40,7 +40,7 @@ jobs:
           identity: release
 
       - run: |
-          git config --global url."https://${{ env.TOKEN }}@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://octo-sts:${{ env.TOKEN }}@github.com/".insteadOf "https://github.com/"
         env:
           TOKEN: ${{ steps.octo-sts.outputs.token }}
 
