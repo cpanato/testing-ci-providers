@@ -40,9 +40,7 @@ jobs:
           identity: release
 
       - run: |
-          git remote -v
-          git remote set-url origin "https://octo-sts:${TOKEN}@github.com/cpanato/testing-ci-providers"
-          git remote -v
+          git config --global url."https://${TOKEN}@github.com/".insteadOf "https://github.com/"
         env:
           TOKEN: ${{ steps.octo-sts.outputs.token }}
 
