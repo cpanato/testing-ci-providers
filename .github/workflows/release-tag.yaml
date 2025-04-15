@@ -40,9 +40,7 @@ jobs:
           identity: release
 
       - run: |
-          git config --global url."https://octo-sts:${{ env.TOKEN }}@github.com/".insteadOf "https://github.com/"
-        env:
-          TOKEN: ${{ steps.octo-sts.outputs.token }}
+          git config --global url."https://octo-sts:${{ steps.octo-sts.outputs.token }}@github.com/".insteadOf "https://github.com/"
 
       - name: Bump and push Git tag
         uses: chainguard-dev/actions/git-tag@f309c81b34d59c103f5b86a2e55a2a647dc8b40a # v1.0.1
