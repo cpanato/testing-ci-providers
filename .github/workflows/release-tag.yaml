@@ -1,0 +1,43 @@
+name: release-tag
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "dry-run mode: if true, no git tags will be pushed."
+        type: boolean
+        default: false
+
+permissions: {}
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # to push the new tag
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Check if any changes since last tag
+        id: check
+        run: |
+          git fetch --tags
+          if [ -z "$(git tag --points-at HEAD)" ]; then
+            echo "Nothing points at HEAD, bump a new tag"
+            echo "bump=yes" >> $GITHUB_OUTPUT
+          else
+            echo "A tag already points to head, don't bump"
+            echo "bump=no" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Bump and push Git tag
+        uses: chainguard-dev/actions/git-tag@main
+        if: steps.check.outputs.bump == 'yes'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          git_tag_prefix: "v"
+          bump_level: patch
+          dry_run: ${{ inputs.dry_run }}
+          forced_version: false
