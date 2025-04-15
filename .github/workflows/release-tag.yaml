@@ -33,7 +33,7 @@ jobs:
           fi
 
       - name: Bump and push Git tag
-        uses: chainguard-dev/actions/git-tag@main
+        uses: mgreau/actions/git-tag@git-tag
         if: steps.check.outputs.bump == 'yes'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
