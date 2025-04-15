@@ -34,8 +34,8 @@ jobs:
           fi
 
       - name: Bump and push Git tag
-        uses: chainguard-dev/actions/git-tag@855d928df4d35ab87d1495993810ba7725a2f8bb # v1.0.0
-        # uses: cpanato/actions/git-tag@fix
+        # uses: chainguard-dev/actions/git-tag@855d928df4d35ab87d1495993810ba7725a2f8bb # v1.0.0
+        uses: cpanato/actions/git-tag@fix
         if: steps.check.outputs.bump == 'yes'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
