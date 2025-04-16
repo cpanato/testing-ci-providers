@@ -5,5 +5,5 @@ claim_pattern:
   job_workflow_ref: cpanato/testing-ci-providers/.github/workflows/test-push-image.yaml@refs/heads/main
 
 permissions:
-  contents: read
+  contents: write
   packages: write
