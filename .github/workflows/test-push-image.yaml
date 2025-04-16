@@ -16,7 +16,7 @@ jobs:
       id: octo-sts
       with:
         scope: ${{ github.repository }}
-        identity: oci-artifact
+        identity: push
 
     - uses: docker/login-action@v3
       with:
