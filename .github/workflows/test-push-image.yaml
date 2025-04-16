@@ -26,5 +26,5 @@ jobs:
 
     - run: |
         docker pull busybox:latest
-        docker tag busybox:latest ghcr.io/cpanato/testing-ci-private:latest
+        docker tag busybox:latest ghcr.io/cpanato/testing-ci-providers/test:latest
         docker push ghcr.io/cpanato/testing-ci-providers/test:latest
