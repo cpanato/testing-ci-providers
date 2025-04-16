@@ -1,0 +1,30 @@
+name: Test Octo STS
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # for octo sts and signing
+    steps:
+    - uses: actions/checkout@v4
+    - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
+      id: octo-sts
+      with:
+        scope: ${{ github.repository }}
+        identity: oci-artifact
+
+    - uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ steps.octo-sts.outputs.token }}
+
+    - run: |
+        docker pull busybox:latest
+        docker tag busybox:latest ghcr.io/cpanato/testing-ci-private:latest
+        docker push ghcr.io/cpanato/testing-ci-providers/test:latest
