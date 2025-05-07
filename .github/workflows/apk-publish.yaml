@@ -20,7 +20,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: chainguard-dev/actions/setup-registry@be6c67b5b374ed43d908ac017ff9b04c271ad3d8 # v1.0.3
+      - uses: chainguard-dev/actions/setup-registry@dd4524afd480a43ead9543a08be1c5004ee8b0a7 # v1.0.7
         with:
           port: 1234
       - shell: bash
