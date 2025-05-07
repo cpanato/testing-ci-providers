@@ -1,8 +1,6 @@
 module github.com/cpanato/testing-ci-providers
 
-go 1.23.0
-
-toolchain go1.24.2
+go 1.23
 
 require (
 	github.com/google/go-containerregistry v0.13.0
