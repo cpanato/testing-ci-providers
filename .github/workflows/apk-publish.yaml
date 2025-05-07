@@ -20,14 +20,14 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: chainguard-dev/actions/setup-registry@main
+      - uses: chainguard-dev/actions/setup-registry@be6c67b5b374ed43d908ac017ff9b04c271ad3d8 # v1.0.3
         with:
           port: 1234
       - shell: bash
         run: |
           cat apko.yaml
 
-      - uses: chainguard-images/actions/apko-publish@main
+      - uses: chainguard-images/actions/apko-publish@be6c67b5b374ed43d908ac017ff9b04c271ad3d8 # v1.0.3
         id: apko-publish
         with:
           config: apko.yaml
