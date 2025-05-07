@@ -1,0 +1,27 @@
+name: Dependabot Pull Request
+
+on:
+  pull_request:
+
+permissions: {}
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+      contents: write
+
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'cpanato/testing-ci-providers'
+    steps:
+      - name: Fetch Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@d7267f607e9d3fb96fc2fbe83e0af444713e90b7 # v2.3.0
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - if: ${{ steps.dependabot-metadata.outputs.package-ecosystem == 'gomod' }}
+        name: Tidy Go modules
+        run: |
+          go mod tidy
