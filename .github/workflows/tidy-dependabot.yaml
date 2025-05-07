@@ -45,4 +45,28 @@ jobs:
       - name: Tidy Go modules
         run: |
           go mod tidy
-          git diff --exit-code
+
+      - name: Check if any changes
+        id: check
+        run: |
+          # Get list of changed files
+          CHANGES=$(git diff --name-only)
+
+          if [ -z "$CHANGES" ]; then
+            echo "No changes detected, don't push"
+            echo "push=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "Changes detected, push needed"
+            echo "push=yes" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Amend Dependabot PR
+        if: ${{ steps.check.outputs.push == 'yes' }}
+        env:
+          PULL_REQUEST_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -sam "tidy go modules"
+          git push origin HEAD:${PULL_REQUEST_HEAD_REF}
