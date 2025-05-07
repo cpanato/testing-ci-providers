@@ -21,7 +21,7 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-      - if: ${{ steps.dependabot-metadata.outputs.package-ecosystem == 'gomod' }}
+      - if: ${{ steps.dependabot-metadata.outputs.package-ecosystem == 'go_modules' }}
         name: Tidy Go modules
         run: |
           go mod tidy
