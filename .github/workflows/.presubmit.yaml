@@ -51,6 +51,13 @@ jobs:
           cloud_provider: '${{ inputs.cloud_provider }}'
           arch: '${{ inputs.arch }}'
 
+      - name: Extract terraform version to use
+        working-directory: './iac/github'
+        run: echo "TERRAFORM_VERSION=$(grep -v "^\s*$" $(find $GITHUB_WORKSPACE -name ".terraform-version" 2>/dev/null | head -n 1))" >> "$GITHUB_ENV"
+
+      - run: |
+          echo "TERRAFORM_VERSION: ${{ env.TERRAFORM_VERSION }}"
+
       - run: |
           echo "push vms should be true: ${{ inputs.push_vms }}"
         if : ${{ inputs.push_vms == true }}
