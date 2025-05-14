@@ -36,5 +36,13 @@ jobs:
           cloud_provider: 'testing'
           arch: '${{ matrix.arch }}'
 
+      - name: Extract terraform version to use
+        working-directory: './iac/github'
+        run: echo "TERRAFORM_VERSION=$(grep -v "^\s*$" $(find $GITHUB_WORKSPACE -name ".terraform-version" 2>/dev/null | head -n 1))" >> "$GITHUB_ENV"
+
+      - run: |
+          echo "TERRAFORM_VERSION: ${{ env.TERRAFORM_VERSION }}"
+
+
       - run: |
           cat test-testing-${{ matrix.arch }}.txt
