@@ -18,7 +18,7 @@ jobs:
     outputs:
       is-go-mod-pr: ${{ steps.check-go-mod-changes.outputs.is-go-mod-pr }}
 
-    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'chainguard-dev/mono'
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'cpanato/testing-ci-providers'
     steps:
 
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
