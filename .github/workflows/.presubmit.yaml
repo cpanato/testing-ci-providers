@@ -19,7 +19,7 @@ on:
         type: string
         default: "GCP"
         description: "Which cloud provider we will build the vm"
-      arch:
+      path:
         required: false
         type: string
         default: "GCP"
@@ -46,22 +46,9 @@ jobs:
         with:
           ref: ${{ inputs.checkout_ref || github.sha }}
 
-      - uses: './.github/actions/test-comp'
-        with:
-          cloud_provider: '${{ inputs.cloud_provider }}'
-          arch: '${{ inputs.arch }}'
-
-      - name: Extract terraform version to use
-        working-directory: './iac/github'
-        run: echo "TERRAFORM_VERSION=$(grep -v "^\s*$" $(find $GITHUB_WORKSPACE -name ".terraform-version" 2>/dev/null | head -n 1))" >> "$GITHUB_ENV"
-
-      - run: |
-          echo "TERRAFORM_VERSION: ${{ env.TERRAFORM_VERSION }}"
-
-      - run: |
-          echo "push vms should be true: ${{ inputs.push_vms }}"
-        if : ${{ inputs.push_vms == true }}
-
-      - run: |
-          echo "push vms should be false: ${{ inputs.push_vms }}"
-        if : ${{ inputs.push_vms == false }}
+      - name: echo
+        run: |
+          echo "cloud_provider: ${{ inputs.cloud_provider }}"
+          echo "path: ${{ inputs.path }}"
+          echo "push_vms: ${{ inputs.push_vms }}"
+          echo "cg_identity: ${{ inputs.cg_identity }}"
