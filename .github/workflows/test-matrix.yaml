@@ -1,0 +1,92 @@
+# Copyright 2025 Chainguard, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Verify AWS
+
+on:
+  pull_request_target:
+    branches:
+      - "main"
+
+permissions: {}
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+
+    outputs:
+      changed_paths: ${{ steps.filter.outputs.changes }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    permissions:
+      contents: read # read repo
+      pull-requests: read # read pull request contents
+
+    steps:
+      - uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: filter
+        with:
+          filters: |
+            aws-marketplace:
+              - 'test-folder/**'
+            imgtest-infra:
+              - 'iac/github/**'
+          list-files: json
+
+      - id: set-matrix
+        run: |
+          # Create a JSON object with information about each environment
+          cat > aws-environments.json << EOF
+          {
+            "aws-marketplace": {
+              "path": "test-folder",
+              "region": "us-east-1",
+              "account_id": "4444",
+              "role_name": "44444-github-presub444mit-role"
+            },
+            "imgtest-infra": {
+              "path": "charts",
+              "region": "us-west-2",
+              "account_id": "44444",
+              "role_name": "4444-github-presubmit-role"
+            },
+          }
+          EOF
+
+          # Get the list of environments with changes
+          CHANGED_ENVS=$(echo '${{ steps.filter.outputs.changes }}' | jq -c 'keys')
+
+          # Generate matrix from changed environments
+          MATRIX=$(jq -c --argjson changed "$CHANGED_ENVS" '.| to_entries | map(select(.key as $k | $changed | index($k) != null)) | map(.value + {"name": .key})' aws-environments.json)
+
+          echo "matrix=${MATRIX}" >> "$GITHUB_OUTPUT"
+          echo "Changed environments matrix: ${MATRIX}"
+
+  verify-aws:
+    needs: changes
+    if: ${{ needs.changes.outputs.matrix != '[]' && needs.changes.outputs.matrix != '' }}
+
+    strategy:
+      matrix:
+        aws-config: ${{ fromJSON(needs.changes.outputs.matrix) }}
+      fail-fast: false
+
+    permissions:
+      contents: read # checkout PR
+      id-token: write # federate
+      pull-requests: write # write plan comment
+
+    uses: ./.github/workflows/.presubmit.yaml
+    with:
+      cg_identity: ${{ matrix.aws-config.role_name }}
+      path: ${{ matrix.aws-config.path }}
+      checkout_ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      cloud_provider: 'GCP'
+      push_vms: false
+
