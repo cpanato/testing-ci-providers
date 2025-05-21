@@ -55,9 +55,11 @@ jobs:
               "region": "us-west-2",
               "account_id": "44444",
               "role_name": "4444-github-presubmit-role"
-            },
+            }
           }
           EOF
+
+          cat aws-environments.json
 
           # Get the list of environments with changes
           CHANGED_ENVS=$(echo '${{ steps.filter.outputs.changes }}' | jq .)
