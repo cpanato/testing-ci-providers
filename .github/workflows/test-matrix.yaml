@@ -60,10 +60,10 @@ jobs:
           EOF
 
           # Get the list of environments with changes
-          CHANGED_ENVS=$(echo '${{ steps.filter.outputs.changes }}' | jq -c 'keys')
+          CHANGED_ENVS=$(echo '${{ steps.filter.outputs.changes }}' | jq .)
 
           # Generate matrix from changed environments
-          MATRIX=$(jq -c --argjson changed "$CHANGED_ENVS" '.| to_entries | map(select(.key as $k | $changed | index($k) != null)) | map(.value + {"name": .key})' aws-environments.json)
+          MATRIX=$(jq -c --argjson names "$CHANGED_ENVS" '.| to_entries | map(select(.key as $k | $names | index($k) != null)) | map(.value + {"name": .key})' aws-environments.json)
 
           echo "matrix=${MATRIX}" >> "$GITHUB_OUTPUT"
           echo "Changed environments matrix: ${MATRIX}"
