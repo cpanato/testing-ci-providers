@@ -1,0 +1,73 @@
+# Copyright 2025 Chainguard, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+# This job will collect the cloud run services/jobs from Staging and update the wiki
+# you can check the page at https://chainguard.engineering/docs/oncall/services/staging/services/
+
+name: Update Service Catalog
+
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
+    inputs:
+      gh_org:
+        type: choice
+        description: Which Environment to update the service catalog
+        options:
+        - test-1
+        - test-2
+
+
+permissions: {}
+
+jobs:
+  detect-changes:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 2
+
+      - name: Detect changed paths and set matrix
+        id: set-matrix
+        run: |
+          changed_files=$(git diff --name-only HEAD~1 HEAD)
+          orgs=()
+
+          if echo "$changed_files" | grep -q "test-folder/"; then
+            orgs+=("test1-test-folder")
+          fi
+          if echo "$changed_files" | grep -q "testing/"; then
+            orgs+=("test2-testing")
+          fi
+          if echo "$changed_files" | grep -q "workflows/"; then
+            orgs+=("test3-workflows")
+          fi
+
+          if [ ${#orgs[@]} -eq 0 ]; then
+            echo "matrix={\"include\":[]}" >> $GITHUB_OUTPUT
+          else
+            printf -v joined '%s,' "${orgs[@]}"
+            matrix_json=$(printf '{"include":[%s]}' "$(printf '{"gh_org":"%s"},' "${orgs[@]}" | sed 's/,$//')")
+            echo "matrix=$matrix_json" >> $GITHUB_OUTPUT
+          fi
+
+  update-gh-repo-wiki:
+    if: always() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && needs.detect-changes.outputs.matrix != '{"include":[]}'))
+    needs: [detect-changes]
+
+    permissions:
+      contents: read # checkout PR
+      id-token: write # federate
+
+    strategy:
+      matrix: ${{ github.event_name == 'push' && fromJSON(needs.detect-changes.outputs.matrix) || fromJSON('{"include":[{"gh_org":""}]}') }}
+    uses: ./.github/workflows/.presubmit.yaml
+    with:
+      cg_identity: ${{ github.event.inputs.gh_org || matrix.gh_org }}
