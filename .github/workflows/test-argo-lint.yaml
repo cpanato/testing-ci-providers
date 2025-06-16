@@ -1,0 +1,44 @@
+name: argo-lint
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions: {}
+
+jobs:
+  DCO:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    env:
+      ARGO_VERSION: v3.6.10
+      ARGO_OS: linux
+      ARGO_ARCH: amd64
+
+    steps:
+      - uses: actions/checkout@85e6279cec87321a52edac9c87bce653a07cf6c2 # v4.1.7
+
+      - uses: chainguard-dev/actions/setup-kind@0cda751b114eb55c388e88f7479292668165602a # v1.0.2
+        with:
+          k8s-version: 1.33.x
+
+      - name: Install Argo Workflows
+        run: |
+          kubectl create namespace argo
+          kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/$ARGO_VERSION/install.yaml
+
+      - name: Install argo workflows CLI
+        run: |
+          curl -sSLO "https://github.com/argoproj/argo-workflows/releases/download/$ARGO_VERSION/argo-$ARGO_OS-$ARGO_ARCH.gz"
+          gunzip "argo-$ARGO_OS-$ARGO_ARCH.gz"
+          chmod +x "argo-$ARGO_OS-$ARGO_ARCH"
+          sudo mv "argo-$ARGO_OS-$ARGO_ARCH" /usr/local/bin/argo
+
+      - name: Run argo lint
+        run: |
+          argo lint --strict workflows/test.yaml
+
