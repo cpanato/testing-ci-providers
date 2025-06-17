@@ -1,0 +1,20 @@
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  oidc_debug_test:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    name: A test of the oidc debugger
+    steps:
+      - name: Debug OIDC Claims
+        uses: github/actions-oidc-debugger@main
+        with:
+          audience: '${{ github.server_url }}/${{ github.repository_owner }}'
