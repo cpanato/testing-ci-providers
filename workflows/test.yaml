@@ -26,4 +26,6 @@ spec:
     container:
       image: debian:9.4
       command: [sh, -c]
-      args: ["kubectl version"]
+      args:
+        - kubectl
+        - version
