@@ -36,27 +36,34 @@ jobs:
 
       - name: Detect changed paths and set matrix
         id: set-matrix
+        shell: bash
         run: |
+          declare -A org_paths=(
+            ["test1"]="test-folder/"
+            ["test2"]="testing/"
+            ["test3"]="workflows/"
+          )
+
           changed_files=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})
           orgs=()
 
-          if echo "$changed_files" | grep -q "test-folder/"; then
-            orgs+=("test1-test-folder")
-          fi
-          if echo "$changed_files" | grep -q "testing/"; then
-            orgs+=("test2-testing")
-          fi
-          if echo "$changed_files" | grep -q "workflows/"; then
-            orgs+=("test3-workflows")
-          fi
+          for org in "${!org_paths[@]}"; do
+            if echo "${changed_files}" | grep -q "${org_paths[${org}]}"; then
+              orgs+=("${org}")
+            fi
+          done
 
-          if [ ${#orgs[@]} -eq 0 ]; then
-            echo "matrix={\"include\":[]}" >> $GITHUB_OUTPUT
+          if [[ ${#orgs[@]} -eq 0 ]]; then
+            echo "matrix={\"include\":[]}" >> "${GITHUB_OUTPUT}"
+            echo "has_changes=false" >> "${GITHUB_OUTPUT}"
           else
-            printf -v joined '%s,' "${orgs[@]}"
-            matrix_json=$(printf '{"include":[%s]}' "$(printf '{"gh_org":"%s"},' "${orgs[@]}" | sed 's/,$//')")
-            echo "matrix=$matrix_json" >> $GITHUB_OUTPUT
+            org_list=$(printf '{"gh_org":"%s"},' "${orgs[@]}")
+            org_list=${org_list%,}
+            matrix_json=$(printf '{"include":[%s]}' "${org_list}")
+            echo "matrix=${matrix_json}" >> "${GITHUB_OUTPUT}"
+            echo "has_changes=true" >> "${GITHUB_OUTPUT}"
           fi
+          echo "Changed files: ${changed_files}"
 
   update-gh-repo-wiki:
     if: always() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && needs.detect-changes.outputs.matrix != '{"include":[]}'))
