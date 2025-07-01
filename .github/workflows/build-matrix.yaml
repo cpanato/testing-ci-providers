@@ -37,7 +37,7 @@ jobs:
       - name: Detect changed paths and set matrix
         id: set-matrix
         run: |
-          changed_files=$(git diff --name-only HEAD~1 HEAD)
+          changed_files=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})
           orgs=()
 
           if echo "$changed_files" | grep -q "test-folder/"; then
