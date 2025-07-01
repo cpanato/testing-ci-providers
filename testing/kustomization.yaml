@@ -17,7 +17,6 @@ patchesJSON6902:
         path: /spec/template/spec/containers/0/image
         value: cgr.dev/chainguard/cert-manager-controller:latest@sha256:b8e98bdec6d8a03c3eca66b27a28431e92c891601c0a62e52973c1eabae65432
 
-  # ref: https://github.com/chainguard-images/images/tree/main/images/cert-manager-cainjectors
   - target:
       group: apps
       version: v1
