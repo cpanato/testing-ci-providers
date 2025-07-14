@@ -2,4 +2,3 @@
 repos:
   - testing-ci-providers
   - testing-go-actions
-  - testing-go-templates
