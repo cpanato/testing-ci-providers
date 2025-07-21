@@ -84,7 +84,7 @@ jobs:
             echo "push=yes" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: chainguard-dev/actions/setup-gitsign@16e2fd6603a1c6a1fbc880fdbb922b2e8e2be3e7 # v1.4.3
+      - uses: chainguard-dev/actions/setup-gitsign@ae2f0393ff2a60c572ff4d3485f406e8f36dfd38 # v1.4.6
         if: ${{ steps.check.outputs.push == 'yes' }}
 
       - name: Amend Dependabot PR
