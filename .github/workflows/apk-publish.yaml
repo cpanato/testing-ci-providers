@@ -31,11 +31,3 @@ jobs:
       - shell: bash
         run: |
           cat apko.yaml
-
-      - uses: chainguard-images/actions/apko-publish@be6c67b5b374ed43d908ac017ff9b04c271ad3d8 # v1.0.3
-        id: apko-publish
-        with:
-          config: apko.yaml
-          tag: localhost:1234/apk-scan
-
-      - run: echo ${{ steps.apko-publish.outputs.digest}}
