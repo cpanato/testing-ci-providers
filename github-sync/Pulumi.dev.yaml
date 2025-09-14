@@ -1,5 +1,0 @@
-config:
-  github:owner: cpanato
-  github:token:
-    secure: AAABAGMpg6nXOk0FPQ69rkjEWLqIthO95G5bWzCEBlgyxAKDV6C+sOqYnKzDfmt2eWlFWPmUJ0jDHRMPc5zC6wrpEgT3E9iX
-  test:github-data-directory: github-data/
