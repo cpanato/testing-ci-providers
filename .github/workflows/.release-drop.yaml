@@ -26,3 +26,6 @@ jobs:
             echo "checkout_ref provided, exiting"
             exit 0
           fi
+      - name: continue
+        run: |
+          echo "will be a full release"
