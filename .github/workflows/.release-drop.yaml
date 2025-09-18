@@ -1,0 +1,28 @@
+name: "~ Template Release"
+
+on:
+  workflow_call:
+    inputs:
+      checkout_ref:
+        required: true
+        type: string
+        description: 'Commit ref (sha, branch, or tag) to run at.'
+
+permissions:
+  contents: read
+
+jobs:
+  drop:
+    name: Release Drop
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: check if need to run
+        run: |
+          if [ "${{ inputs.checkout_ref }}" != "" ]; then
+            echo "checkout_ref provided, exiting"
+            exit 0
+          fi
