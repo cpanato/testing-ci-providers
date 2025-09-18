@@ -20,12 +20,7 @@ jobs:
       contents: read
 
     steps:
-      - name: check if need to run
-        run: |
-          if [ "${{ inputs.checkout_ref }}" != "" ]; then
-            echo "checkout_ref provided, exiting"
-            exit 0
-          fi
       - name: continue
+        if: ${{ inputs.checkout_ref == '' }}
         run: |
           echo "will be a full release"
