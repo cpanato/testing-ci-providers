@@ -1,0 +1,67 @@
+name: release-test-needs
+
+on:
+  workflow_dispatch:
+    inputs:
+      checkout_ref:
+        required: false
+        type: string
+        default: ""
+        description: "Commit ref (sha, branch, or tag) to run at."
+  push:
+    tags:
+      - "v*"
+
+permissions: {}
+
+jobs:
+  release-start-slack:
+    name: start
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - run: echo "Starting Production release"
+
+  infra-prereqs:
+    name: infra-prereqs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - run: echo "Starting infra prereq release"
+
+  build-matrix:
+    name: build-matrix
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - run: echo "Starting build-matrix release"
+
+  sharded:
+    name: sharded
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - run: echo "Starting sharded release"
+
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - run: echo "Starting release"
+
+  release-end-slack:
+    name: release-end-slack
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs:
+      - sharded
+      - release
+    steps:
+      - run: echo "Done Production release"
