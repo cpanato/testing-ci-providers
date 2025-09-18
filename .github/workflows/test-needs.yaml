@@ -44,12 +44,18 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    needs:
+      - infra-prereqs
+      - build-matrix
     steps:
       - run: echo "Starting sharded release"
 
   release:
+    if: ${{ github.event.inputs.checkout_ref == '' }}
     name: release
     runs-on: ubuntu-latest
+    needs:
+      - infra-prereqs
     permissions:
       contents: read
     steps:
