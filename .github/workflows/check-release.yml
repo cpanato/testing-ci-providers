@@ -27,7 +27,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         # Run the release check script and capture output
-        output=$(./scripts/check-release.sh -o "$REPO_OWNER" -r "$REPO_NAME" -d "$DAYS_THRESHOLD" 2>&1)
+        ./scripts/check-release.sh -o "${ env.REPO_OWNER }" -r "${ env.REPO_NAME }" -d "${ env.DAYS_THRESHOLD }"
+        output=$(./scripts/check-release.sh -o "${ env.REPO_OWNER }" -r "${ env.REPO_NAME }" -d "${ env.DAYS_THRESHOLD }" 2>&1)
         exit_code=$?
 
         echo "Script output:"
