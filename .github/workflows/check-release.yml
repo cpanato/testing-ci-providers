@@ -12,6 +12,11 @@ jobs:
     permissions:
       contents: read
 
+    env:
+      REPO_OWNER: "cpanato"
+      REPO_NAME: "testing-ci-providers"
+      DAYS_THRESHOLD: "7"
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -20,9 +25,6 @@ jobs:
       id: check-release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        REPO_OWNER: "cpanato"
-        REPO_NAME: "testing-ci-providers"
-        DAYS_THRESHOLD: "7"
       run: |
         set +e  # Don't exit on error, we want to handle all exit codes
         # Run the release check script and capture output
