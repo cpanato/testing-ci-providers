@@ -24,9 +24,11 @@ jobs:
         REPO_NAME: "testing-ci-providers"
         DAYS_THRESHOLD: "7"
       run: |
+        set +e  # Don't exit on error, we want to handle all exit codes
         # Run the release check script and capture output
         output=$(./scripts/check-release.sh -o "${{ env.REPO_OWNER }}" -r "${{ env.REPO_NAME }}" -d "${{ env.DAYS_THRESHOLD }}" 2>&1)
         exit_code=$?
+        set -e  # Re-enable exit on error
 
         echo "Script output:"
         echo "$output"
