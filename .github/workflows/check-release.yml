@@ -3,11 +3,6 @@ name: Check Release Status
 on:
   workflow_dispatch:
 
-env:
-  REPO_OWNER: 'cpanato'
-  REPO_NAME: 'testing-ci-providers'
-  DAYS_THRESHOLD: '7'
-
 permissions: {}
 
 jobs:
@@ -25,10 +20,13 @@ jobs:
       id: check-release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO_OWNER: "cpanato"
+        REPO_NAME: "testing-ci-providers"
+        DAYS_THRESHOLD: "7"
       run: |
         # Run the release check script and capture output
-        ./scripts/check-release.sh -o "${ env.REPO_OWNER }" -r "${ env.REPO_NAME }" -d "${ env.DAYS_THRESHOLD }"
-        output=$(./scripts/check-release.sh -o "${ env.REPO_OWNER }" -r "${ env.REPO_NAME }" -d "${ env.DAYS_THRESHOLD }" 2>&1)
+        ./scripts/check-release.sh -o "${{ env.REPO_OWNER }}" -r "${{ env.REPO_NAME }}" -d "${{ env.DAYS_THRESHOLD }}"
+        output=$(./scripts/check-release.sh -o "${{ env.REPO_OWNER }}" -r "${{ env.REPO_NAME }}" -d "${{ env.DAYS_THRESHOLD }}" 2>&1)
         exit_code=$?
 
         echo "Script output:"
