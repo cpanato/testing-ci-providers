@@ -71,15 +71,15 @@ jobs:
 
       - uses: technote-space/workflow-conclusion-action@45ce8e0eb155657ab8ccf346ade734257fd196a5 # v3.0.3
 
-      - if: ${{ env.WORKFLOW_CONCLUSION == 'success' && needs.changes.outputs.skip == 'false' }}
+      - if: ${{ env.WORKFLOW_CONCLUSION == 'success' && needs.changes.outputs.skip == 'true' }}
         working-directory: /tmp
         run: echo ${{ env.WORKFLOW_CONCLUSION }} && exit 0
 
-      - if: ${{ env.WORKFLOW_CONCLUSION == 'failure' && needs.changes.outputs.skip == 'false' }}
+      - if: ${{ env.WORKFLOW_CONCLUSION == 'failure' && needs.changes.outputs.skip == 'true' }}
         working-directory: /tmp
         run: echo ${{ env.WORKFLOW_CONCLUSION }} && exit 1
 
       # exit 0 if no go file changed.
-      - if: needs.changes.outputs.skip == 'true'
+      - if: needs.changes.outputs.skip == 'false'
         working-directory: /tmp
         run: echo ${{ env.WORKFLOW_CONCLUSION }} && exit 0
