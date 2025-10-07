@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo "No relevant changes, skipping AWS verification"
+      - run: exit 1
 
   presubmit-check:
     permissions:
