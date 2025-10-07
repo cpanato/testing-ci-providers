@@ -16,6 +16,7 @@ jobs:
 
     outputs:
       skip: ${{ steps.filter.outputs.changes }}
+      aws : ${{ steps.filter.outputs.aws-marketplace }}
 
 
     permissions:
@@ -40,12 +41,7 @@ jobs:
 
   verify-aws:
     needs: changes
-    if: ${{ needs.changes.outputs.skip == 'true' }}
-
-    strategy:
-      matrix:
-        aws-config: ${{ fromJSON(needs.changes.outputs.matrix) }}
-      fail-fast: false
+    if: ${{ needs.changes.outputs.aws == 'true' }}
 
     permissions:
       contents: read # checkout PR
