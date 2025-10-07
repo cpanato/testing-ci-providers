@@ -4,7 +4,7 @@
 name: Verify AWS
 
 on:
-  pull_request_target:
+  pull_request:
     branches:
       - "main"
 
@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      changed_paths: ${{ steps.filter.outputs.changes }}
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      skip: ${{ steps.filter.outputs.changes }}
+
 
     permissions:
       contents: read # read repo
@@ -37,42 +37,10 @@ jobs:
               - 'test-folder/**'
             imgtest-infra:
               - 'iac/github/**'
-          list-files: json
-
-      - id: set-matrix
-        run: |
-          # Create a JSON object with information about each environment
-          cat > aws-environments.json << EOF
-          {
-            "aws-marketplace": {
-              "path": "test-folder",
-              "region": "us-east-1",
-              "account_id": "4444",
-              "role_name": "44444-github-presub444mit-role"
-            },
-            "imgtest-infra": {
-              "path": "charts",
-              "region": "us-west-2",
-              "account_id": "44444",
-              "role_name": "4444-github-presubmit-role"
-            }
-          }
-          EOF
-
-          cat aws-environments.json
-
-          # Get the list of environments with changes
-          CHANGED_ENVS=$(echo '${{ steps.filter.outputs.changes }}' | jq .)
-
-          # Generate matrix from changed environments
-          MATRIX=$(jq -c --argjson names "$CHANGED_ENVS" '.| to_entries | map(select(.key as $k | $names | index($k) != null)) | map(.value + {"name": .key})' aws-environments.json)
-
-          echo "matrix=${MATRIX}" >> "$GITHUB_OUTPUT"
-          echo "Changed environments matrix: ${MATRIX}"
 
   verify-aws:
     needs: changes
-    if: ${{ needs.changes.outputs.matrix != '[]' && needs.changes.outputs.matrix != '' }}
+    if: ${{ needs.changes.outputs.skip == 'true' }}
 
     strategy:
       matrix:
@@ -83,12 +51,35 @@ jobs:
       contents: read # checkout PR
       id-token: write # federate
       pull-requests: write # write plan comment
+    runs-on: ubuntu-latest
 
-    uses: ./.github/workflows/.presubmit.yaml
-    with:
-      cg_identity: ${{ matrix.aws-config.role_name }}
-      path: ${{ matrix.aws-config.path }}
-      checkout_ref: ${{ github.event.pull_request.head.sha || github.sha }}
-      cloud_provider: 'GCP'
-      push_vms: false
+    steps:
+      - run: echo "No relevant changes, skipping AWS verification"
 
+  presubmit-check:
+    permissions:
+      actions: read
+    needs:
+      - changes
+      - verify-aws
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        with:
+          egress-policy: audit
+
+      - uses: technote-space/workflow-conclusion-action@45ce8e0eb155657ab8ccf346ade734257fd196a5 # v3.0.3
+
+      - if: ${{ env.WORKFLOW_CONCLUSION == 'success' && needs.changes.outputs.skip == 'false' }}
+        working-directory: /tmp
+        run: echo ${{ env.WORKFLOW_CONCLUSION }} && exit 0
+
+      - if: ${{ env.WORKFLOW_CONCLUSION == 'failure' && needs.changes.outputs.skip == 'false' }}
+        working-directory: /tmp
+        run: echo ${{ env.WORKFLOW_CONCLUSION }} && exit 1
+
+      # exit 0 if no go file changed.
+      - if: needs.changes.outputs.skip == 'true'
+        working-directory: /tmp
+        run: echo ${{ env.WORKFLOW_CONCLUSION }} && exit 0
