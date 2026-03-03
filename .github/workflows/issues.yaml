@@ -20,7 +20,6 @@ jobs:
       - uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05 # v1.1.1
         id: octo-sts
         with:
-          domain: octo-staging.dev
           scope: ${{ github.repository }}
           identity: create-issue
 
