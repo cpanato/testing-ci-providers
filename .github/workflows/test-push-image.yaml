@@ -13,9 +13,13 @@ jobs:
       id-token: write # for octo sts and signing
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-    - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
+      with:
+        persist-credentials: false
+
+    - uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05 # v1.1.1
       id: octo-sts
       with:
+        domain: octo-staging.dev
         scope: ${{ github.repository }}
         identity: push
 
