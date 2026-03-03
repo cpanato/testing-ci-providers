@@ -1,0 +1,40 @@
+name: Create an issue
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create_issue:
+
+    permissions:
+      contents: read
+      id-token: write
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get today's date
+        id: date
+        run: |
+          echo "::set-output name=today::$(date "+%Y/%m/%d")"
+
+      - uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05 # v1.1.1
+        id: octo-sts
+        with:
+          domain: octo-staging.dev
+          scope: ${{ github.repository }}
+          identity: create-issue
+
+      - name: Create an issue
+        uses: actions-ecosystem/action-create-issue@v1
+        with:
+          github_token: ${{ steps.octo-sts.outputs.token }}
+          title: ${{ steps.date.outputs.today }}
+          body: |
+            ## This today's TODO
+
+            - [ ] testing
+            - [ ] Check the dashboard
+
+          labels: |
+            meeting
+            weekly
