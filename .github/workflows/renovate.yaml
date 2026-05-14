@@ -30,3 +30,4 @@ jobs:
           configurationFile: .github/renovate.json
         env:
           LOG_LEVEL: debug
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
