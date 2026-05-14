@@ -1,7 +1,9 @@
 ---
 issuer: https://token.actions.githubusercontent.com
 subject: repo:cpanato/testing-ci-providers:ref:refs/heads/main
+claim_pattern:
+  job_workflow_ref: cpanato/testing-ci-providers/.github/workflows/renovate.yaml@refs/heads/main
 
 permissions:
   contents: write
-  pull-requests: write
+  pull_requests: write
