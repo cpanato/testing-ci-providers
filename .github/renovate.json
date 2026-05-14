@@ -32,8 +32,8 @@
   },
   "github-actions": {
     "pinDigests": true,
-    "fileMatch": [
-      "^\\.github/workflows/[^/]+\\.ya?ml$"
+    "managerFilePatterns": [
+      "/^\\.github/workflows/[^/]+\\.ya?ml$/"
     ]
   },
   "packageRules": [
@@ -46,15 +46,15 @@
         "minor",
         "patch"
       ],
-      "excludePackagePatterns": [
-        "^chainguard\\.dev/",
-        "^github\\.com/chainguard-dev/",
-        "^github\\.com/anchore/",
-        "^github\\.com/wolfi-dev/",
-        "^github\\.com/VirusTotal/yara-x/",
-        "^gorm\\.io/"
-      ],
-      "groupName": "go-deps"
+      "groupName": "go-deps",
+      "matchPackageNames": [
+        "!/^chainguard\\.dev//",
+        "!/^github\\.com/chainguard-dev//",
+        "!/^github\\.com/anchore//",
+        "!/^github\\.com/wolfi-dev//",
+        "!/^github\\.com/VirusTotal/yara-x//",
+        "!/^gorm\\.io//"
+      ]
     },
     {
       "description": "Major Go updates — individual PRs, not grouped",
