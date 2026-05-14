@@ -21,8 +21,12 @@ jobs:
           identity: renovate
 
       - uses: actions/checkout@85e6279cec87321a52edac9c87bce653a07cf6c2 # v4.1.7
+        with:
+          token: ${{ steps.octo-sts.outputs.token }}
 
       - uses: renovatebot/github-action@693b9ef15eec82123529a37c782242f091365961 # v46.1.14
         with:
           token: ${{ steps.octo-sts.outputs.token }}
           configurationFile: .github/renovate.json
+        env:
+          LOG_LEVEL: debug
