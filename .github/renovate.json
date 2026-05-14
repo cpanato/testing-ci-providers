@@ -1,0 +1,104 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":dependencyDashboard",
+    "group:monorepos",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "timezone": "UTC",
+  "schedule": [
+    "before 6am every weekday"
+  ],
+  "prConcurrentLimit": 20,
+  "prHourlyLimit": 4,
+  "minimumReleaseAge": "7 days",
+  "assigneesFromCodeOwners": true,
+  "reviewersFromCodeOwners": true,
+  "labels": [
+    "dependencies"
+  ],
+  "rebaseWhen": "conflicted",
+  "postUpdateOptions": [
+    "gomodTidy",
+    "gomodUpdateImportPaths"
+  ],
+  "constraints": {
+    "go": "1.25"
+  },
+  "gomod": {
+    "enabled": true
+  },
+  "github-actions": {
+    "pinDigests": true,
+    "fileMatch": [
+      "^\\.github/workflows/[^/]+\\.ya?ml$"
+    ]
+  },
+  "packageRules": [
+    {
+      "description": "All other Go deps — single grouped PR for minor/patch",
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "excludePackagePatterns": [
+        "^chainguard\\.dev/",
+        "^github\\.com/chainguard-dev/",
+        "^github\\.com/anchore/",
+        "^github\\.com/wolfi-dev/",
+        "^github\\.com/VirusTotal/yara-x/",
+        "^gorm\\.io/"
+      ],
+      "groupName": "go-deps"
+    },
+    {
+      "description": "Major Go updates — individual PRs, not grouped",
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "minimumReleaseAge": "14 days",
+      "labels": [
+        "dependencies",
+        "major-update"
+      ]
+    },
+    {
+      "description": "GitHub Actions — group together",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "groupName": "github-actions"
+    },
+    {
+      "description": "Pin Go indirect deps too (Renovate disables by default)",
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchDepTypes": [
+        "indirect"
+      ],
+      "enabled": true
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "security"
+    ],
+    "minimumReleaseAge": null
+  }
+}
+s
