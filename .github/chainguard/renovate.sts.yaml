@@ -7,3 +7,9 @@ claim_pattern:
 permissions:
   contents: write
   pull_requests: write
+  workflows: write
+  issues: write
+  statuses: write
+  checks: read
+  members: read
+  vulnerability_alerts: read
