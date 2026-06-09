@@ -1,6 +1,6 @@
 dependencies:
   - name: gce-proxy
-    version: 1.33.6
+    version: 1.33.7
     upstream:
       flavour: container
       registry: gcr.io/cloudsql-docker/gce-proxy
