@@ -1,0 +1,121 @@
+name: "Test MigrationPilot"
+
+# Notes on the action (mickelsamuel/migrationpilot@v1.5.1):
+#  - it only does anything on `pull_request` events, and only for migration
+#    files *changed in that PR*; on any other event it warns and exits GREEN.
+#  - the published tags do NOT contain `dist/action/index.js` (dist/ is
+#    gitignored upstream), so `uses: mickelsamuel/migrationpilot@v1.5.1` fails
+#    to start. The `action-from-source` job builds the bundle and runs it
+#    locally, which is the only way to exercise the action code today.
+
+on:
+  pull_request:
+    paths:
+      - 'migrations/**'
+      - '.github/workflows/test-migrationpilot.yaml'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  action:
+    name: "action @ v1.5.1"
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write # the action posts the report as a PR comment
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - id: migrationpilot
+        uses: mickelsamuel/migrationpilot@3567c46c2f3df80d6d5c208a351b46ae81bf03cb # v1.5.1
+        continue-on-error: true # 002_unsafe.sql is meant to trip `fail-on: critical`
+        with:
+          migration-path: 'migrations/*.sql'
+          pg-version: '17'
+          fail-on: 'critical'
+
+      - name: Show action outputs
+        run: |
+          echo "outcome:    ${{ steps.migrationpilot.outcome }}"
+          echo "risk-level: ${{ steps.migrationpilot.outputs.risk-level }}"
+          echo "violations: ${{ steps.migrationpilot.outputs.violations }}"
+          echo "sarif-file: ${{ steps.migrationpilot.outputs.sarif-file }}"
+
+  action-from-source:
+    name: "action @ v1.5.1 (built from source)"
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: 'mickelsamuel/migrationpilot'
+          ref: 'v1.5.1'
+          path: '.migrationpilot'
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@ff378ebe6b225b0680b81c1ad4498ae0d1d3a5e3 # v6.0.10
+        with:
+          version: '10.28.0'
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Build the action bundle
+        working-directory: '.migrationpilot'
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
+          test -f dist/action/index.js
+
+      - id: migrationpilot
+        uses: './.migrationpilot'
+        continue-on-error: true
+        with:
+          migration-path: 'migrations/*.sql'
+          pg-version: '17'
+          fail-on: 'critical'
+
+      - name: Show action outputs
+        run: |
+          echo "outcome:    ${{ steps.migrationpilot.outcome }}"
+          echo "risk-level: ${{ steps.migrationpilot.outputs.risk-level }}"
+          echo "violations: ${{ steps.migrationpilot.outputs.violations }}"
+          echo "sarif-file: ${{ steps.migrationpilot.outputs.sarif-file }}"
+
+  cli:
+    name: "CLI @ 1.5.1"
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Safe migration must pass
+        run: npx --yes migrationpilot@1.5.1 analyze migrations/001_safe.sql --fail-on critical
+
+      - name: Unsafe migration must fail
+        run: |
+          if npx --yes migrationpilot@1.5.1 analyze migrations/002_unsafe.sql --fail-on critical; then
+            echo "::error::expected 002_unsafe.sql to fail on critical violations"
+            exit 1
+          fi
+          echo "unsafe migration correctly flagged"
+
+      - name: JSON report for the whole directory
+        run: npx --yes migrationpilot@1.5.1 check migrations/ --pattern "*.sql" --format json --fail-on never
