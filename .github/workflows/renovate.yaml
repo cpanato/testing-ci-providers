@@ -24,7 +24,7 @@ jobs:
         with:
           token: ${{ steps.octo-sts.outputs.token }}
 
-      - uses: renovatebot/github-action@693b9ef15eec82123529a37c782242f091365961 # v46.1.14
+      - uses: renovatebot/github-action@230ce922b08968d0a4f6f70f295601daff09ef1d # v46.3.7
         with:
           token: ${{ steps.octo-sts.outputs.token }}
           configurationFile: .github/renovate.json
