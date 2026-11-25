@@ -38,7 +38,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - id: migrationpilot
-        uses: mickelsamuel/migrationpilot@e9a2212fc93f275cb4869d6ec5fb811fa4baf18a # main
+        uses: mickelsamuel/migrationpilot@157bcc55fd2988d57379115a588b6327ea247c5c # main
         # Expected to fail today (no dist bundle upstream); also 002_unsafe.sql
         # is meant to trip `fail-on: critical` once it does run.
         continue-on-error: true
